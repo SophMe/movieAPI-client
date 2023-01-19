@@ -1,15 +1,12 @@
-import {createRoot} from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
+import { MainView } from './components/main-view/main-view';
 
 // bundle this:
 import "./index.scss";
 
-// main component
+// show main component
 const MovieAPIApp = () => {
-  return (
-    <div className="movieAPI">
-      <div>Good morning</div>
-    </div>
-  );
+  return <MainView />;
 };
 
 // find app root

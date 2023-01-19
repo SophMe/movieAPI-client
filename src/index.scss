@@ -1,5 +1,15 @@
 $color: steelblue;
 
+div {
+  margin: 15px;
+}
+
+button {
+  margin: 15px;
+  border-radius: 5px;
+  border: 1px red;
+}
+
 .movieAPI {
   color: $color;
 }
