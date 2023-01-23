@@ -20,3 +20,6 @@ The application will:
 
 ### Techstack
 - MERN as well as HTML, SCSS, JSX, build with Parcel
+
+### Testing with Parcel
+- parcel src/index.html
