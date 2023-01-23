@@ -1,4 +1,9 @@
-$color: steelblue;
+$color: rgb(144, 183, 215);
+
+body {
+  background-color: rgb(153, 211, 192);
+  font-family: 'Anonymous Pro', monospace;
+}
 
 div {
   margin: 15px;
@@ -7,7 +12,9 @@ div {
 button {
   margin: 15px;
   border-radius: 5px;
-  border: 1px red;
+  background-color: $color;
+  border: 1px solid black;
+  font-family: 'Anonymous Pro', monospace;
 }
 
 .movieAPI {
