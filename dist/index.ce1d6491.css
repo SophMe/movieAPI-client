@@ -23,6 +23,10 @@ button {
   font-family: Anonymous Pro, monospace;
 }
 
+h1, h2, h3 {
+  margin: 15px;
+}
+
 .movieAPI {
   color: #90b7d7;
 }
