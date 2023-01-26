@@ -3,8 +3,16 @@ body {
   font-family: Anonymous Pro, monospace;
 }
 
+h1, h2, h3 {
+  margin: 30px;
+}
+
 div {
   margin: 15px;
+}
+
+input {
+  margin: 5px;
 }
 
 button {
