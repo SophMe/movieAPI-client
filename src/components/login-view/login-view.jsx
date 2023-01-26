@@ -4,11 +4,12 @@ import { useState } from "react";
 export const LoginView = ({ onLoggedIn}) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleSubmit = (event) => {event.preventDefault(); // prevent reloading the entire page
   const data = { Username: username, Password: password };
-  const handleSubmit = (event) => {event.preventDefault()}; // prevent reloading the entire page
 
     fetch("https://90s-movie-api-sophme.vercel.app/login", {    // my API
-    //fetch("http://localhost:8080/login", {
+    //fetch("http://localhost:1234", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)              // response with JSON object so code can extract JWT 
@@ -26,7 +27,8 @@ export const LoginView = ({ onLoggedIn}) => {
     })
     .catch((e) => {
       alert("Something went wrong");
-    })
+    });
+}
 
   return (
     <form onSubmit={handleSubmit}>
