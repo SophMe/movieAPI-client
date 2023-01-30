@@ -27142,7 +27142,13 @@ const MainView = ()=>{
     const [token, setToken] = (0, _react.useState)(storedToken ? storedToken : null);
     // these are all state variables, when there value changes they re-render the UI
     (0, _react.useEffect)(()=>{
-        fetch("https://90s-movie-api-liart.vercel.app/movies").then((response)=>response.json()).then((data)=>{
+        if (!token) return;
+        fetch("https://90s-movie-api-liart.vercel.app/movies", {
+            //fetch("http://localhost:8080/movies", {
+            headers: {
+                Authorization: "Bearer ${token}"
+            }
+        }).then((response)=>response.json()).then((data)=>{
             console.log("movies from api", data);
             const moviesFromApi = data.map((doc)=>{
                 return {
@@ -27166,13 +27172,13 @@ const MainView = ()=>{
                 }
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 37,
+                lineNumber: 43,
                 columnNumber: 9
             }, undefined),
             "or",
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _signupView.SignupView), {}, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 43,
+                lineNumber: 49,
                 columnNumber: 9
             }, undefined)
         ]
@@ -27184,7 +27190,7 @@ const MainView = ()=>{
             onBackClick: ()=>setSelectedMovie(null)
         }, void 0, false, {
             fileName: "src/components/main-view/main-view.jsx",
-            lineNumber: 53,
+            lineNumber: 58,
             columnNumber: 9
         }, undefined)
     }, void 0, false));
@@ -27194,7 +27200,7 @@ const MainView = ()=>{
                 children: "The list is empty!"
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 61,
+                lineNumber: 66,
                 columnNumber: 7
             }, undefined),
             ";"
@@ -27206,7 +27212,7 @@ const MainView = ()=>{
                 children: "Movies"
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 68,
+                lineNumber: 73,
                 columnNumber: 9
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27217,12 +27223,12 @@ const MainView = ()=>{
                         }
                     }, movie.id, false, {
                         fileName: "src/components/main-view/main-view.jsx",
-                        lineNumber: 71,
+                        lineNumber: 76,
                         columnNumber: 13
                     }, undefined))
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 69,
+                lineNumber: 74,
                 columnNumber: 9
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -27233,7 +27239,7 @@ const MainView = ()=>{
                 children: "Logout"
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 81,
+                lineNumber: 86,
                 columnNumber: 9
             }, undefined)
         ]
@@ -28322,7 +28328,7 @@ const MovieView = ({ movie , onBackClick  })=>{
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                 onClick: onBackClick,
-                children: "Show list"
+                children: "Back to list"
             }, void 0, false, {
                 fileName: "src/components/movie-view/movie-view.jsx",
                 lineNumber: 24,
@@ -28368,8 +28374,8 @@ const LoginView = ({ onLoggedIn  })=>{
             Username: username,
             Password: password
         };
+        //fetch("http://localhost:1234", {
         fetch("https://90s-movie-api-sophme.vercel.app/login", {
-            //fetch("http://localhost:1234", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -28465,6 +28471,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "SignupView", ()=>SignupView);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
 var _s = $RefreshSig$();
 const SignupView = ()=>{
     _s();

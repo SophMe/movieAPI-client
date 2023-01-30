@@ -1,5 +1,5 @@
 body {
-  background-color: #99d3c0;
+  background-color: #a3e0cc;
   font-family: Anonymous Pro, monospace;
 }
 
@@ -16,7 +16,7 @@ input {
 }
 
 button {
-  background-color: #90b7d7;
+  background-color: #96bfe0;
   border: 1px solid #000;
   border-radius: 5px;
   margin: 15px;
@@ -28,7 +28,7 @@ h1, h2, h3 {
 }
 
 .movieAPI {
-  color: #90b7d7;
+  color: #96bfe0;
 }
 
 /*# sourceMappingURL=index.ce1d6491.css.map */

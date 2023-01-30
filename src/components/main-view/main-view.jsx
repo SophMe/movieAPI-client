@@ -14,7 +14,13 @@ export const MainView = () => {
                           // these are all state variables, when there value changes they re-render the UI
 
   useEffect(() => {
-    fetch("https://90s-movie-api-liart.vercel.app/movies")
+    if (!token) {
+      return;
+    }
+    fetch("https://90s-movie-api-liart.vercel.app/movies", {
+    //fetch("http://localhost:8080/movies", {
+      headers: { Authorization: 'Bearer ${token}' }
+    })
     .then((response) => response.json())
     .then((data) => {
     console.log("movies from api", data);
@@ -49,7 +55,6 @@ export const MainView = () => {
     return (
       // set state to null when closing MovieView
       <>
-        
         <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />
       </>
     );
