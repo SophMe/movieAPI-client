@@ -12,8 +12,8 @@ export const SignupView = () => {
   //fetch("http://localhost:1234/users", {
   fetch("https://90s-movie-api-sophme.vercel.app/users", {
     method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json"}
+    headers: { "Content-Type": "application/json"},
+    body: JSON.stringify(data)
   }).then((response) => {
     if (response.ok) {
       alert("Signup successfull");

@@ -12,14 +12,15 @@ export const MainView = () => {
   const [user, setUser] = useState(storedUser? storedUser : null);
   const [token, setToken] = useState(storedToken? storedToken : null);
                           // these are all state variables, when there value changes they re-render the UI
-
+  
   useEffect(() => {
     if (!token) {
       return;
     }
     fetch("https://90s-movie-api-liart.vercel.app/movies", {
     //fetch("http://localhost:8080/movies", {
-      headers: { Authorization: 'Bearer ${token}' }
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` }
     })
     .then((response) => response.json())
     .then((data) => {
