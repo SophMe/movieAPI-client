@@ -1,8 +1,10 @@
+import React from "react";
+
 export const MovieView = ({ movie, onBackClick }) => {
   return (
     <div>
       <div>
-        <img src={movie.ImagePath} />
+        <img src={movie.Image} />
       </div>
       <div>
         <span>Title: </span>

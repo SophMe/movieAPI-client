@@ -1,12 +1,18 @@
 import { createRoot } from 'react-dom/client';
 import { MainView } from './components/main-view/main-view';
 
+import Container from 'react-bootstrap/Container';
+
 // bundle this:
 import "./index.scss";
 
 // show main component
 const MovieAPIApp = () => {
-  return <MainView />;
+  return (
+    <Container>
+        <MainView />
+    </Container>
+  );
 };
 
 // find app root
