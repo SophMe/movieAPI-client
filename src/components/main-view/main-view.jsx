@@ -27,13 +27,15 @@ export const MainView = () => {
     .then((response) => response.json())
     .then((data) => {
     console.log("movies from api", data);
-      const moviesFromApi = data.map((doc) => {
+      const moviesFromApi = data.map((movie) => {
         return {
-          Image: doc.ImagePath,
-          Title: doc.Title,
-          Year: doc.Year,
-          Director: doc.Director,
-          Description: doc.Description
+          _id: movie.key,
+          Image: movie.ImagePath,
+          Title: movie.Title,
+          Year: movie.Year,
+          Director: movie.Director,
+          //Bio: movie.Director.Bio,
+          Description: movie.Description
         };
       });
       setMovies(moviesFromApi);
@@ -56,7 +58,7 @@ export const MainView = () => {
       </>
     ) : selectedMovie ? (
       // set state to null when closing MovieView
-      <Col md={8} style={{ border: "1px solid black" }}>
+      <Col md={8}>
         <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />
       </Col>
         ) : movies.length === 0 ? (
