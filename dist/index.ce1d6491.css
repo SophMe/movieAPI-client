@@ -12038,4 +12038,10 @@ h1, .h1, h2, .h2, h3, .h3 {
   color: #96bfe0;
 }
 
+.card-body {
+  color: #0a0a0a;
+  background-color: #96bfe0;
+  border-radius: 5px;
+}
+
 /*# sourceMappingURL=index.ce1d6491.css.map */

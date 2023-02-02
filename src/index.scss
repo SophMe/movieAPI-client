@@ -36,3 +36,9 @@ h1,h2,h3 {
 .movieAPI {
   color: $color;
 }
+
+.card-body {
+  color: $text;
+  background-color: $color;
+  border-radius: 5px;
+}
