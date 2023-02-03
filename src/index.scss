@@ -42,3 +42,16 @@ h1,h2,h3 {
   background-color: $color;
   border-radius: 5px;
 }
+
+form {
+  background-color: $color;
+  border-radius: 5px;
+}
+
+.justify-content-md-center {
+  background-color: $body-bg;
+}
+
+.form-control, .form-control:focus {
+  background-color: #f8f9fa;
+}

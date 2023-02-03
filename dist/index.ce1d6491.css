@@ -12044,4 +12044,17 @@ h1, .h1, h2, .h2, h3, .h3 {
   border-radius: 5px;
 }
 
+form {
+  background-color: #96bfe0;
+  border-radius: 5px;
+}
+
+.justify-content-md-center {
+  background-color: #a3e0cc;
+}
+
+.form-control, .form-control:focus {
+  background-color: #f8f9fa;
+}
+
 /*# sourceMappingURL=index.ce1d6491.css.map */

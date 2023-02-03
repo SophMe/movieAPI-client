@@ -2912,12 +2912,12 @@ const MovieAPIApp = ()=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _containerDefault.default), {
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _mainView.MainView), {}, void 0, false, {
             fileName: "src/index.jsx",
-            lineNumber: 12,
+            lineNumber: 13,
             columnNumber: 9
         }, undefined)
     }, void 0, false, {
         fileName: "src/index.jsx",
-        lineNumber: 11,
+        lineNumber: 12,
         columnNumber: 5
     }, undefined);
 };
@@ -2928,7 +2928,7 @@ const root = (0, _client.createRoot)(container);
 // render app in the root DOM element
 root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(MovieAPIApp, {}, void 0, false, {
     fileName: "src/index.jsx",
-    lineNumber: 22,
+    lineNumber: 23,
     columnNumber: 13
 }, undefined));
 var _c;
@@ -41263,7 +41263,7 @@ const LoginView = ({ onLoggedIn  })=>{
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _buttonDefault.default), {
-                variant: "primary",
+                variant: "light",
                 type: "submit",
                 children: "Submit"
             }, void 0, false, {
@@ -41436,7 +41436,7 @@ const SignupView = ()=>{
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
-                variant: "primary",
+                variant: "light",
                 type: "submit",
                 children: "Submit"
             }, void 0, false, {
