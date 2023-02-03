@@ -67,7 +67,7 @@ export const MainView = () => {
       <>
         <h3>Movies</h3>
           {movies.map((movie) => (
-            <Col md={3} key={movie.id}>
+            <Col md={4} key={movie.id}>
               <MovieCard
               // props
                 key={movie.id}

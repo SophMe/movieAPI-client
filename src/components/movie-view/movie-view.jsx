@@ -5,7 +5,7 @@ export const MovieView = ({ movie, onBackClick }) => {
   return (
     <Col md={8}>
       <Card>
-        <Card.Img variant="top" src={movie.Image} />
+        <Card.Img variant="top" src={movie.Image} alt="movie poster"/>
         <Card.Body>
           <Card.Text>Title: {movie.Title}</Card.Text>
           <Card.Text>Year: {movie.Year}</Card.Text>
