@@ -3,6 +3,7 @@ import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
+import { Row, Col, Button} from "react-bootstrap";
 
 export const MainView = () => {
   const [movies, setMovies] = useState([]);                   // empty array to be fed by API
@@ -25,12 +26,15 @@ export const MainView = () => {
     .then((response) => response.json())
     .then((data) => {
     console.log("movies from api", data);
-      const moviesFromApi = data.map((doc) => {
+      const moviesFromApi = data.map((movie) => {
         return {
-          Title: doc.Title,
-          Year: doc.Year,
-          Director: doc.Director,
-          Description: doc.Description
+          _id: movie.key,
+          Image: movie.ImagePath,
+          Title: movie.Title,
+          Year: movie.Year,
+          Director: movie.Director,
+          //Bio: movie.Director.Bio,
+          Description: movie.Description
         };
       });
       setMovies(moviesFromApi);
@@ -38,53 +42,46 @@ export const MainView = () => {
   }
   , [token]); // dependency array
   
-  if (!user) {
     return (
+      <Row className="justify-content-md-center">
+        {!user ? (
       <>
-        <LoginView onLoggedIn={(user, token) => {
-            setUser(user);
-            setToken(token);
-          }}
-        />
-        or
-        <SignupView />
+        <Col md={4}>
+          <LoginView onLoggedIn={(user, token) => 
+              {setUser(user); setToken(token)}
+          }
+          />
+          or
+          <SignupView />
+        </Col>
       </>
-    );
-  }
-
-  if (selectedMovie) {
-    return (
+    ) : selectedMovie ? (
       // set state to null when closing MovieView
-      <>
+      <Col>
         <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />
-      </>
-    );
-  }
-
-  if (movies.length === 0) {
-    return (
-    <>
+      </Col>
+        ) : movies.length === 0 ? (
       <div>The list is empty!</div>
-    </>
-    );
-  }
-  else
-    return (
+    ) : (
       <>
         <h3>Movies</h3>
-        <div>
           {movies.map((movie) => (
-            <MovieCard
-            // props
-              key={movie.id}
-              movie={movie}
-              onMovieClick={(newSelectedMovie) => {
-                setSelectedMovie(newSelectedMovie);
-              }}
-            />
+            <Col md={4} key={movie._id}>
+              <MovieCard
+              // props
+                key={movie._id}
+                movie={movie}
+                onMovieClick={(newSelectedMovie) => {
+                  setSelectedMovie(newSelectedMovie)
+                }}
+              />
+             </Col> 
           ))}
+        <div className="mb-2">
+        <Button onClick={() => { setUser(null); setToken(null) }} variant="light">Logout</Button>
         </div>
-        <button onClick={() => { setUser(null); setToken(null) }}>Logout</button>
       </>
+    )}
+    </Row>
     );
 };

@@ -1,7 +1,11 @@
+
 $color: #96bfe0;
+$body-bg: #a3e0cc;
+$text: #0a0a0a;
+@import '~bootstrap/scss/bootstrap.scss';
 
 body {
-  background-color: #a3e0cc;
+  background-color: $body-bg;
   font-family: 'Anonymous Pro', monospace;
 }
 
@@ -10,7 +14,7 @@ h1, h2, h3 {
 }
 
 div {
-  margin: 15px;
+  margin: 5px;
 }
 
 input {
@@ -31,4 +35,23 @@ h1,h2,h3 {
 
 .movieAPI {
   color: $color;
+}
+
+.card-body {
+  color: $text;
+  background-color: $color;
+  border-radius: 5px;
+}
+
+form {
+  background-color: $color;
+  border-radius: 5px;
+}
+
+.justify-content-md-center {
+  background-color: $body-bg;
+}
+
+.form-control, .form-control:focus {
+  background-color: #f8f9fa;
 }
