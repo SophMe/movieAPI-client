@@ -27244,12 +27244,12 @@ const MainView = ()=>{
                             onMovieClick: (newSelectedMovie)=>{
                                 setSelectedMovie(newSelectedMovie);
                             }
-                        }, movie.id, false, {
+                        }, movie._id, false, {
                             fileName: "src/components/main-view/main-view.jsx",
                             lineNumber: 71,
                             columnNumber: 15
                         }, undefined)
-                    }, movie.id, false, {
+                    }, movie._id, false, {
                         fileName: "src/components/main-view/main-view.jsx",
                         lineNumber: 70,
                         columnNumber: 13
@@ -27301,9 +27301,11 @@ var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
 var _reactBootstrap = require("react-bootstrap");
 const MovieCard = ({ movie , onMovieClick  })=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card), {
+        border: "light",
         onClick: ()=>onMovieClick(movie),
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Img, {
+                className: "fluid",
                 variant: "top",
                 src: movie.Image,
                 alt: "movie poster"
@@ -27321,12 +27323,19 @@ const MovieCard = ({ movie , onMovieClick  })=>{
                         lineNumber: 10,
                         columnNumber: 11
                     }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Subtitle, {
+                        children: movie.Description
+                    }, void 0, false, {
+                        fileName: "src/components/movie-card/movie-card.jsx",
+                        lineNumber: 11,
+                        columnNumber: 11
+                    }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
                         variant: "light",
                         children: "Open"
                     }, void 0, false, {
                         fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 11,
+                        lineNumber: 12,
                         columnNumber: 11
                     }, undefined)
                 ]
@@ -41066,11 +41075,16 @@ const MovieView = ({ movie , onBackClick  })=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Col), {
         md: 8,
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card), {
+            border: "light",
             children: [
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Img, {
-                    variant: "top",
+                    className: "rounded",
+                    variant: "bottom",
                     src: movie.Image,
-                    alt: "movie poster"
+                    alt: "movie poster",
+                    style: {
+                        width: "300px"
+                    }
                 }, void 0, false, {
                     fileName: "src/components/movie-view/movie-view.jsx",
                     lineNumber: 8,
@@ -41078,24 +41092,33 @@ const MovieView = ({ movie , onBackClick  })=>{
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Body, {
                     children: [
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Text, {
-                            children: [
-                                "Title: ",
-                                movie.Title
-                            ]
-                        }, void 0, true, {
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Title, {
+                            children: movie.Title
+                        }, void 0, false, {
                             fileName: "src/components/movie-view/movie-view.jsx",
                             lineNumber: 10,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Text, {
+                            children: movie.Year
+                        }, void 0, false, {
+                            fileName: "src/components/movie-view/movie-view.jsx",
+                            lineNumber: 11,
+                            columnNumber: 11
+                        }, undefined),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Text, {
                             children: [
-                                "Year: ",
-                                movie.Year
+                                "Description: ",
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
+                                    fileName: "src/components/movie-view/movie-view.jsx",
+                                    lineNumber: 12,
+                                    columnNumber: 35
+                                }, undefined),
+                                movie.Description
                             ]
                         }, void 0, true, {
                             fileName: "src/components/movie-view/movie-view.jsx",
-                            lineNumber: 11,
+                            lineNumber: 12,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Text, {
@@ -41105,23 +41128,18 @@ const MovieView = ({ movie , onBackClick  })=>{
                             ]
                         }, void 0, true, {
                             fileName: "src/components/movie-view/movie-view.jsx",
-                            lineNumber: 12,
-                            columnNumber: 11
-                        }, undefined),
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Text, {
-                            children: [
-                                "Bio: ",
-                                movie.Director.Bio
-                            ]
-                        }, void 0, true, {
-                            fileName: "src/components/movie-view/movie-view.jsx",
                             lineNumber: 13,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Text, {
                             children: [
-                                "Description: ",
-                                movie.Description
+                                "Bio: ",
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
+                                    fileName: "src/components/movie-view/movie-view.jsx",
+                                    lineNumber: 14,
+                                    columnNumber: 27
+                                }, undefined),
+                                movie.Director.Bio
                             ]
                         }, void 0, true, {
                             fileName: "src/components/movie-view/movie-view.jsx",

@@ -67,10 +67,10 @@ export const MainView = () => {
       <>
         <h3>Movies</h3>
           {movies.map((movie) => (
-            <Col md={4} key={movie.id}>
+            <Col md={4} key={movie._id}>
               <MovieCard
               // props
-                key={movie.id}
+                key={movie._id}
                 movie={movie}
                 onMovieClick={(newSelectedMovie) => {
                   setSelectedMovie(newSelectedMovie)
