@@ -7,6 +7,7 @@ import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
+import { ProfileView } from "../profile-view/profile-view";
 
 export const MainView = () => {
   const [movies, setMovies] = useState([]);                   // empty array to be fed by API
@@ -111,13 +112,27 @@ export const MainView = () => {
                         />
                       </Col> 
                     ))}
-                  </>
-                )}  
-              </>
-            }
-          />
-        </Routes>
-      </Row>
-    </BrowserRouter>
-  );
+                    </>
+                  )}  
+                </>
+              }
+            />
+            <Route //to ProfileView
+              path="/profile"
+              element={
+                <>
+                  {!user ? (
+                    <Navigate to="/" />
+                  ) : (
+                    <Col md={4}>
+                      <ProfileView />
+                    </Col>
+                  )}
+                </>
+              }
+            />
+          </Routes>
+        </Row>
+      </BrowserRouter>
+    );
 };
