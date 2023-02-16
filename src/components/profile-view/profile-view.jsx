@@ -1,43 +1,37 @@
-import { React } from "react"
-import { useEffect, useState } from "react";
-import { Card, Button } from "react-bootstrap";
+import React from "react";
+import { useState } from "react";
+import { Card, Button, Col } from "react-bootstrap";
+import { MovieCard } from "../movie-card/movie-card";
+import format from "date-fns/format";
 // import { UserInfo } from "./user-info";
 
-export const ProfileView = () => {
-  const [user, setUser] = useState([]);
+//pass props {movies, users} from MainView
+export const ProfileView = ({ movies, user }) => {
+  //const [user, setUser] = useState([]);
   const storedUser = localStorage.getItem("user");
   const storedToken = localStorage.getItem("token");
 
-  // console.log(storedUser, " This is the token:" + storedToken);
+//  const formatBirthday = (new Date({user.Birthday}));
 
-  useEffect(() => {
-      fetch("https://90s-movie-api-liart.vercel.app/users", {
-        method: "GET",
-        headers: { Authorization: `Bearer ${storedToken}` }
-      })
-      .then((response) => response.json())
-      .then((data) => {
-      console.log("all users", data);
-        const userFromAPI = data.map((user) => {
-          return {
-            // _id: username.key,
-            Username: user.Username,
-            Password: user.Password
-          };
-        });
-        setUser(userFromAPI);
-        console.log("hello" + storedUser + " TOKEN: " + storedToken );
-      });
-  }, []);
+  // const [username, setUsername] = useState(user.Username);
+  // const [password, setPassword] = useState(user.Password);
+  // const [email, setEmail] = useState(user.Email);
+  // const [birthday, setBirthday] = useState(user.Birthday);
 
-      if(user.Username === storedUser.Username) {
+//const favList = user.FavoriteMovies ?? [];
+const favMovies = movies.filter((m) => user.FavoriteMovies.includes(m.id)); //or _id?
         return(
+          <>
           <Card>
             <Card.Title>Your Profile</Card.Title>
             <Card.Body>Your data</Card.Body>
-            {/* make button funtional */}
+              <Card.Text>Username: {user.Username}</Card.Text>
+              <Card.Text>Email: {user.Email}</Card.Text>
+              <Card.Text>Birthday: {format(new Date(user.Birthday),'MMM dd, yyyy')}</Card.Text>
+            {/* make button functional */}
+            {/* create form to update user information - put it on a new page? */}
             <Button variant="light">Update</Button>
           </Card>
+          </>
         );
-      }
-}
+      };
