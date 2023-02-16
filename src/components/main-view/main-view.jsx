@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Row, Col} from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Row, Col } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import { MovieCard } from "../movie-card/movie-card";
@@ -48,18 +48,18 @@ export const MainView = () => {
   
     return (
       <BrowserRouter>
-        <NavigationBar user={user} onLoggedOut={() => {setUser(null); setToken(null);}} />
+        <NavigationBar user={user} onLoggedOut={() => { setUser(null); setToken(null); }} />
         <Row className="justify-content-md-center">
           <Routes>
             <Route
-              path="/login"
+              path="/"
               element={
                 <>
                   {user ? (
-                    <Navigate to="/" />
+                    <Navigate to="/movies" />
                   ) : (
                     <Col md={4}>
-                      <LoginView onLoggedIn={(user, token) => {setUser(user); setToken(token);}} />
+                      <LoginView onLoggedIn={(user, token) => {setUser(user); setToken(token); }} />
                     </Col>
                   )}
                 </>
@@ -68,7 +68,7 @@ export const MainView = () => {
             <Route path="/movies/:movieId" element={
               <>
                 {!user ? (
-                  <Navigate to="/login" replace />
+                  <Navigate to="/" replace />
                 ) : movies.length === 0 ? (
                   <Col>The list is empty!</Col>
                 ) : (
@@ -84,7 +84,7 @@ export const MainView = () => {
               element={
                 <>
                 {user ? (
-                  <Navigate to="/" />
+                  <Navigate to="/movies" />
                 ) : (
                   <Col md={5}>
                    <SignupView />
@@ -94,11 +94,11 @@ export const MainView = () => {
               }
             />
             <Route
-              path="/"
+              path="/movies"
               element={
                 <>
                   {!user ? (
-                    <Navigate to="/login" replace />
+                    <Navigate to="/" replace />
                   ) : movies.length === 0 ? (
                     <Col>The list is empty!</Col>
                   ) : (
@@ -125,7 +125,10 @@ export const MainView = () => {
                     <Navigate to="/" />
                   ) : (
                     <Col md={4}>
-                      <ProfileView />
+                      <ProfileView
+                      user={user}
+                      movies={movies}
+                      setUser={setUser} />
                     </Col>
                   )}
                 </>
