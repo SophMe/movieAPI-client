@@ -1,37 +1,55 @@
 import React from "react";
 import { useState } from "react";
-import { Card, Button, Col } from "react-bootstrap";
+import { Card, Form, Button, Col, Row } from "react-bootstrap";
 import { MovieCard } from "../movie-card/movie-card";
 import format from "date-fns/format";
-// import { UserInfo } from "./user-info";
+import { UpdateUser } from "./update-user";
+// import { UpdateUser } from "./update-user";
 
-//pass props {movies, users} from MainView
-export const ProfileView = ({ movies, user }) => {
-  //const [user, setUser] = useState([]);
-  const storedUser = localStorage.getItem("user");
-  const storedToken = localStorage.getItem("token");
+export const ProfileView = ({ movies, user }) => { //pass props {movies, users} from MainView
 
-//  const formatBirthday = (new Date({user.Birthday}));
+  const favMoviesList = movies.filter((m) => user.FavoriteMovies.includes(m.id));
 
-  // const [username, setUsername] = useState(user.Username);
-  // const [password, setPassword] = useState(user.Password);
-  // const [email, setEmail] = useState(user.Email);
-  // const [birthday, setBirthday] = useState(user.Birthday);
+  const handleSubmit = (event) => {event.preventDefault();
+  const data = { Username: username, Password: password, Email: email, Birthday : birthday };
 
-//const favList = user.FavoriteMovies ?? [];
-const favMovies = movies.filter((m) => user.FavoriteMovies.includes(m.id)); //or _id?
-        return(
-          <>
-          <Card>
-            <Card.Title>Your Profile</Card.Title>
-            <Card.Body>Your data</Card.Body>
-              <Card.Text>Username: {user.Username}</Card.Text>
-              <Card.Text>Email: {user.Email}</Card.Text>
-              <Card.Text>Birthday: {format(new Date(user.Birthday),'MMM dd, yyyy')}</Card.Text>
-            {/* make button functional */}
-            {/* create form to update user information - put it on a new page? */}
-            <Button variant="light">Update</Button>
-          </Card>
-          </>
-        );
-      };
+  //fetch("http://localhost:1234/users", {
+  fetch("https://90s-movie-api-sophme.vercel.app/users", {
+    method: "POST",
+    headers: { "Content-Type": "application/json"},
+    body: JSON.stringify(data)
+  });
+};
+
+  return(
+    <>
+    <Card>
+      <Card.Title>Your Profile</Card.Title>
+      <Card.Body>
+        <Card.Text>Username: {user.Username}</Card.Text>
+        <Card.Text>Email: {user.Email}</Card.Text>
+        <Card.Text>Birthday: {format(new Date(user.Birthday),'MMM dd, yyyy')}</Card.Text>
+        </Card.Body>
+    </Card>
+
+{/* Create a seperate route for this? */}
+    <Row>
+     {favMoviesList.length === 0 ? (
+       <Col>There are no favorites in your list</Col>
+     ) : (
+       <>
+         {favMoviesList.map((movie) => (
+           <Col key={movie.id} >
+             <MovieCard 
+              movie={movie}
+              />
+           </Col>
+         ))}
+       </>
+     )}
+    </Row>
+
+    <UpdateUser />
+    </>
+  );
+};
