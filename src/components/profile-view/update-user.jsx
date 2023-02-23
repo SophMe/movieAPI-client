@@ -1,23 +1,26 @@
 import React, { useState } from "react";
 import { Card, Form, Button } from "react-bootstrap";
 
-export const UpdateUser = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState("");
+export const UpdateUser = ({user}) => {
+  // set useState to current data, not empty as in Signup
+  const [username, setUsername] = useState(user.Username);
+  // const [password, setPassword] = useState(""); updated one would have to be hashed, change needed in backend
+  const [email, setEmail] = useState(user.Email);
+  const [birthday, setBirthday] = useState(user.Birthday);
+  const token = localStorage.getItem("token");
+
+  console.log(user.Username);
 
   const handleSubmit = (event) => {event.preventDefault();
-  const data = { Username: username, Password: password, Email: email, Birthday : birthday };
+  const data = { Username: username, Password: user.Password, Email: email, Birthday : birthday };
 
-  //fetch("http://localhost:1234/users", {
-  fetch(`https://90s-movie-api-sophme.vercel.app/users`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json"},
+  fetch(`https://90s-movie-api-sophme.vercel.app/users/${user.Username}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}`},
     body: JSON.stringify(data)
   }).then((response) => {
     if (response.ok) {
-      alert("Update successfull");
+      alert("Update successful");
       window.location.reload();
     } else {
       alert("Update failed");
@@ -25,16 +28,16 @@ export const UpdateUser = () => {
   });
 };
 
-const deleteUser = (username) => {
-  fetch(`https://90s-movie-api-sophme.vercel.app/users`, {
-  method: "DELETE",
-})
-.then((result)=>{
-  result.json().then((resp)=>{
-    console.warn(resp)
-  })
-})
-};
+// const deleteUser = ({user}) => {
+//   fetch(`https://90s-movie-api-sophme.vercel.app/users${user.Username}`, {
+//   method: "DELETE",
+// })
+// .then((result)=>{
+//   result.json().then((resp)=>{
+//     console.warn(resp)
+//   })
+// })
+// };
 
   return (
     <>
@@ -52,14 +55,14 @@ const deleteUser = (username) => {
             />
           </Form.Group>
 
-          <Form.Group>
+          {/* <Form.Group>
           <Form.Label>New password:</Form.Label>
             <Form.Control
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            </Form.Group>
+            </Form.Group> */}
             
           <Form.Group>
           <Form.Label>Email:</Form.Label>
@@ -80,7 +83,7 @@ const deleteUser = (username) => {
             />
           </Form.Group>
           
-          <Button onClick={UpdateUser} variant="light" type="submit">Update</Button>
+          <Button onClick={handleSubmit} variant="light" type="submit">Update</Button>
           <Button variant="light" type="submit">Cancel</Button>
         </Form>
       </Card.Body>
