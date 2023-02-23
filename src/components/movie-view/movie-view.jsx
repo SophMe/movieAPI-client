@@ -5,7 +5,7 @@ import { Card, Col, Button } from "react-bootstrap";
 
 export const MovieView = ({ movies }) => {
   const { movieId } = useParams();
-  const movie = movies.find((movie) => movie.id === movieId);
+  const movie = movies.find((movie) => movie._id === movieId);
 
   return (
     <Col md={8}>
@@ -18,8 +18,8 @@ export const MovieView = ({ movies }) => {
           <Card.Text>Director: {movie.Director.Name}</Card.Text>
           <Card.Text>Bio: <br />{movie.Director.Bio}</Card.Text>
 
-          <Link to={`/`}>
-            <Button variant="light" onClick={onBackClick}>Back to list</Button>
+          <Link to={`/movies`}>
+            <Button variant="light">Back to list</Button>
           </Link>
         </Card.Body>
       </Card>

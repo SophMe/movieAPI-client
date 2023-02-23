@@ -3,12 +3,10 @@ import { useState } from "react";
 import { Card, Form, Button, Col, Row } from "react-bootstrap";
 import { MovieCard } from "../movie-card/movie-card";
 import format from "date-fns/format";
-import { UpdateUser } from "./update-user";
-// import { UpdateUser } from "./update-user";
 
-export const ProfileView = ({ movies, user }) => { //pass props {movies, users} from MainView
+export const ProfileView = ({ movies, user, onAddFavorite, onRemoveFavorite }) => { //pass props {movies, users} from MainView
 
-  const favMoviesList = movies.filter((m) => user.FavoriteMovies.includes(m.id));
+  const favMoviesList = movies.filter((m) => user.FavoriteMovies.includes(m._id));
 
   const handleSubmit = (event) => {event.preventDefault();
   const data = { Username: username, Password: password, Email: email, Birthday : birthday };
@@ -29,6 +27,12 @@ export const ProfileView = ({ movies, user }) => { //pass props {movies, users} 
         <Card.Text>Username: {user.Username}</Card.Text>
         <Card.Text>Email: {user.Email}</Card.Text>
         <Card.Text>Birthday: {format(new Date(user.Birthday),'MMM dd, yyyy')}</Card.Text>
+        <Card.Text>
+          Favorite Movies: <br />
+          {user.FavoriteMovies}
+          {console.log(user.FavoriteMovies)};
+          {console.log(favMoviesList)};
+          </Card.Text>
         </Card.Body>
     </Card>
 
@@ -39,9 +43,12 @@ export const ProfileView = ({ movies, user }) => { //pass props {movies, users} 
      ) : (
        <>
          {favMoviesList.map((movie) => (
-           <Col key={movie.id} >
+           <Col key={movie._id} >
              <MovieCard 
               movie={movie}
+              onRemoveFavorite={onRemoveFavorite}
+              onAddFavorite={onAddFavorite}
+              isFavorite
               />
            </Col>
          ))}
@@ -49,7 +56,6 @@ export const ProfileView = ({ movies, user }) => { //pass props {movies, users} 
      )}
     </Row>
 
-    <UpdateUser />
     </>
   );
 };

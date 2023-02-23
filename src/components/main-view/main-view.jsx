@@ -22,8 +22,7 @@ export const MainView = () => {
     if (!token) {
       return;
     }
-    fetch("https://90s-movie-api-liart.vercel.app/movies", {
-    //fetch("http://localhost:8080/movies", {
+    fetch(`https://90s-movie-api-liart.vercel.app/movies`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -32,20 +31,56 @@ export const MainView = () => {
     console.log("movies from api", data);
       const moviesFromApi = data.map((movie) => {
         return {
-          _id: movie.key,
-          Image: movie.ImagePath,
-          Title: movie.Title,
-          Year: movie.Year,
-          Director: movie.Director,
-          //Bio: movie.Director.Bio,
-          Description: movie.Description
+          ...movie,
+          Image: movie.ImagePath
         };
       });
       setMovies(moviesFromApi);
     });
   }
   , [token]); // dependency array
+
+  const addFavorite = (id) => {
+    fetch(`https://90s-movie-api-liart.vercel.app/users/${user.Username}/movies/${id}`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}`}
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data) {
+        alert("Added to Favorites");
+        localStorage.setItem("user", JSON.stringify(data));
+        setUser(data);
+      } else {
+        alert("Failed to add");
+        console.log(errors);
+      }
+    })
+    .catch(err => {
+      alert("Something went wrong");
+    });
+  };
   
+  const removeFavorite = (id) => {
+    fetch(`https://90s-movie-api-liart.vercel.app/users/${user.Username}/movies/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}`}
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data) {
+        alert("Removed from Favorites");
+        localStorage.setItem("user", JSON.stringify(data));
+        setUser(data);
+      } else {
+        alert("Failed to remove");
+        console.log(errors);
+      }
+    })
+    .catch(err => {
+      alert("Something went wrong");
+    });
+  };
     return (
       <BrowserRouter>
         <NavigationBar user={user} onLoggedOut={() => { setUser(null); setToken(null); }} />
@@ -103,15 +138,21 @@ export const MainView = () => {
                     <Col>The list is empty!</Col>
                   ) : (
                     <>
-                    {movies.map((movie) => (
+                    {movies.map((movie) => {
+                      const m = user.FavoriteMovies.includes(movie._id) // does is exist in the user's list?
+                      return (
                       <Col className="mb-4" md={4} key={movie._id}>
                         <MovieCard
                         // props
                           key={movie._id}
                           movie={movie}
+                          isFavorite={m}                                // does is exist in the user's list?
+                          onAddFavorite={addFavorite}
+                          onRemoveFavorite={removeFavorite}
                         />
                       </Col> 
-                    ))}
+                      )
+                    })}
                     </>
                   )}  
                 </>

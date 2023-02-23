@@ -2901,6 +2901,8 @@ $parcel$ReactRefreshHelpers$98a3.prelude(module);
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
 var _client = require("react-dom/client");
 var _mainView = require("./components/main-view/main-view");
 var _container = require("react-bootstrap/Container");
@@ -2912,12 +2914,12 @@ const MovieAPIApp = ()=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _containerDefault.default), {
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _mainView.MainView), {}, void 0, false, {
             fileName: "src/index.jsx",
-            lineNumber: 13,
+            lineNumber: 14,
             columnNumber: 9
         }, undefined)
     }, void 0, false, {
         fileName: "src/index.jsx",
-        lineNumber: 12,
+        lineNumber: 13,
         columnNumber: 5
     }, undefined);
 };
@@ -2928,7 +2930,7 @@ const root = (0, _client.createRoot)(container);
 // render app in the root DOM element
 root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(MovieAPIApp, {}, void 0, false, {
     fileName: "src/index.jsx",
-    lineNumber: 23,
+    lineNumber: 24,
     columnNumber: 13
 }, undefined));
 var _c;
@@ -2939,7 +2941,7 @@ $RefreshReg$(_c, "MovieAPIApp");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react-dom/client":"lOjBx","./components/main-view/main-view":"4gflv","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gBrzL","./index.scss":"lJZlQ","react-bootstrap/Container":"hEdsw","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"iTorj":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-dom/client":"lOjBx","./components/main-view/main-view":"4gflv","react-bootstrap/Container":"hEdsw","./index.scss":"lJZlQ","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gBrzL"}],"iTorj":[function(require,module,exports) {
 "use strict";
 module.exports = require("44f3f662e1ca13f");
 
@@ -27136,6 +27138,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "MainView", ()=>MainView);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactBootstrap = require("react-bootstrap");
 var _reactRouterDom = require("react-router-dom");
 var _movieCard = require("../movie-card/movie-card");
@@ -27156,8 +27159,7 @@ const MainView = ()=>{
     // these are all state variables, when there value changes they re-render the UI
     (0, _react.useEffect)(()=>{
         if (!token) return;
-        fetch("https://90s-movie-api-liart.vercel.app/movies", {
-            //fetch("http://localhost:8080/movies", {
+        fetch(`https://90s-movie-api-liart.vercel.app/movies`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`
@@ -27166,13 +27168,8 @@ const MainView = ()=>{
             console.log("movies from api", data);
             const moviesFromApi = data.map((movie)=>{
                 return {
-                    _id: movie.key,
-                    Image: movie.ImagePath,
-                    Title: movie.Title,
-                    Year: movie.Year,
-                    Director: movie.Director,
-                    //Bio: movie.Director.Bio,
-                    Description: movie.Description
+                    ...movie,
+                    Image: movie.ImagePath
                 };
             });
             setMovies(moviesFromApi);
@@ -27180,6 +27177,44 @@ const MainView = ()=>{
     }, [
         token
     ]); // dependency array
+    const addFavorite = (id)=>{
+        fetch(`https://90s-movie-api-liart.vercel.app/users/${user.Username}/movies/${id}`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then((response)=>response.json()).then((data)=>{
+            if (data) {
+                alert("Added to Favorites");
+                localStorage.setItem("user", JSON.stringify(data));
+                setUser(data);
+            } else {
+                alert("Failed to add");
+                console.log(errors);
+            }
+        }).catch((err)=>{
+            alert("Something went wrong");
+        });
+    };
+    const removeFavorite = (id)=>{
+        fetch(`https://90s-movie-api-liart.vercel.app/users/${user.Username}/movies/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then((response)=>response.json()).then((data)=>{
+            if (data) {
+                alert("Removed from Favorites");
+                localStorage.setItem("user", JSON.stringify(data));
+                setUser(data);
+            } else {
+                alert("Failed to remove");
+                console.log(errors);
+            }
+        }).catch((err)=>{
+            alert("Something went wrong");
+        });
+    };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.BrowserRouter), {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _navigationBar.NavigationBar), {
@@ -27190,7 +27225,7 @@ const MainView = ()=>{
                 }
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 51,
+                lineNumber: 86,
                 columnNumber: 9
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Row), {
@@ -27198,10 +27233,10 @@ const MainView = ()=>{
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Routes), {
                     children: [
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
-                            path: "/login",
+                            path: "/",
                             element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                                 children: user ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Navigate), {
-                                    to: "/"
+                                    to: "/movies"
                                 }, void 0, false, void 0, void 0) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Col), {
                                     md: 4,
                                     children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _loginView.LoginView), {
@@ -27214,14 +27249,14 @@ const MainView = ()=>{
                             }, void 0, false)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 54,
+                            lineNumber: 89,
                             columnNumber: 13
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
                             path: "/movies/:movieId",
                             element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                                 children: !user ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Navigate), {
-                                    to: "/login",
+                                    to: "/",
                                     replace: true
                                 }, void 0, false, void 0, void 0) : movies.length === 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Col), {
                                     children: "The list is empty!"
@@ -27234,14 +27269,14 @@ const MainView = ()=>{
                             }, void 0, false)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 68,
+                            lineNumber: 103,
                             columnNumber: 13
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
                             path: "/signup",
                             element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                                 children: user ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Navigate), {
-                                    to: "/"
+                                    to: "/movies"
                                 }, void 0, false, void 0, void 0) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Col), {
                                     md: 5,
                                     children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _signupView.SignupView), {}, void 0, false, void 0, void 0)
@@ -27249,30 +27284,37 @@ const MainView = ()=>{
                             }, void 0, false)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 82,
+                            lineNumber: 117,
                             columnNumber: 13
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
-                            path: "/",
+                            path: "/movies",
                             element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                                 children: !user ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Navigate), {
-                                    to: "/login",
+                                    to: "/",
                                     replace: true
                                 }, void 0, false, void 0, void 0) : movies.length === 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Col), {
                                     children: "The list is empty!"
                                 }, void 0, false, void 0, void 0) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
-                                    children: movies.map((movie)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Col), {
+                                    children: movies.map((movie)=>{
+                                        const m = user.FavoriteMovies.includes(movie._id) // does is exist in the user's list?
+                                        ;
+                                        return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Col), {
                                             className: "mb-4",
                                             md: 4,
                                             children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieCard.MovieCard), {
-                                                movie: movie
+                                                movie: movie,
+                                                isFavorite: m,
+                                                onAddFavorite: addFavorite,
+                                                onRemoveFavorite: removeFavorite
                                             }, movie._id, false, void 0, void 0)
-                                        }, movie._id, false, void 0, void 0))
+                                        }, movie._id, false, void 0, void 0);
+                                    })
                                 }, void 0, false)
                             }, void 0, false)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 96,
+                            lineNumber: 131,
                             columnNumber: 13
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route //to ProfileView
@@ -27283,29 +27325,33 @@ const MainView = ()=>{
                                     to: "/"
                                 }, void 0, false, void 0, void 0) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Col), {
                                     md: 4,
-                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _profileView.ProfileView), {}, void 0, false, void 0, void 0)
+                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _profileView.ProfileView), {
+                                        user: user,
+                                        movies: movies,
+                                        setUser: setUser
+                                    }, void 0, false, void 0, void 0)
                                 }, void 0, false, void 0, void 0)
                             }, void 0, false)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 120,
+                            lineNumber: 161,
                             columnNumber: 13
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/main-view/main-view.jsx",
-                    lineNumber: 53,
+                    lineNumber: 88,
                     columnNumber: 11
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 52,
+                lineNumber: 87,
                 columnNumber: 9
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 50,
+        lineNumber: 85,
         columnNumber: 7
     }, undefined);
 };
@@ -27319,257 +27365,7 @@ $RefreshReg$(_c, "MainView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../movie-card/movie-card":"bwuIu","../movie-view/movie-view":"ggaUx","../login-view/login-view":"9YtA0","../signup-view/signup-view":"4OGiN","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gBrzL","react-bootstrap":"3AD9A","react-router-dom":"9xmpe","../navigation-bar/navigation-bar":"bsPVM","../profile-view/profile-view":"2vVqf"}],"bwuIu":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$67b2 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$67b2.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "MovieCard", ()=>MovieCard);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-// import PropTypes from "prop-types";
-var _reactBootstrap = require("react-bootstrap");
-var _reactRouterDom = require("react-router-dom");
-const MovieCard = ({ movie  })=>{
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card), {
-        border: "light",
-        children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Img, {
-                className: "rounded",
-                variant: "top",
-                src: movie.Image,
-                alt: "movie poster"
-            }, void 0, false, {
-                fileName: "src/components/movie-card/movie-card.jsx",
-                lineNumber: 9,
-                columnNumber: 9
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Body, {
-                children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Title, {
-                        children: movie.Title
-                    }, void 0, false, {
-                        fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 11,
-                        columnNumber: 11
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Subtitle, {
-                        children: movie.Description
-                    }, void 0, false, {
-                        fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 12,
-                        columnNumber: 11
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
-                        to: `/movies/${encodeURIComponent(movie._id)}`,
-                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
-                            variant: "light",
-                            children: "Open"
-                        }, void 0, false, {
-                            fileName: "src/components/movie-card/movie-card.jsx",
-                            lineNumber: 14,
-                            columnNumber: 13
-                        }, undefined)
-                    }, void 0, false, {
-                        fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 13,
-                        columnNumber: 11
-                    }, undefined)
-                ]
-            }, void 0, true, {
-                fileName: "src/components/movie-card/movie-card.jsx",
-                lineNumber: 10,
-                columnNumber: 9
-            }, undefined)
-        ]
-    }, void 0, true, {
-        fileName: "src/components/movie-card/movie-card.jsx",
-        lineNumber: 8,
-        columnNumber: 5
-    }, undefined);
-};
-_c = MovieCard;
-//define prop constraints
-MovieCard.propTypes = {
-};
-var _c;
-$RefreshReg$(_c, "MovieCard");
-
-  $parcel$ReactRefreshHelpers$67b2.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gBrzL","react-bootstrap":"3AD9A","react-router-dom":"9xmpe"}],"dInVF":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"gBrzL":[function(require,module,exports) {
-"use strict";
-var Refresh = require("298e13aa28b8a4bf");
-function debounce(func, delay) {
-    var args;
-    {
-        let timeout = undefined;
-        let lastTime = 0;
-        return function(args) {
-            // Call immediately if last call was more than the delay ago.
-            // Otherwise, set a timeout. This means the first call is fast
-            // (for the common case of a single update), and subsequent updates
-            // are batched.
-            let now = Date.now();
-            if (now - lastTime > delay) {
-                lastTime = now;
-                func.call(null, args);
-            } else {
-                clearTimeout(timeout);
-                timeout = setTimeout(function() {
-                    timeout = undefined;
-                    lastTime = Date.now();
-                    func.call(null, args);
-                }, delay);
-            }
-        };
-    }
-}
-var enqueueUpdate = debounce(function() {
-    Refresh.performReactRefresh();
-}, 30); // Everthing below is either adapted or copied from
-// https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
-// MIT License - Copyright (c) Facebook, Inc. and its affiliates.
-module.exports.prelude = function(module1) {
-    window.$RefreshReg$ = function(type, id) {
-        Refresh.register(type, module1.id + " " + id);
-    };
-    window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
-};
-module.exports.postlude = function(module1) {
-    if (isReactRefreshBoundary(module1.exports)) {
-        registerExportsForReactRefresh(module1);
-        if (module1.hot) {
-            module1.hot.dispose(function(data) {
-                if (Refresh.hasUnrecoverableErrors()) window.location.reload();
-                data.prevExports = module1.exports;
-            });
-            module1.hot.accept(function(getParents) {
-                var prevExports = module1.hot.data.prevExports;
-                var nextExports = module1.exports; // Since we just executed the code for it, it's possible
-                // that the new exports make it ineligible for being a boundary.
-                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports); // It can also become ineligible if its exports are incompatible
-                // with the previous exports.
-                // For example, if you add/remove/change exports, we'll want
-                // to re-execute the importing modules, and force those components
-                // to re-render. Similarly, if you convert a class component
-                // to a function, we want to invalidate the boundary.
-                var didInvalidate = shouldInvalidateReactRefreshBoundary(prevExports, nextExports);
-                if (isNoLongerABoundary || didInvalidate) {
-                    // We'll be conservative. The only case in which we won't do a full
-                    // reload is if all parent modules are also refresh boundaries.
-                    // In that case we'll add them to the current queue.
-                    var parents = getParents();
-                    if (parents.length === 0) {
-                        // Looks like we bubbled to the root. Can't recover from that.
-                        window.location.reload();
-                        return;
-                    }
-                    return parents;
-                }
-                enqueueUpdate();
-            });
-        }
-    }
-};
-function isReactRefreshBoundary(exports) {
-    if (Refresh.isLikelyComponentType(exports)) return true;
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    return false;
-    var hasExports = false;
-    var areAllExportsComponents = true;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        hasExports = true;
-        if (key === "__esModule") continue;
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) // Don't invoke getters for CJS as they may have side effects.
-        return false;
-        var exportValue = exports[key];
-        if (!Refresh.isLikelyComponentType(exportValue)) areAllExportsComponents = false;
-    }
-    return hasExports && areAllExportsComponents;
-}
-function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
-    var prevSignature = getRefreshBoundarySignature(prevExports);
-    var nextSignature = getRefreshBoundarySignature(nextExports);
-    if (prevSignature.length !== nextSignature.length) return true;
-    for(var i = 0; i < nextSignature.length; i++){
-        if (prevSignature[i] !== nextSignature[i]) return true;
-    }
-    return false;
-} // When this signature changes, it's unsafe to stop at this refresh boundary.
-function getRefreshBoundarySignature(exports) {
-    var signature = [];
-    signature.push(Refresh.getFamilyByType(exports));
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    // (This is important for legacy environments.)
-    return signature;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        if (key === "__esModule") continue;
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) continue;
-        var exportValue = exports[key];
-        signature.push(key);
-        signature.push(Refresh.getFamilyByType(exportValue));
-    }
-    return signature;
-}
-function registerExportsForReactRefresh(module1) {
-    var exports = module1.exports, id = module1.id;
-    Refresh.register(exports, id + " %exports%");
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    // (This is important for legacy environments.)
-    return;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) continue;
-        var exportValue = exports[key];
-        Refresh.register(exportValue, id + " %exports% " + key);
-    }
-}
-
-},{"298e13aa28b8a4bf":"fAHsz"}],"3AD9A":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-bootstrap":"3AD9A","react-router-dom":"9xmpe","../movie-card/movie-card":"bwuIu","../movie-view/movie-view":"ggaUx","../login-view/login-view":"9YtA0","../signup-view/signup-view":"4OGiN","../navigation-bar/navigation-bar":"bsPVM","../profile-view/profile-view":"2vVqf","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gBrzL"}],"3AD9A":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Accordion", ()=>(0, _accordionDefault.default));
@@ -28008,7 +27804,37 @@ function _extends() {
 }
 exports.default = _extends;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"adHgr":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"dInVF":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"adHgr":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 function _objectWithoutPropertiesLoose(source, excluded) {
@@ -31279,7 +31105,7 @@ as: Component = "button" , bsPrefix , className , onClick , ...props }, ref)=>{
         ref: ref,
         onClick: accordionOnClick,
         ...props,
-        "aria-expanded": eventKey === activeEventKey,
+        "aria-expanded": Array.isArray(activeEventKey) ? activeEventKey.includes(eventKey) : eventKey === activeEventKey,
         className: (0, _classnamesDefault.default)(className, bsPrefix, !(0, _accordionContext.isAccordionItemSelected)(activeEventKey, eventKey) && "collapsed")
     });
 });
@@ -37631,7 +37457,7 @@ function BackdropTransition(props) {
         removeStaticModalAnimationRef.current == null || removeStaticModalAnimationRef.current();
     });
     // We prevent the modal from closing during a drag by detecting where the
-    // the click originates from. If it starts in the modal and then ends outside
+    // click originates from. If it starts in the modal and then ends outside
     // don't close.
     const handleDialogMouseDown = ()=>{
         waitingForMouseUpRef.current = true;
@@ -39333,8 +39159,6 @@ var _classnames = require("classnames");
 var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
 var _overlay = require("@restart/ui/Overlay");
 var _overlayDefault = parcelHelpers.interopDefault(_overlay);
-var _useCallbackRef = require("@restart/hooks/useCallbackRef");
-var _useCallbackRefDefault = parcelHelpers.interopDefault(_useCallbackRef);
 var _useEventCallback = require("@restart/hooks/useEventCallback");
 var _useEventCallbackDefault = parcelHelpers.interopDefault(_useEventCallback);
 var _useIsomorphicEffect = require("@restart/hooks/useIsomorphicEffect");
@@ -39362,7 +39186,7 @@ function wrapRefs(props, arrowProps) {
 }
 const Overlay = /*#__PURE__*/ _react.forwardRef(({ children: overlay , transition , popperConfig ={} , ...outerProps }, outerRef)=>{
     const popperRef = (0, _react.useRef)({});
-    const [firstRenderedState, setFirstRenderedState] = (0, _useCallbackRefDefault.default)();
+    const [firstRenderedState, setFirstRenderedState] = (0, _react.useState)(null);
     const [ref, modifiers] = (0, _useOverlayOffsetDefault.default)(outerProps.offset);
     const mergedRef = (0, _useMergedRefsDefault.default)(outerRef, ref);
     const actualTransition = transition === true ? (0, _fadeDefault.default) : transition || undefined;
@@ -39374,6 +39198,11 @@ const Overlay = /*#__PURE__*/ _react.forwardRef(({ children: overlay , transitio
         if (firstRenderedState) popperRef.current.scheduleUpdate == null || popperRef.current.scheduleUpdate();
     }, [
         firstRenderedState
+    ]);
+    (0, _react.useEffect)(()=>{
+        if (!outerProps.show) setFirstRenderedState(null);
+    }, [
+        outerProps.show
     ]);
     return /*#__PURE__*/ (0, _jsxRuntime.jsx)((0, _overlayDefault.default), {
         ...outerProps,
@@ -39393,8 +39222,10 @@ const Overlay = /*#__PURE__*/ _react.forwardRef(({ children: overlay , transitio
                 state: popperObj == null ? void 0 : popperObj.state,
                 scheduleUpdate: popperObj == null ? void 0 : popperObj.update,
                 placement: updatedPlacement,
-                outOfBoundaries: (popperObj == null ? void 0 : (_popperObj$state = popperObj.state) == null ? void 0 : (_popperObj$state$modi = _popperObj$state.modifiersData.hide) == null ? void 0 : _popperObj$state$modi.isReferenceHidden) || false
+                outOfBoundaries: (popperObj == null ? void 0 : (_popperObj$state = popperObj.state) == null ? void 0 : (_popperObj$state$modi = _popperObj$state.modifiersData.hide) == null ? void 0 : _popperObj$state$modi.isReferenceHidden) || false,
+                strategy: popperConfig.strategy
             });
+            const hasDoneInitialMeasure = !!firstRenderedState;
             if (typeof overlay === "function") return overlay({
                 ...overlayProps,
                 placement: updatedPlacement,
@@ -39403,13 +39234,15 @@ const Overlay = /*#__PURE__*/ _react.forwardRef(({ children: overlay , transitio
                     className: "show"
                 },
                 popper,
-                arrowProps
+                arrowProps,
+                hasDoneInitialMeasure
             });
             return /*#__PURE__*/ _react.cloneElement(overlay, {
                 ...overlayProps,
                 placement: updatedPlacement,
                 arrowProps,
                 popper,
+                hasDoneInitialMeasure,
                 className: (0, _classnamesDefault.default)(overlay.props.className, !transition && show && "show"),
                 style: {
                     ...overlay.props.style,
@@ -39423,7 +39256,7 @@ Overlay.displayName = "Overlay";
 Overlay.defaultProps = defaultProps;
 exports.default = Overlay;
 
-},{"react":"21dqq","classnames":"jocGM","@restart/ui/Overlay":"Ivi01","@restart/hooks/useCallbackRef":"82p6M","@restart/hooks/useEventCallback":"7ONdq","@restart/hooks/useIsomorphicEffect":"e8blq","@restart/hooks/useMergedRefs":"6hhuo","./useOverlayOffset":"iHgTL","./Fade":"aH18S","./safeFindDOMNode":"XsXw9","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"Ivi01":[function(require,module,exports) {
+},{"react":"21dqq","classnames":"jocGM","@restart/ui/Overlay":"Ivi01","@restart/hooks/useEventCallback":"7ONdq","@restart/hooks/useIsomorphicEffect":"e8blq","@restart/hooks/useMergedRefs":"6hhuo","./useOverlayOffset":"iHgTL","./Fade":"aH18S","./safeFindDOMNode":"XsXw9","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"Ivi01":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _react = require("react");
@@ -39614,19 +39447,26 @@ var _popoverHeaderDefault = parcelHelpers.interopDefault(_popoverHeader);
 var _popoverBody = require("./PopoverBody");
 var _popoverBodyDefault = parcelHelpers.interopDefault(_popoverBody);
 var _helpers = require("./helpers");
+var _getInitialPopperStyles = require("./getInitialPopperStyles");
+var _getInitialPopperStylesDefault = parcelHelpers.interopDefault(_getInitialPopperStyles);
 var _jsxRuntime = require("react/jsx-runtime");
 const defaultProps = {
     placement: "right"
 };
-const Popover = /*#__PURE__*/ _react.forwardRef(({ bsPrefix , placement , className , style , children , body , arrowProps , popper: _ , show: _1 , ...props }, ref)=>{
+const Popover = /*#__PURE__*/ _react.forwardRef(({ bsPrefix , placement , className , style , children , body , arrowProps , hasDoneInitialMeasure , popper , show , ...props }, ref)=>{
     const decoratedBsPrefix = (0, _themeProvider.useBootstrapPrefix)(bsPrefix, "popover");
     const isRTL = (0, _themeProvider.useIsRTL)();
     const [primaryPlacement] = (placement == null ? void 0 : placement.split("-")) || [];
     const bsDirection = (0, _helpers.getOverlayDirection)(primaryPlacement, isRTL);
+    let computedStyle = style;
+    if (show && !hasDoneInitialMeasure) computedStyle = {
+        ...style,
+        ...(0, _getInitialPopperStylesDefault.default)(popper == null ? void 0 : popper.strategy)
+    };
     return /*#__PURE__*/ (0, _jsxRuntime.jsxs)("div", {
         ref: ref,
         role: "tooltip",
-        style: style,
+        style: computedStyle,
         "x-placement": primaryPlacement,
         className: (0, _classnamesDefault.default)(className, decoratedBsPrefix, primaryPlacement && `bs-popover-${bsDirection}`),
         ...props,
@@ -39653,7 +39493,7 @@ exports.default = Object.assign(Popover, {
     ]
 });
 
-},{"classnames":"jocGM","react":"21dqq","./ThemeProvider":"dVixI","./PopoverHeader":"1rLXn","./PopoverBody":"amJTZ","./helpers":"gotcT","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"1rLXn":[function(require,module,exports) {
+},{"classnames":"jocGM","react":"21dqq","./ThemeProvider":"dVixI","./PopoverHeader":"1rLXn","./PopoverBody":"amJTZ","./helpers":"gotcT","./getInitialPopperStyles":"c8j3Q","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"1rLXn":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _createWithBsPrefix = require("./createWithBsPrefix");
@@ -39683,7 +39523,21 @@ function getOverlayDirection(placement, isRTL) {
     return bsDirection;
 }
 
-},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"acOnV":[function(require,module,exports) {
+},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"c8j3Q":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+function getInitialPopperStyles(position = "absolute") {
+    return {
+        position,
+        top: "0",
+        left: "0",
+        opacity: "0",
+        pointerEvents: "none"
+    };
+}
+exports.default = getInitialPopperStyles;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"acOnV":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _contains = require("dom-helpers/contains");
@@ -40307,10 +40161,8 @@ const Stack = /*#__PURE__*/ _react.forwardRef(({ as: Component = "div" , bsPrefi
         ...props,
         ref: ref,
         className: (0, _classnamesDefault.default)(className, bsPrefix, ...(0, _createUtilityClassesDefault.default)({
-            gap,
-            breakpoints,
-            minBreakpoint
-        }))
+            gap
+        }, breakpoints, minBreakpoint))
     });
 });
 Stack.displayName = "Stack";
@@ -41067,18 +40919,25 @@ var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
 var _react = require("react");
 var _themeProvider = require("./ThemeProvider");
 var _helpers = require("./helpers");
+var _getInitialPopperStyles = require("./getInitialPopperStyles");
+var _getInitialPopperStylesDefault = parcelHelpers.interopDefault(_getInitialPopperStyles);
 var _jsxRuntime = require("react/jsx-runtime");
 const defaultProps = {
     placement: "right"
 };
-const Tooltip = /*#__PURE__*/ _react.forwardRef(({ bsPrefix , placement , className , style , children , arrowProps , popper: _ , show: _2 , ...props }, ref)=>{
+const Tooltip = /*#__PURE__*/ _react.forwardRef(({ bsPrefix , placement , className , style , children , arrowProps , hasDoneInitialMeasure , popper , show , ...props }, ref)=>{
     bsPrefix = (0, _themeProvider.useBootstrapPrefix)(bsPrefix, "tooltip");
     const isRTL = (0, _themeProvider.useIsRTL)();
     const [primaryPlacement] = (placement == null ? void 0 : placement.split("-")) || [];
     const bsDirection = (0, _helpers.getOverlayDirection)(primaryPlacement, isRTL);
+    let computedStyle = style;
+    if (show && !hasDoneInitialMeasure) computedStyle = {
+        ...style,
+        ...(0, _getInitialPopperStylesDefault.default)(popper == null ? void 0 : popper.strategy)
+    };
     return /*#__PURE__*/ (0, _jsxRuntime.jsxs)("div", {
         ref: ref,
-        style: style,
+        style: computedStyle,
         role: "tooltip",
         "x-placement": primaryPlacement,
         className: (0, _classnamesDefault.default)(className, bsPrefix, `bs-tooltip-${bsDirection}`),
@@ -41099,9 +40958,9 @@ Tooltip.defaultProps = defaultProps;
 Tooltip.displayName = "Tooltip";
 exports.default = Tooltip;
 
-},{"classnames":"jocGM","react":"21dqq","./ThemeProvider":"dVixI","./helpers":"gotcT","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"9xmpe":[function(require,module,exports) {
+},{"classnames":"jocGM","react":"21dqq","./ThemeProvider":"dVixI","./helpers":"gotcT","./getInitialPopperStyles":"c8j3Q","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"9xmpe":[function(require,module,exports) {
 /**
- * React Router DOM v6.8.0
+ * React Router DOM v6.8.1
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -41469,22 +41328,21 @@ const isBrowser = typeof window !== "undefined" && typeof window.document !== "u
  * The public API for rendering a history-aware <a>.
  */ const Link = /*#__PURE__*/ _react.forwardRef(function LinkWithRef(_ref4, ref) {
     let { onClick , relative , reloadDocument , replace , state , target , to , preventScrollReset  } = _ref4, rest = _objectWithoutPropertiesLoose(_ref4, _excluded);
-    // `location` is the unaltered href we will render in the <a> tag for absolute URLs
-    let location = typeof to === "string" ? to : (0, _reactRouter.createPath)(to);
-    let isAbsolute = /^[a-z+]+:\/\//i.test(location) || location.startsWith("//"); // Location to use in the click handler
-    let navigationLocation = location;
+    // Rendered into <a href> for absolute URLs
+    let absoluteHref;
     let isExternal = false;
-    if (isBrowser && isAbsolute) {
+    if (isBrowser && typeof to === "string" && /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(to)) {
+        absoluteHref = to;
         let currentUrl = new URL(window.location.href);
-        let targetUrl = location.startsWith("//") ? new URL(currentUrl.protocol + location) : new URL(location);
+        let targetUrl = to.startsWith("//") ? new URL(currentUrl.protocol + to) : new URL(to);
         if (targetUrl.origin === currentUrl.origin) // Strip the protocol/origin for same-origin absolute URLs
-        navigationLocation = targetUrl.pathname + targetUrl.search + targetUrl.hash;
+        to = targetUrl.pathname + targetUrl.search + targetUrl.hash;
         else isExternal = true;
-    } // `href` is what we render in the <a> tag for relative URLs
-    let href = (0, _reactRouter.useHref)(navigationLocation, {
+    } // Rendered into <a href> for relative URLs
+    let href = (0, _reactRouter.useHref)(to, {
         relative
     });
-    let internalOnClick = useLinkClickHandler(navigationLocation, {
+    let internalOnClick = useLinkClickHandler(to, {
         replace,
         state,
         target,
@@ -41497,7 +41355,7 @@ const isBrowser = typeof window !== "undefined" && typeof window.document !== "u
     }
     return(/*#__PURE__*/ // eslint-disable-next-line jsx-a11y/anchor-has-content
     _react.createElement("a", _extends({}, rest, {
-        href: isAbsolute ? location : href,
+        href: absoluteHref || href,
         onClick: isExternal || reloadDocument ? onClick : handleClick,
         ref: ref,
         target: target
@@ -42004,7 +41862,7 @@ function warning(cond, message) {
 
 },{"react":"21dqq","react-router":"dbWyW","@remix-run/router":"5ncDG","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"dbWyW":[function(require,module,exports) {
 /**
- * React Router v6.8.0
+ * React Router v6.8.1
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -42731,9 +42589,8 @@ function useCurrentRouteId(hookName) {
  */ function useAsyncError() {
     let value = _react.useContext(AwaitContext);
     return value == null ? void 0 : value._error;
-} // useBlocker() is a singleton for now since we don't have any compelling use
-// cases for multi-blocker yet
-let blockerKey = "blocker-singleton";
+}
+let blockerId = 0;
 /**
  * Allow the application to block navigations within the SPA and present the
  * user a confirmation dialog to confirm the navigation.  Mostly used to avoid
@@ -42741,6 +42598,7 @@ let blockerKey = "blocker-singleton";
  * cross-origin navigations.
  */ function useBlocker(shouldBlock) {
     let { router  } = useDataRouterContext(DataRouterHook.UseBlocker);
+    let [blockerKey] = _react.useState(()=>String(++blockerId));
     let blockerFunction = _react.useCallback((args)=>{
         return typeof shouldBlock === "function" ? !!shouldBlock(args) : !!shouldBlock;
     }, [
@@ -42748,7 +42606,8 @@ let blockerKey = "blocker-singleton";
     ]);
     let blocker = router.getBlocker(blockerKey, blockerFunction); // Cleanup on unmount
     _react.useEffect(()=>()=>router.deleteBlocker(blockerKey), [
-        router
+        router,
+        blockerKey
     ]);
     return blocker;
 }
@@ -43120,7 +42979,7 @@ function createMemoryRouter(routes, opts) {
 
 },{"@remix-run/router":"5ncDG","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"5ncDG":[function(require,module,exports) {
 /**
- * @remix-run/router v1.3.1
+ * @remix-run/router v1.3.2
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -44210,6 +44069,7 @@ const IDLE_BLOCKER = {
     reset: undefined,
     location: undefined
 };
+const ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
 const isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
 const isServer = !isBrowser; //#endregion
 ////////////////////////////////////////////////////////////////////////////////
@@ -44289,9 +44149,7 @@ const isServer = !isBrowser; //#endregion
     // route loader returns defer() we stick one in here.  Then, when a nested
     // promise resolves we update loaderData.  If a new navigation starts we
     // cancel active deferreds for eliminated routes.
-    let activeDeferreds = new Map(); // We ony support a single active blocker at the moment since we don't have
-    // any compelling use cases for multi-blocker yet
-    let activeBlocker = null; // Store blocker functions in a separate Map outside of router state since
+    let activeDeferreds = new Map(); // Store blocker functions in a separate Map outside of router state since
     // we don't need to update UI state if they change
     let blockerFunctions = new Map(); // Flag to ignore the next history update, so we can revert the URL change on
     // a POP navigation that was blocked by the user without touching router state
@@ -44309,7 +44167,7 @@ const isServer = !isBrowser; //#endregion
                 ignoreNextHistoryUpdate = false;
                 return;
             }
-            warning(activeBlocker != null && delta === null, "You are trying to use a blocker on a POP navigation to a location that was not created by @remix-run/router. This will fail silently in production. This can happen if you are navigating outside the router via `window.history.pushState`/`window.location.hash` instead of using router navigation APIs.  This can also happen if you are using createHashRouter and the user manually changes the URL.");
+            warning(blockerFunctions.size === 0 || delta != null, "You are trying to use a blocker on a POP navigation to a location that was not created by @remix-run/router. This will fail silently in production. This can happen if you are navigating outside the router via `window.history.pushState`/`window.location.hash` instead of using router navigation APIs.  This can also happen if you are using createHashRouter and the user manually changes the URL.");
             let blockerKey = shouldBlockNavigation({
                 currentLocation: state.location,
                 nextLocation: location,
@@ -45005,8 +44863,8 @@ const isServer = !isBrowser; //#endregion
         }, isFetchActionRedirect ? {
             _isFetchActionRedirect: true
         } : {}));
-        invariant(redirectLocation, "Expected a location on the redirect navigation"); // Check if this an external redirect that goes to a new origin
-        if (isBrowser && typeof ((_window = window) == null ? void 0 : _window.location) !== "undefined") {
+        invariant(redirectLocation, "Expected a location on the redirect navigation"); // Check if this an absolute external redirect that goes to a new origin
+        if (ABSOLUTE_URL_REGEX.test(redirect.location) && isBrowser && typeof ((_window = window) == null ? void 0 : _window.location) !== "undefined") {
             let newOrigin = init.history.createURL(redirect.location).origin;
             if (window.location.origin !== newOrigin) {
                 if (replace) window.location.replace(redirect.location);
@@ -45148,18 +45006,12 @@ const isServer = !isBrowser; //#endregion
     }
     function getBlocker(key, fn) {
         let blocker = state.blockers.get(key) || IDLE_BLOCKER;
-        if (blockerFunctions.get(key) !== fn) {
-            blockerFunctions.set(key, fn);
-            if (activeBlocker == null) // This is now the active blocker
-            activeBlocker = key;
-            else if (key !== activeBlocker) warning(false, "A router only supports one blocker at a time");
-        }
+        if (blockerFunctions.get(key) !== fn) blockerFunctions.set(key, fn);
         return blocker;
     }
     function deleteBlocker(key) {
         state.blockers.delete(key);
         blockerFunctions.delete(key);
-        if (activeBlocker === key) activeBlocker = null;
     } // Utility function to update blockers, ensuring valid state transitions
     function updateBlocker(key, newBlocker) {
         let blocker = state.blockers.get(key) || IDLE_BLOCKER; // Poor mans state machine :)
@@ -45172,12 +45024,13 @@ const isServer = !isBrowser; //#endregion
     }
     function shouldBlockNavigation(_ref2) {
         let { currentLocation , nextLocation , historyAction  } = _ref2;
-        if (activeBlocker == null) return;
-         // We only allow a single blocker at the moment.  This will need to be
-        // updated if we enhance to support multiple blockers in the future
-        let blockerFunction = blockerFunctions.get(activeBlocker);
-        invariant(blockerFunction, "Could not find a function for the active blocker");
-        let blocker = state.blockers.get(activeBlocker);
+        if (blockerFunctions.size === 0) return;
+         // We ony support a single active blocker at the moment since we don't have
+        // any compelling use cases for multi-blocker yet
+        if (blockerFunctions.size > 1) warning(false, "A router only supports one blocker at a time");
+        let entries = Array.from(blockerFunctions.entries());
+        let [blockerKey, blockerFunction] = entries[entries.length - 1];
+        let blocker = state.blockers.get(blockerKey);
         if (blocker && blocker.state === "proceeding") // If the blocker is currently proceeding, we don't need to re-check
         // it and can let this navigation continue
         return;
@@ -45187,7 +45040,7 @@ const isServer = !isBrowser; //#endregion
             currentLocation,
             nextLocation,
             historyAction
-        })) return activeBlocker;
+        })) return blockerKey;
     }
     function cancelActiveDeferreds(predicate) {
         let cancelledRouteIds = [];
@@ -45751,9 +45604,8 @@ async function callLoaderOrAction(type, request, match, matches, basename, isSta
         let status = result.status; // Process redirects
         if (redirectStatusCodes.has(status)) {
             let location = result.headers.get("Location");
-            invariant(location, "Redirects returned/thrown from loaders/actions must have a Location header");
-            let isAbsolute = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(location); // Support relative routing in internal redirects
-            if (!isAbsolute) {
+            invariant(location, "Redirects returned/thrown from loaders/actions must have a Location header"); // Support relative routing in internal redirects
+            if (!ABSOLUTE_URL_REGEX.test(location)) {
                 let activeMatches = matches.slice(0, matches.indexOf(match) + 1);
                 let routePathnames = getPathContributingMatches(activeMatches).map((match)=>match.pathnameBase);
                 let resolvedLocation = resolveTo(location, routePathnames, new URL(request.url).pathname);
@@ -46094,7 +45946,250 @@ function getTargetMatch(matches, location) {
     return pathMatches[pathMatches.length - 1];
 } //#endregion
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"ggaUx":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"bwuIu":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$67b2 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$67b2.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "MovieCard", ()=>MovieCard);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+// import PropTypes from "prop-types";
+var _reactBootstrap = require("react-bootstrap");
+var _reactRouterDom = require("react-router-dom");
+const MovieCard = ({ movie , isFavorite , onRemoveFavorite , onAddFavorite  })=>{
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card), {
+        border: "light",
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Img, {
+                className: "rounded",
+                variant: "top",
+                src: movie.Image,
+                alt: "movie poster"
+            }, void 0, false, {
+                fileName: "src/components/movie-card/movie-card.jsx",
+                lineNumber: 9,
+                columnNumber: 9
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Body, {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Title, {
+                        children: movie.Title
+                    }, void 0, false, {
+                        fileName: "src/components/movie-card/movie-card.jsx",
+                        lineNumber: 11,
+                        columnNumber: 11
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Subtitle, {
+                        children: movie.Description
+                    }, void 0, false, {
+                        fileName: "src/components/movie-card/movie-card.jsx",
+                        lineNumber: 12,
+                        columnNumber: 11
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
+                        to: `/movies/${encodeURIComponent(movie._id)}`,
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
+                            variant: "light",
+                            children: "Open"
+                        }, void 0, false, {
+                            fileName: "src/components/movie-card/movie-card.jsx",
+                            lineNumber: 15,
+                            columnNumber: 13
+                        }, undefined)
+                    }, void 0, false, {
+                        fileName: "src/components/movie-card/movie-card.jsx",
+                        lineNumber: 14,
+                        columnNumber: 11
+                    }, undefined),
+                    isFavorite ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
+                        variant: "success",
+                        onClick: (e)=>{
+                            e.preventDefault();
+                            onRemoveFavorite(movie._id);
+                        },
+                        children: "Remove Favorite"
+                    }, void 0, false, {
+                        fileName: "src/components/movie-card/movie-card.jsx",
+                        lineNumber: 19,
+                        columnNumber: 13
+                    }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
+                        variant: "danger",
+                        onClick: (e)=>{
+                            e.preventDefault();
+                            onAddFavorite(movie._id);
+                        },
+                        children: "Add Favorite"
+                    }, void 0, false, {
+                        fileName: "src/components/movie-card/movie-card.jsx",
+                        lineNumber: 21,
+                        columnNumber: 13
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/movie-card/movie-card.jsx",
+                lineNumber: 10,
+                columnNumber: 9
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "src/components/movie-card/movie-card.jsx",
+        lineNumber: 8,
+        columnNumber: 5
+    }, undefined);
+};
+_c = MovieCard;
+//define prop constraints
+MovieCard.propTypes = {
+};
+var _c;
+$RefreshReg$(_c, "MovieCard");
+
+  $parcel$ReactRefreshHelpers$67b2.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-bootstrap":"3AD9A","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gBrzL"}],"gBrzL":[function(require,module,exports) {
+"use strict";
+var Refresh = require("298e13aa28b8a4bf");
+function debounce(func, delay) {
+    var args;
+    {
+        let timeout = undefined;
+        let lastTime = 0;
+        return function(args) {
+            // Call immediately if last call was more than the delay ago.
+            // Otherwise, set a timeout. This means the first call is fast
+            // (for the common case of a single update), and subsequent updates
+            // are batched.
+            let now = Date.now();
+            if (now - lastTime > delay) {
+                lastTime = now;
+                func.call(null, args);
+            } else {
+                clearTimeout(timeout);
+                timeout = setTimeout(function() {
+                    timeout = undefined;
+                    lastTime = Date.now();
+                    func.call(null, args);
+                }, delay);
+            }
+        };
+    }
+}
+var enqueueUpdate = debounce(function() {
+    Refresh.performReactRefresh();
+}, 30); // Everthing below is either adapted or copied from
+// https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
+// MIT License - Copyright (c) Facebook, Inc. and its affiliates.
+module.exports.prelude = function(module1) {
+    window.$RefreshReg$ = function(type, id) {
+        Refresh.register(type, module1.id + " " + id);
+    };
+    window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
+};
+module.exports.postlude = function(module1) {
+    if (isReactRefreshBoundary(module1.exports)) {
+        registerExportsForReactRefresh(module1);
+        if (module1.hot) {
+            module1.hot.dispose(function(data) {
+                if (Refresh.hasUnrecoverableErrors()) window.location.reload();
+                data.prevExports = module1.exports;
+            });
+            module1.hot.accept(function(getParents) {
+                var prevExports = module1.hot.data.prevExports;
+                var nextExports = module1.exports; // Since we just executed the code for it, it's possible
+                // that the new exports make it ineligible for being a boundary.
+                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports); // It can also become ineligible if its exports are incompatible
+                // with the previous exports.
+                // For example, if you add/remove/change exports, we'll want
+                // to re-execute the importing modules, and force those components
+                // to re-render. Similarly, if you convert a class component
+                // to a function, we want to invalidate the boundary.
+                var didInvalidate = shouldInvalidateReactRefreshBoundary(prevExports, nextExports);
+                if (isNoLongerABoundary || didInvalidate) {
+                    // We'll be conservative. The only case in which we won't do a full
+                    // reload is if all parent modules are also refresh boundaries.
+                    // In that case we'll add them to the current queue.
+                    var parents = getParents();
+                    if (parents.length === 0) {
+                        // Looks like we bubbled to the root. Can't recover from that.
+                        window.location.reload();
+                        return;
+                    }
+                    return parents;
+                }
+                enqueueUpdate();
+            });
+        }
+    }
+};
+function isReactRefreshBoundary(exports) {
+    if (Refresh.isLikelyComponentType(exports)) return true;
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    return false;
+    var hasExports = false;
+    var areAllExportsComponents = true;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        hasExports = true;
+        if (key === "__esModule") continue;
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) // Don't invoke getters for CJS as they may have side effects.
+        return false;
+        var exportValue = exports[key];
+        if (!Refresh.isLikelyComponentType(exportValue)) areAllExportsComponents = false;
+    }
+    return hasExports && areAllExportsComponents;
+}
+function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
+    var prevSignature = getRefreshBoundarySignature(prevExports);
+    var nextSignature = getRefreshBoundarySignature(nextExports);
+    if (prevSignature.length !== nextSignature.length) return true;
+    for(var i = 0; i < nextSignature.length; i++){
+        if (prevSignature[i] !== nextSignature[i]) return true;
+    }
+    return false;
+} // When this signature changes, it's unsafe to stop at this refresh boundary.
+function getRefreshBoundarySignature(exports) {
+    var signature = [];
+    signature.push(Refresh.getFamilyByType(exports));
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    // (This is important for legacy environments.)
+    return signature;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        if (key === "__esModule") continue;
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) continue;
+        var exportValue = exports[key];
+        signature.push(key);
+        signature.push(Refresh.getFamilyByType(exportValue));
+    }
+    return signature;
+}
+function registerExportsForReactRefresh(module1) {
+    var exports = module1.exports, id = module1.id;
+    Refresh.register(exports, id + " %exports%");
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    // (This is important for legacy environments.)
+    return;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) continue;
+        var exportValue = exports[key];
+        Refresh.register(exportValue, id + " %exports% " + key);
+    }
+}
+
+},{"298e13aa28b8a4bf":"fAHsz"}],"ggaUx":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$e9f6 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -46114,7 +46209,7 @@ var _s = $RefreshSig$();
 const MovieView = ({ movies  })=>{
     _s();
     const { movieId  } = (0, _reactRouter.useParams)();
-    const movie = movies.find((movie)=>movie.id === movieId);
+    const movie = movies.find((movie)=>movie._id === movieId);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Col), {
         md: 8,
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card), {
@@ -46196,10 +46291,9 @@ const MovieView = ({ movies  })=>{
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
-                            to: `/`,
+                            to: `/movies`,
                             children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
                                 variant: "light",
-                                onClick: onBackClick,
                                 children: "Back to list"
                             }, void 0, false, {
                                 fileName: "src/components/movie-view/movie-view.jsx",
@@ -46243,7 +46337,7 @@ $RefreshReg$(_c, "MovieView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gBrzL","react":"21dqq","react-bootstrap":"3AD9A","react-router":"dbWyW","react-router-dom":"9xmpe"}],"9YtA0":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react-router":"dbWyW","react-router-dom":"9xmpe","react":"21dqq","react-bootstrap":"3AD9A","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gBrzL"}],"9YtA0":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$9fee = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -46369,7 +46463,7 @@ $RefreshReg$(_c, "LoginView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gBrzL","react-bootstrap/Form":"iBZ80","react-bootstrap/Button":"aPzUt"}],"4OGiN":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-bootstrap/Form":"iBZ80","react-bootstrap/Button":"aPzUt","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gBrzL"}],"4OGiN":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$73d1 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -46542,7 +46636,7 @@ $RefreshReg$(_c, "SignupView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gBrzL","react-bootstrap":"3AD9A"}],"bsPVM":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-bootstrap":"3AD9A","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gBrzL"}],"bsPVM":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$abf5 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -46553,6 +46647,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "NavigationBar", ()=>NavigationBar);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactBootstrap = require("react-bootstrap");
 var _reactRouterDom = require("react-router-dom");
 const NavigationBar = ({ user , onLoggedOut  })=>{
@@ -46568,14 +46664,14 @@ const NavigationBar = ({ user , onLoggedOut  })=>{
                         children: "90s Movies App"
                     }, void 0, false, {
                         fileName: "src/components/navigation-bar/navigation-bar.jsx",
-                        lineNumber: 9,
+                        lineNumber: 10,
                         columnNumber: 11
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Navbar).Toggle, {
                         "aria-controls": "basic-navbar-nav"
                     }, void 0, false, {
                         fileName: "src/components/navigation-bar/navigation-bar.jsx",
-                        lineNumber: 12,
+                        lineNumber: 13,
                         columnNumber: 11
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Navbar).Collapse, {
@@ -46587,11 +46683,11 @@ const NavigationBar = ({ user , onLoggedOut  })=>{
                                     children: [
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Nav).Link, {
                                             as: (0, _reactRouterDom.Link),
-                                            to: "/login",
+                                            to: "/",
                                             children: "Login"
                                         }, void 0, false, {
                                             fileName: "src/components/navigation-bar/navigation-bar.jsx",
-                                            lineNumber: 17,
+                                            lineNumber: 18,
                                             columnNumber: 19
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Nav).Link, {
@@ -46600,7 +46696,7 @@ const NavigationBar = ({ user , onLoggedOut  })=>{
                                             children: "Signup"
                                         }, void 0, false, {
                                             fileName: "src/components/navigation-bar/navigation-bar.jsx",
-                                            lineNumber: 18,
+                                            lineNumber: 19,
                                             columnNumber: 19
                                         }, undefined)
                                     ]
@@ -46609,11 +46705,11 @@ const NavigationBar = ({ user , onLoggedOut  })=>{
                                     children: [
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Nav).Link, {
                                             as: (0, _reactRouterDom.Link),
-                                            to: "/",
+                                            to: "/movies",
                                             children: "Home"
                                         }, void 0, false, {
                                             fileName: "src/components/navigation-bar/navigation-bar.jsx",
-                                            lineNumber: 23,
+                                            lineNumber: 24,
                                             columnNumber: 19
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Nav).Link, {
@@ -46622,7 +46718,7 @@ const NavigationBar = ({ user , onLoggedOut  })=>{
                                             children: "Profile"
                                         }, void 0, false, {
                                             fileName: "src/components/navigation-bar/navigation-bar.jsx",
-                                            lineNumber: 24,
+                                            lineNumber: 25,
                                             columnNumber: 19
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Nav).Link, {
@@ -46630,7 +46726,7 @@ const NavigationBar = ({ user , onLoggedOut  })=>{
                                             children: "Logout"
                                         }, void 0, false, {
                                             fileName: "src/components/navigation-bar/navigation-bar.jsx",
-                                            lineNumber: 25,
+                                            lineNumber: 26,
                                             columnNumber: 19
                                         }, undefined)
                                     ]
@@ -46638,23 +46734,23 @@ const NavigationBar = ({ user , onLoggedOut  })=>{
                             ]
                         }, void 0, true, {
                             fileName: "src/components/navigation-bar/navigation-bar.jsx",
-                            lineNumber: 14,
+                            lineNumber: 15,
                             columnNumber: 13
                         }, undefined)
                     }, void 0, false, {
                         fileName: "src/components/navigation-bar/navigation-bar.jsx",
-                        lineNumber: 13,
+                        lineNumber: 14,
                         columnNumber: 11
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/navigation-bar/navigation-bar.jsx",
-                lineNumber: 8,
+                lineNumber: 9,
                 columnNumber: 9
             }, undefined)
         }, void 0, false, {
             fileName: "src/components/navigation-bar/navigation-bar.jsx",
-            lineNumber: 7,
+            lineNumber: 8,
             columnNumber: 7
         }, undefined)
     }, void 0, false);
@@ -46668,7 +46764,7 @@ $RefreshReg$(_c, "NavigationBar");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react-bootstrap":"3AD9A","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gBrzL"}],"2vVqf":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-bootstrap":"3AD9A","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gBrzL"}],"2vVqf":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$3c12 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -46680,65 +46776,137 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "ProfileView", ()=>ProfileView);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactBootstrap = require("react-bootstrap");
-var _s = $RefreshSig$();
-const ProfileView = ()=>{
-    _s();
-    const [user, setUser] = (0, _react.useState)([]);
-    const storedUser = localStorage.getItem("user");
-    const storedToken = localStorage.getItem("token");
-    // console.log(storedUser, " This is the token:" + storedToken);
-    (0, _react.useEffect)(()=>{
-        fetch("https://90s-movie-api-liart.vercel.app/users", {
-            method: "GET",
+var _movieCard = require("../movie-card/movie-card");
+var _format = require("date-fns/format");
+var _formatDefault = parcelHelpers.interopDefault(_format);
+const ProfileView = ({ movies , user , onAddFavorite , onRemoveFavorite  })=>{
+    const favMoviesList = movies.filter((m)=>user.FavoriteMovies.includes(m._id));
+    const handleSubmit = (event)=>{
+        event.preventDefault();
+        const data = {
+            Username: username,
+            Password: password,
+            Email: email,
+            Birthday: birthday
+        };
+        //fetch("http://localhost:1234/users", {
+        fetch("https://90s-movie-api-sophme.vercel.app/users", {
+            method: "POST",
             headers: {
-                Authorization: `Bearer ${storedToken}`
-            }
-        }).then((response)=>response.json()).then((data)=>{
-            console.log("all users", data);
-            const userFromAPI = data.map((user)=>{
-                return {
-                    // _id: username.key,
-                    Username: user.Username,
-                    Password: user.Password
-                };
-            });
-            setUser(userFromAPI);
-            console.log("hello" + storedUser + " TOKEN: " + storedToken);
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
         });
-    }, []);
-    if (user.Username === storedUser.Username) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card), {
+    };
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Title, {
-                children: "Your Profile"
-            }, void 0, false, {
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card), {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Title, {
+                        children: "Your Profile"
+                    }, void 0, false, {
+                        fileName: "src/components/profile-view/profile-view.jsx",
+                        lineNumber: 25,
+                        columnNumber: 7
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Body, {
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Text, {
+                                children: [
+                                    "Username: ",
+                                    user.Username
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/profile-view/profile-view.jsx",
+                                lineNumber: 27,
+                                columnNumber: 9
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Text, {
+                                children: [
+                                    "Email: ",
+                                    user.Email
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/profile-view/profile-view.jsx",
+                                lineNumber: 28,
+                                columnNumber: 9
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Text, {
+                                children: [
+                                    "Birthday: ",
+                                    (0, _formatDefault.default)(new Date(user.Birthday), "MMM dd, yyyy")
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/profile-view/profile-view.jsx",
+                                lineNumber: 29,
+                                columnNumber: 9
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Text, {
+                                children: [
+                                    "Favorite Movies: ",
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
+                                        fileName: "src/components/profile-view/profile-view.jsx",
+                                        lineNumber: 31,
+                                        columnNumber: 28
+                                    }, undefined),
+                                    user.FavoriteMovies,
+                                    console.log(user.FavoriteMovies),
+                                    ";",
+                                    console.log(favMoviesList),
+                                    ";"
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/profile-view/profile-view.jsx",
+                                lineNumber: 30,
+                                columnNumber: 9
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/profile-view/profile-view.jsx",
+                        lineNumber: 26,
+                        columnNumber: 7
+                    }, undefined)
+                ]
+            }, void 0, true, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 36,
-                columnNumber: 13
+                lineNumber: 24,
+                columnNumber: 5
             }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Body, {
-                children: "Your data"
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Row), {
+                children: favMoviesList.length === 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Col), {
+                    children: "There are no favorites in your list"
+                }, void 0, false, {
+                    fileName: "src/components/profile-view/profile-view.jsx",
+                    lineNumber: 42,
+                    columnNumber: 8
+                }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                    children: favMoviesList.map((movie)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Col), {
+                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieCard.MovieCard), {
+                                movie: movie,
+                                onRemoveFavorite: onRemoveFavorite,
+                                onAddFavorite: onAddFavorite,
+                                isFavorite: true
+                            }, void 0, false, {
+                                fileName: "src/components/profile-view/profile-view.jsx",
+                                lineNumber: 47,
+                                columnNumber: 14
+                            }, undefined)
+                        }, movie._id, false, {
+                            fileName: "src/components/profile-view/profile-view.jsx",
+                            lineNumber: 46,
+                            columnNumber: 12
+                        }, undefined))
+                }, void 0, false)
             }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 37,
-                columnNumber: 13
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
-                variant: "light",
-                children: "Update"
-            }, void 0, false, {
-                fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 39,
-                columnNumber: 13
+                lineNumber: 40,
+                columnNumber: 5
             }, undefined)
         ]
-    }, void 0, true, {
-        fileName: "src/components/profile-view/profile-view.jsx",
-        lineNumber: 35,
-        columnNumber: 11
-    }, undefined);
+    }, void 0, true);
 };
-_s(ProfileView, "g26Pb/ecDi+x6k07CsgfguRqPQQ=");
 _c = ProfileView;
 var _c;
 $RefreshReg$(_c, "ProfileView");
@@ -46748,6 +46916,2073 @@ $RefreshReg$(_c, "ProfileView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react":"21dqq","react-bootstrap":"3AD9A","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gBrzL","react/jsx-dev-runtime":"iTorj"}],"lJZlQ":[function() {},{}]},["e9G38","2Nuor","d8Dch"], "d8Dch", "parcelRequire5bca")
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-bootstrap":"3AD9A","../movie-card/movie-card":"bwuIu","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gBrzL","date-fns/format":"lnm6V"}],"lnm6V":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../isValid/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("../subMilliseconds/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+var _indexJs2 = require("../toDate/index.js");
+var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
+var _indexJs3 = require("../_lib/format/formatters/index.js");
+var _indexJsDefault3 = parcelHelpers.interopDefault(_indexJs3);
+var _indexJs4 = require("../_lib/format/longFormatters/index.js");
+var _indexJsDefault4 = parcelHelpers.interopDefault(_indexJs4);
+var _indexJs5 = require("../_lib/getTimezoneOffsetInMilliseconds/index.js");
+var _indexJsDefault5 = parcelHelpers.interopDefault(_indexJs5);
+var _indexJs6 = require("../_lib/protectedTokens/index.js");
+var _indexJs7 = require("../_lib/toInteger/index.js");
+var _indexJsDefault6 = parcelHelpers.interopDefault(_indexJs7);
+var _indexJs8 = require("../_lib/requiredArgs/index.js");
+var _indexJsDefault7 = parcelHelpers.interopDefault(_indexJs8);
+var _indexJs9 = require("../_lib/defaultOptions/index.js");
+var _indexJs10 = require("../_lib/defaultLocale/index.js"); // This RegExp consists of three parts separated by `|`:
+var _indexJsDefault8 = parcelHelpers.interopDefault(_indexJs10);
+// - [yYQqMLwIdDecihHKkms]o matches any available ordinal number token
+//   (one of the certain letters followed by `o`)
+// - (\w)\1* matches any sequences of the same letter
+// - '' matches two quote characters in a row
+// - '(''|[^'])+('|$) matches anything surrounded by two quote characters ('),
+//   except a single quote symbol, which ends the sequence.
+//   Two quote characters do not end the sequence.
+//   If there is no matching single quote
+//   then the sequence will continue until the end of the string.
+// - . matches any single character unmatched by previous parts of the RegExps
+var formattingTokensRegExp = /[yYQqMLwIdDecihHKkms]o|(\w)\1*|''|'(''|[^'])+('|$)|./g; // This RegExp catches symbols escaped by quotes, and also
+// sequences of symbols P, p, and the combinations like `PPPPPPPppppp`
+var longFormattingTokensRegExp = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;
+var escapedStringRegExp = /^'([^]*?)'?$/;
+var doubleQuoteRegExp = /''/g;
+var unescapedLatinCharacterRegExp = /[a-zA-Z]/;
+function format(dirtyDate, dirtyFormatStr, options) {
+    var _ref, _options$locale, _ref2, _ref3, _ref4, _options$firstWeekCon, _options$locale2, _options$locale2$opti, _defaultOptions$local, _defaultOptions$local2, _ref5, _ref6, _ref7, _options$weekStartsOn, _options$locale3, _options$locale3$opti, _defaultOptions$local3, _defaultOptions$local4;
+    (0, _indexJsDefault7.default)(2, arguments);
+    var formatStr = String(dirtyFormatStr);
+    var defaultOptions = (0, _indexJs9.getDefaultOptions)();
+    var locale = (_ref = (_options$locale = options === null || options === void 0 ? void 0 : options.locale) !== null && _options$locale !== void 0 ? _options$locale : defaultOptions.locale) !== null && _ref !== void 0 ? _ref : (0, _indexJsDefault8.default);
+    var firstWeekContainsDate = (0, _indexJsDefault6.default)((_ref2 = (_ref3 = (_ref4 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale2 = options.locale) === null || _options$locale2 === void 0 ? void 0 : (_options$locale2$opti = _options$locale2.options) === null || _options$locale2$opti === void 0 ? void 0 : _options$locale2$opti.firstWeekContainsDate) !== null && _ref4 !== void 0 ? _ref4 : defaultOptions.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : 1); // Test if weekStartsOn is between 1 and 7 _and_ is not NaN
+    if (!(firstWeekContainsDate >= 1 && firstWeekContainsDate <= 7)) throw new RangeError("firstWeekContainsDate must be between 1 and 7 inclusively");
+    var weekStartsOn = (0, _indexJsDefault6.default)((_ref5 = (_ref6 = (_ref7 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale3 = options.locale) === null || _options$locale3 === void 0 ? void 0 : (_options$locale3$opti = _options$locale3.options) === null || _options$locale3$opti === void 0 ? void 0 : _options$locale3$opti.weekStartsOn) !== null && _ref7 !== void 0 ? _ref7 : defaultOptions.weekStartsOn) !== null && _ref6 !== void 0 ? _ref6 : (_defaultOptions$local3 = defaultOptions.locale) === null || _defaultOptions$local3 === void 0 ? void 0 : (_defaultOptions$local4 = _defaultOptions$local3.options) === null || _defaultOptions$local4 === void 0 ? void 0 : _defaultOptions$local4.weekStartsOn) !== null && _ref5 !== void 0 ? _ref5 : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
+    if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) throw new RangeError("weekStartsOn must be between 0 and 6 inclusively");
+    if (!locale.localize) throw new RangeError("locale must contain localize property");
+    if (!locale.formatLong) throw new RangeError("locale must contain formatLong property");
+    var originalDate = (0, _indexJsDefault2.default)(dirtyDate);
+    if (!(0, _indexJsDefault.default)(originalDate)) throw new RangeError("Invalid time value");
+     // Convert the date in system timezone to the same date in UTC+00:00 timezone.
+    // This ensures that when UTC functions will be implemented, locales will be compatible with them.
+    // See an issue about UTC functions: https://github.com/date-fns/date-fns/issues/376
+    var timezoneOffset = (0, _indexJsDefault5.default)(originalDate);
+    var utcDate = (0, _indexJsDefault1.default)(originalDate, timezoneOffset);
+    var formatterOptions = {
+        firstWeekContainsDate: firstWeekContainsDate,
+        weekStartsOn: weekStartsOn,
+        locale: locale,
+        _originalDate: originalDate
+    };
+    var result = formatStr.match(longFormattingTokensRegExp).map(function(substring) {
+        var firstCharacter = substring[0];
+        if (firstCharacter === "p" || firstCharacter === "P") {
+            var longFormatter = (0, _indexJsDefault4.default)[firstCharacter];
+            return longFormatter(substring, locale.formatLong);
+        }
+        return substring;
+    }).join("").match(formattingTokensRegExp).map(function(substring) {
+        // Replace two single quote characters with one single quote character
+        if (substring === "''") return "'";
+        var firstCharacter = substring[0];
+        if (firstCharacter === "'") return cleanEscapedString(substring);
+        var formatter = (0, _indexJsDefault3.default)[firstCharacter];
+        if (formatter) {
+            if (!(options !== null && options !== void 0 && options.useAdditionalWeekYearTokens) && (0, _indexJs6.isProtectedWeekYearToken)(substring)) (0, _indexJs6.throwProtectedError)(substring, dirtyFormatStr, String(dirtyDate));
+            if (!(options !== null && options !== void 0 && options.useAdditionalDayOfYearTokens) && (0, _indexJs6.isProtectedDayOfYearToken)(substring)) (0, _indexJs6.throwProtectedError)(substring, dirtyFormatStr, String(dirtyDate));
+            return formatter(utcDate, substring, locale.localize, formatterOptions);
+        }
+        if (firstCharacter.match(unescapedLatinCharacterRegExp)) throw new RangeError("Format string contains an unescaped latin alphabet character `" + firstCharacter + "`");
+        return substring;
+    }).join("");
+    return result;
+}
+exports.default = format;
+function cleanEscapedString(input) {
+    var matched = input.match(escapedStringRegExp);
+    if (!matched) return input;
+    return matched[1].replace(doubleQuoteRegExp, "'");
+}
+
+},{"../isValid/index.js":"eXoMl","../subMilliseconds/index.js":"lL2M9","../toDate/index.js":"fsust","../_lib/format/formatters/index.js":"3cYKM","../_lib/format/longFormatters/index.js":"1ztit","../_lib/getTimezoneOffsetInMilliseconds/index.js":"bc74C","../_lib/protectedTokens/index.js":"4R0Xq","../_lib/toInteger/index.js":"f7kKX","../_lib/requiredArgs/index.js":"9wUgQ","../_lib/defaultOptions/index.js":"dWs8l","../_lib/defaultLocale/index.js":"1rVeP","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"eXoMl":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../isDate/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("../toDate/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+var _indexJs2 = require("../_lib/requiredArgs/index.js");
+var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
+function isValid(dirtyDate) {
+    (0, _indexJsDefault2.default)(1, arguments);
+    if (!(0, _indexJsDefault.default)(dirtyDate) && typeof dirtyDate !== "number") return false;
+    var date = (0, _indexJsDefault1.default)(dirtyDate);
+    return !isNaN(Number(date));
+}
+exports.default = isValid;
+
+},{"../isDate/index.js":"kqNhT","../toDate/index.js":"fsust","../_lib/requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"kqNhT":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../_lib/requiredArgs/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") _typeof = function _typeof(obj) {
+        return typeof obj;
+    };
+    else _typeof = function _typeof(obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+    return _typeof(obj);
+}
+function isDate(value) {
+    (0, _indexJsDefault.default)(1, arguments);
+    return value instanceof Date || _typeof(value) === "object" && Object.prototype.toString.call(value) === "[object Date]";
+}
+exports.default = isDate;
+
+},{"../_lib/requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"9wUgQ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+function requiredArgs(required, args) {
+    if (args.length < required) throw new TypeError(required + " argument" + (required > 1 ? "s" : "") + " required, but only " + args.length + " present");
+}
+exports.default = requiredArgs;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"fsust":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../_lib/requiredArgs/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") _typeof = function _typeof(obj) {
+        return typeof obj;
+    };
+    else _typeof = function _typeof(obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+    return _typeof(obj);
+}
+function toDate(argument) {
+    (0, _indexJsDefault.default)(1, arguments);
+    var argStr = Object.prototype.toString.call(argument); // Clone the date
+    if (argument instanceof Date || _typeof(argument) === "object" && argStr === "[object Date]") // Prevent the date to lose the milliseconds when passed to new Date() in IE10
+    return new Date(argument.getTime());
+    else if (typeof argument === "number" || argStr === "[object Number]") return new Date(argument);
+    else {
+        if ((typeof argument === "string" || argStr === "[object String]") && typeof console !== "undefined") {
+            // eslint-disable-next-line no-console
+            console.warn("Starting with v2.0.0-beta.1 date-fns doesn't accept strings as date arguments. Please use `parseISO` to parse strings. See: https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#string-arguments"); // eslint-disable-next-line no-console
+            console.warn(new Error().stack);
+        }
+        return new Date(NaN);
+    }
+}
+exports.default = toDate;
+
+},{"../_lib/requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"lL2M9":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../addMilliseconds/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("../_lib/requiredArgs/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+var _indexJs2 = require("../_lib/toInteger/index.js");
+var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
+function subMilliseconds(dirtyDate, dirtyAmount) {
+    (0, _indexJsDefault1.default)(2, arguments);
+    var amount = (0, _indexJsDefault2.default)(dirtyAmount);
+    return (0, _indexJsDefault.default)(dirtyDate, -amount);
+}
+exports.default = subMilliseconds;
+
+},{"../addMilliseconds/index.js":"7Tp9s","../_lib/requiredArgs/index.js":"9wUgQ","../_lib/toInteger/index.js":"f7kKX","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"7Tp9s":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../_lib/toInteger/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("../toDate/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+var _indexJs2 = require("../_lib/requiredArgs/index.js");
+var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
+function addMilliseconds(dirtyDate, dirtyAmount) {
+    (0, _indexJsDefault2.default)(2, arguments);
+    var timestamp = (0, _indexJsDefault1.default)(dirtyDate).getTime();
+    var amount = (0, _indexJsDefault.default)(dirtyAmount);
+    return new Date(timestamp + amount);
+}
+exports.default = addMilliseconds;
+
+},{"../_lib/toInteger/index.js":"f7kKX","../toDate/index.js":"fsust","../_lib/requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"f7kKX":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+function toInteger(dirtyNumber) {
+    if (dirtyNumber === null || dirtyNumber === true || dirtyNumber === false) return NaN;
+    var number = Number(dirtyNumber);
+    if (isNaN(number)) return number;
+    return number < 0 ? Math.ceil(number) : Math.floor(number);
+}
+exports.default = toInteger;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"3cYKM":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../../../_lib/getUTCDayOfYear/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("../../../_lib/getUTCISOWeek/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+var _indexJs2 = require("../../../_lib/getUTCISOWeekYear/index.js");
+var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
+var _indexJs3 = require("../../../_lib/getUTCWeek/index.js");
+var _indexJsDefault3 = parcelHelpers.interopDefault(_indexJs3);
+var _indexJs4 = require("../../../_lib/getUTCWeekYear/index.js");
+var _indexJsDefault4 = parcelHelpers.interopDefault(_indexJs4);
+var _indexJs5 = require("../../addLeadingZeros/index.js");
+var _indexJsDefault5 = parcelHelpers.interopDefault(_indexJs5);
+var _indexJs6 = require("../lightFormatters/index.js");
+var _indexJsDefault6 = parcelHelpers.interopDefault(_indexJs6);
+var dayPeriodEnum = {
+    am: "am",
+    pm: "pm",
+    midnight: "midnight",
+    noon: "noon",
+    morning: "morning",
+    afternoon: "afternoon",
+    evening: "evening",
+    night: "night"
+};
+/*
+ * |     | Unit                           |     | Unit                           |
+ * |-----|--------------------------------|-----|--------------------------------|
+ * |  a  | AM, PM                         |  A* | Milliseconds in day            |
+ * |  b  | AM, PM, noon, midnight         |  B  | Flexible day period            |
+ * |  c  | Stand-alone local day of week  |  C* | Localized hour w/ day period   |
+ * |  d  | Day of month                   |  D  | Day of year                    |
+ * |  e  | Local day of week              |  E  | Day of week                    |
+ * |  f  |                                |  F* | Day of week in month           |
+ * |  g* | Modified Julian day            |  G  | Era                            |
+ * |  h  | Hour [1-12]                    |  H  | Hour [0-23]                    |
+ * |  i! | ISO day of week                |  I! | ISO week of year               |
+ * |  j* | Localized hour w/ day period   |  J* | Localized hour w/o day period  |
+ * |  k  | Hour [1-24]                    |  K  | Hour [0-11]                    |
+ * |  l* | (deprecated)                   |  L  | Stand-alone month              |
+ * |  m  | Minute                         |  M  | Month                          |
+ * |  n  |                                |  N  |                                |
+ * |  o! | Ordinal number modifier        |  O  | Timezone (GMT)                 |
+ * |  p! | Long localized time            |  P! | Long localized date            |
+ * |  q  | Stand-alone quarter            |  Q  | Quarter                        |
+ * |  r* | Related Gregorian year         |  R! | ISO week-numbering year        |
+ * |  s  | Second                         |  S  | Fraction of second             |
+ * |  t! | Seconds timestamp              |  T! | Milliseconds timestamp         |
+ * |  u  | Extended year                  |  U* | Cyclic year                    |
+ * |  v* | Timezone (generic non-locat.)  |  V* | Timezone (location)            |
+ * |  w  | Local week of year             |  W* | Week of month                  |
+ * |  x  | Timezone (ISO-8601 w/o Z)      |  X  | Timezone (ISO-8601)            |
+ * |  y  | Year (abs)                     |  Y  | Local week-numbering year      |
+ * |  z  | Timezone (specific non-locat.) |  Z* | Timezone (aliases)             |
+ *
+ * Letters marked by * are not implemented but reserved by Unicode standard.
+ *
+ * Letters marked by ! are non-standard, but implemented by date-fns:
+ * - `o` modifies the previous token to turn it into an ordinal (see `format` docs)
+ * - `i` is ISO day of week. For `i` and `ii` is returns numeric ISO week days,
+ *   i.e. 7 for Sunday, 1 for Monday, etc.
+ * - `I` is ISO week of year, as opposed to `w` which is local week of year.
+ * - `R` is ISO week-numbering year, as opposed to `Y` which is local week-numbering year.
+ *   `R` is supposed to be used in conjunction with `I` and `i`
+ *   for universal ISO week-numbering date, whereas
+ *   `Y` is supposed to be used in conjunction with `w` and `e`
+ *   for week-numbering date specific to the locale.
+ * - `P` is long localized date format
+ * - `p` is long localized time format
+ */ var formatters = {
+    // Era
+    G: function G(date, token, localize) {
+        var era = date.getUTCFullYear() > 0 ? 1 : 0;
+        switch(token){
+            // AD, BC
+            case "G":
+            case "GG":
+            case "GGG":
+                return localize.era(era, {
+                    width: "abbreviated"
+                });
+            // A, B
+            case "GGGGG":
+                return localize.era(era, {
+                    width: "narrow"
+                });
+            // Anno Domini, Before Christ
+            case "GGGG":
+            default:
+                return localize.era(era, {
+                    width: "wide"
+                });
+        }
+    },
+    // Year
+    y: function y(date, token, localize) {
+        // Ordinal number
+        if (token === "yo") {
+            var signedYear = date.getUTCFullYear(); // Returns 1 for 1 BC (which is year 0 in JavaScript)
+            var year = signedYear > 0 ? signedYear : 1 - signedYear;
+            return localize.ordinalNumber(year, {
+                unit: "year"
+            });
+        }
+        return (0, _indexJsDefault6.default).y(date, token);
+    },
+    // Local week-numbering year
+    Y: function Y(date, token, localize, options) {
+        var signedWeekYear = (0, _indexJsDefault4.default)(date, options); // Returns 1 for 1 BC (which is year 0 in JavaScript)
+        var weekYear = signedWeekYear > 0 ? signedWeekYear : 1 - signedWeekYear; // Two digit year
+        if (token === "YY") {
+            var twoDigitYear = weekYear % 100;
+            return (0, _indexJsDefault5.default)(twoDigitYear, 2);
+        } // Ordinal number
+        if (token === "Yo") return localize.ordinalNumber(weekYear, {
+            unit: "year"
+        });
+         // Padding
+        return (0, _indexJsDefault5.default)(weekYear, token.length);
+    },
+    // ISO week-numbering year
+    R: function R(date, token) {
+        var isoWeekYear = (0, _indexJsDefault2.default)(date); // Padding
+        return (0, _indexJsDefault5.default)(isoWeekYear, token.length);
+    },
+    // Extended year. This is a single number designating the year of this calendar system.
+    // The main difference between `y` and `u` localizers are B.C. years:
+    // | Year | `y` | `u` |
+    // |------|-----|-----|
+    // | AC 1 |   1 |   1 |
+    // | BC 1 |   1 |   0 |
+    // | BC 2 |   2 |  -1 |
+    // Also `yy` always returns the last two digits of a year,
+    // while `uu` pads single digit years to 2 characters and returns other years unchanged.
+    u: function u(date, token) {
+        var year = date.getUTCFullYear();
+        return (0, _indexJsDefault5.default)(year, token.length);
+    },
+    // Quarter
+    Q: function Q(date, token, localize) {
+        var quarter = Math.ceil((date.getUTCMonth() + 1) / 3);
+        switch(token){
+            // 1, 2, 3, 4
+            case "Q":
+                return String(quarter);
+            // 01, 02, 03, 04
+            case "QQ":
+                return (0, _indexJsDefault5.default)(quarter, 2);
+            // 1st, 2nd, 3rd, 4th
+            case "Qo":
+                return localize.ordinalNumber(quarter, {
+                    unit: "quarter"
+                });
+            // Q1, Q2, Q3, Q4
+            case "QQQ":
+                return localize.quarter(quarter, {
+                    width: "abbreviated",
+                    context: "formatting"
+                });
+            // 1, 2, 3, 4 (narrow quarter; could be not numerical)
+            case "QQQQQ":
+                return localize.quarter(quarter, {
+                    width: "narrow",
+                    context: "formatting"
+                });
+            // 1st quarter, 2nd quarter, ...
+            case "QQQQ":
+            default:
+                return localize.quarter(quarter, {
+                    width: "wide",
+                    context: "formatting"
+                });
+        }
+    },
+    // Stand-alone quarter
+    q: function q(date, token, localize) {
+        var quarter = Math.ceil((date.getUTCMonth() + 1) / 3);
+        switch(token){
+            // 1, 2, 3, 4
+            case "q":
+                return String(quarter);
+            // 01, 02, 03, 04
+            case "qq":
+                return (0, _indexJsDefault5.default)(quarter, 2);
+            // 1st, 2nd, 3rd, 4th
+            case "qo":
+                return localize.ordinalNumber(quarter, {
+                    unit: "quarter"
+                });
+            // Q1, Q2, Q3, Q4
+            case "qqq":
+                return localize.quarter(quarter, {
+                    width: "abbreviated",
+                    context: "standalone"
+                });
+            // 1, 2, 3, 4 (narrow quarter; could be not numerical)
+            case "qqqqq":
+                return localize.quarter(quarter, {
+                    width: "narrow",
+                    context: "standalone"
+                });
+            // 1st quarter, 2nd quarter, ...
+            case "qqqq":
+            default:
+                return localize.quarter(quarter, {
+                    width: "wide",
+                    context: "standalone"
+                });
+        }
+    },
+    // Month
+    M: function M(date, token, localize) {
+        var month = date.getUTCMonth();
+        switch(token){
+            case "M":
+            case "MM":
+                return (0, _indexJsDefault6.default).M(date, token);
+            // 1st, 2nd, ..., 12th
+            case "Mo":
+                return localize.ordinalNumber(month + 1, {
+                    unit: "month"
+                });
+            // Jan, Feb, ..., Dec
+            case "MMM":
+                return localize.month(month, {
+                    width: "abbreviated",
+                    context: "formatting"
+                });
+            // J, F, ..., D
+            case "MMMMM":
+                return localize.month(month, {
+                    width: "narrow",
+                    context: "formatting"
+                });
+            // January, February, ..., December
+            case "MMMM":
+            default:
+                return localize.month(month, {
+                    width: "wide",
+                    context: "formatting"
+                });
+        }
+    },
+    // Stand-alone month
+    L: function L(date, token, localize) {
+        var month = date.getUTCMonth();
+        switch(token){
+            // 1, 2, ..., 12
+            case "L":
+                return String(month + 1);
+            // 01, 02, ..., 12
+            case "LL":
+                return (0, _indexJsDefault5.default)(month + 1, 2);
+            // 1st, 2nd, ..., 12th
+            case "Lo":
+                return localize.ordinalNumber(month + 1, {
+                    unit: "month"
+                });
+            // Jan, Feb, ..., Dec
+            case "LLL":
+                return localize.month(month, {
+                    width: "abbreviated",
+                    context: "standalone"
+                });
+            // J, F, ..., D
+            case "LLLLL":
+                return localize.month(month, {
+                    width: "narrow",
+                    context: "standalone"
+                });
+            // January, February, ..., December
+            case "LLLL":
+            default:
+                return localize.month(month, {
+                    width: "wide",
+                    context: "standalone"
+                });
+        }
+    },
+    // Local week of year
+    w: function w(date, token, localize, options) {
+        var week = (0, _indexJsDefault3.default)(date, options);
+        if (token === "wo") return localize.ordinalNumber(week, {
+            unit: "week"
+        });
+        return (0, _indexJsDefault5.default)(week, token.length);
+    },
+    // ISO week of year
+    I: function I(date, token, localize) {
+        var isoWeek = (0, _indexJsDefault1.default)(date);
+        if (token === "Io") return localize.ordinalNumber(isoWeek, {
+            unit: "week"
+        });
+        return (0, _indexJsDefault5.default)(isoWeek, token.length);
+    },
+    // Day of the month
+    d: function d(date, token, localize) {
+        if (token === "do") return localize.ordinalNumber(date.getUTCDate(), {
+            unit: "date"
+        });
+        return (0, _indexJsDefault6.default).d(date, token);
+    },
+    // Day of year
+    D: function D(date, token, localize) {
+        var dayOfYear = (0, _indexJsDefault.default)(date);
+        if (token === "Do") return localize.ordinalNumber(dayOfYear, {
+            unit: "dayOfYear"
+        });
+        return (0, _indexJsDefault5.default)(dayOfYear, token.length);
+    },
+    // Day of week
+    E: function E(date, token, localize) {
+        var dayOfWeek = date.getUTCDay();
+        switch(token){
+            // Tue
+            case "E":
+            case "EE":
+            case "EEE":
+                return localize.day(dayOfWeek, {
+                    width: "abbreviated",
+                    context: "formatting"
+                });
+            // T
+            case "EEEEE":
+                return localize.day(dayOfWeek, {
+                    width: "narrow",
+                    context: "formatting"
+                });
+            // Tu
+            case "EEEEEE":
+                return localize.day(dayOfWeek, {
+                    width: "short",
+                    context: "formatting"
+                });
+            // Tuesday
+            case "EEEE":
+            default:
+                return localize.day(dayOfWeek, {
+                    width: "wide",
+                    context: "formatting"
+                });
+        }
+    },
+    // Local day of week
+    e: function e(date, token, localize, options) {
+        var dayOfWeek = date.getUTCDay();
+        var localDayOfWeek = (dayOfWeek - options.weekStartsOn + 8) % 7 || 7;
+        switch(token){
+            // Numerical value (Nth day of week with current locale or weekStartsOn)
+            case "e":
+                return String(localDayOfWeek);
+            // Padded numerical value
+            case "ee":
+                return (0, _indexJsDefault5.default)(localDayOfWeek, 2);
+            // 1st, 2nd, ..., 7th
+            case "eo":
+                return localize.ordinalNumber(localDayOfWeek, {
+                    unit: "day"
+                });
+            case "eee":
+                return localize.day(dayOfWeek, {
+                    width: "abbreviated",
+                    context: "formatting"
+                });
+            // T
+            case "eeeee":
+                return localize.day(dayOfWeek, {
+                    width: "narrow",
+                    context: "formatting"
+                });
+            // Tu
+            case "eeeeee":
+                return localize.day(dayOfWeek, {
+                    width: "short",
+                    context: "formatting"
+                });
+            // Tuesday
+            case "eeee":
+            default:
+                return localize.day(dayOfWeek, {
+                    width: "wide",
+                    context: "formatting"
+                });
+        }
+    },
+    // Stand-alone local day of week
+    c: function c(date, token, localize, options) {
+        var dayOfWeek = date.getUTCDay();
+        var localDayOfWeek = (dayOfWeek - options.weekStartsOn + 8) % 7 || 7;
+        switch(token){
+            // Numerical value (same as in `e`)
+            case "c":
+                return String(localDayOfWeek);
+            // Padded numerical value
+            case "cc":
+                return (0, _indexJsDefault5.default)(localDayOfWeek, token.length);
+            // 1st, 2nd, ..., 7th
+            case "co":
+                return localize.ordinalNumber(localDayOfWeek, {
+                    unit: "day"
+                });
+            case "ccc":
+                return localize.day(dayOfWeek, {
+                    width: "abbreviated",
+                    context: "standalone"
+                });
+            // T
+            case "ccccc":
+                return localize.day(dayOfWeek, {
+                    width: "narrow",
+                    context: "standalone"
+                });
+            // Tu
+            case "cccccc":
+                return localize.day(dayOfWeek, {
+                    width: "short",
+                    context: "standalone"
+                });
+            // Tuesday
+            case "cccc":
+            default:
+                return localize.day(dayOfWeek, {
+                    width: "wide",
+                    context: "standalone"
+                });
+        }
+    },
+    // ISO day of week
+    i: function i(date, token, localize) {
+        var dayOfWeek = date.getUTCDay();
+        var isoDayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek;
+        switch(token){
+            // 2
+            case "i":
+                return String(isoDayOfWeek);
+            // 02
+            case "ii":
+                return (0, _indexJsDefault5.default)(isoDayOfWeek, token.length);
+            // 2nd
+            case "io":
+                return localize.ordinalNumber(isoDayOfWeek, {
+                    unit: "day"
+                });
+            // Tue
+            case "iii":
+                return localize.day(dayOfWeek, {
+                    width: "abbreviated",
+                    context: "formatting"
+                });
+            // T
+            case "iiiii":
+                return localize.day(dayOfWeek, {
+                    width: "narrow",
+                    context: "formatting"
+                });
+            // Tu
+            case "iiiiii":
+                return localize.day(dayOfWeek, {
+                    width: "short",
+                    context: "formatting"
+                });
+            // Tuesday
+            case "iiii":
+            default:
+                return localize.day(dayOfWeek, {
+                    width: "wide",
+                    context: "formatting"
+                });
+        }
+    },
+    // AM or PM
+    a: function a(date, token, localize) {
+        var hours = date.getUTCHours();
+        var dayPeriodEnumValue = hours / 12 >= 1 ? "pm" : "am";
+        switch(token){
+            case "a":
+            case "aa":
+                return localize.dayPeriod(dayPeriodEnumValue, {
+                    width: "abbreviated",
+                    context: "formatting"
+                });
+            case "aaa":
+                return localize.dayPeriod(dayPeriodEnumValue, {
+                    width: "abbreviated",
+                    context: "formatting"
+                }).toLowerCase();
+            case "aaaaa":
+                return localize.dayPeriod(dayPeriodEnumValue, {
+                    width: "narrow",
+                    context: "formatting"
+                });
+            case "aaaa":
+            default:
+                return localize.dayPeriod(dayPeriodEnumValue, {
+                    width: "wide",
+                    context: "formatting"
+                });
+        }
+    },
+    // AM, PM, midnight, noon
+    b: function b(date, token, localize) {
+        var hours = date.getUTCHours();
+        var dayPeriodEnumValue;
+        if (hours === 12) dayPeriodEnumValue = dayPeriodEnum.noon;
+        else if (hours === 0) dayPeriodEnumValue = dayPeriodEnum.midnight;
+        else dayPeriodEnumValue = hours / 12 >= 1 ? "pm" : "am";
+        switch(token){
+            case "b":
+            case "bb":
+                return localize.dayPeriod(dayPeriodEnumValue, {
+                    width: "abbreviated",
+                    context: "formatting"
+                });
+            case "bbb":
+                return localize.dayPeriod(dayPeriodEnumValue, {
+                    width: "abbreviated",
+                    context: "formatting"
+                }).toLowerCase();
+            case "bbbbb":
+                return localize.dayPeriod(dayPeriodEnumValue, {
+                    width: "narrow",
+                    context: "formatting"
+                });
+            case "bbbb":
+            default:
+                return localize.dayPeriod(dayPeriodEnumValue, {
+                    width: "wide",
+                    context: "formatting"
+                });
+        }
+    },
+    // in the morning, in the afternoon, in the evening, at night
+    B: function B(date, token, localize) {
+        var hours = date.getUTCHours();
+        var dayPeriodEnumValue;
+        if (hours >= 17) dayPeriodEnumValue = dayPeriodEnum.evening;
+        else if (hours >= 12) dayPeriodEnumValue = dayPeriodEnum.afternoon;
+        else if (hours >= 4) dayPeriodEnumValue = dayPeriodEnum.morning;
+        else dayPeriodEnumValue = dayPeriodEnum.night;
+        switch(token){
+            case "B":
+            case "BB":
+            case "BBB":
+                return localize.dayPeriod(dayPeriodEnumValue, {
+                    width: "abbreviated",
+                    context: "formatting"
+                });
+            case "BBBBB":
+                return localize.dayPeriod(dayPeriodEnumValue, {
+                    width: "narrow",
+                    context: "formatting"
+                });
+            case "BBBB":
+            default:
+                return localize.dayPeriod(dayPeriodEnumValue, {
+                    width: "wide",
+                    context: "formatting"
+                });
+        }
+    },
+    // Hour [1-12]
+    h: function h(date, token, localize) {
+        if (token === "ho") {
+            var hours = date.getUTCHours() % 12;
+            if (hours === 0) hours = 12;
+            return localize.ordinalNumber(hours, {
+                unit: "hour"
+            });
+        }
+        return (0, _indexJsDefault6.default).h(date, token);
+    },
+    // Hour [0-23]
+    H: function H(date, token, localize) {
+        if (token === "Ho") return localize.ordinalNumber(date.getUTCHours(), {
+            unit: "hour"
+        });
+        return (0, _indexJsDefault6.default).H(date, token);
+    },
+    // Hour [0-11]
+    K: function K(date, token, localize) {
+        var hours = date.getUTCHours() % 12;
+        if (token === "Ko") return localize.ordinalNumber(hours, {
+            unit: "hour"
+        });
+        return (0, _indexJsDefault5.default)(hours, token.length);
+    },
+    // Hour [1-24]
+    k: function k(date, token, localize) {
+        var hours = date.getUTCHours();
+        if (hours === 0) hours = 24;
+        if (token === "ko") return localize.ordinalNumber(hours, {
+            unit: "hour"
+        });
+        return (0, _indexJsDefault5.default)(hours, token.length);
+    },
+    // Minute
+    m: function m(date, token, localize) {
+        if (token === "mo") return localize.ordinalNumber(date.getUTCMinutes(), {
+            unit: "minute"
+        });
+        return (0, _indexJsDefault6.default).m(date, token);
+    },
+    // Second
+    s: function s(date, token, localize) {
+        if (token === "so") return localize.ordinalNumber(date.getUTCSeconds(), {
+            unit: "second"
+        });
+        return (0, _indexJsDefault6.default).s(date, token);
+    },
+    // Fraction of second
+    S: function S(date, token) {
+        return (0, _indexJsDefault6.default).S(date, token);
+    },
+    // Timezone (ISO-8601. If offset is 0, output is always `'Z'`)
+    X: function X(date, token, _localize, options) {
+        var originalDate = options._originalDate || date;
+        var timezoneOffset = originalDate.getTimezoneOffset();
+        if (timezoneOffset === 0) return "Z";
+        switch(token){
+            // Hours and optional minutes
+            case "X":
+                return formatTimezoneWithOptionalMinutes(timezoneOffset);
+            // Hours, minutes and optional seconds without `:` delimiter
+            // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
+            // so this token always has the same output as `XX`
+            case "XXXX":
+            case "XX":
+                // Hours and minutes without `:` delimiter
+                return formatTimezone(timezoneOffset);
+            // Hours, minutes and optional seconds with `:` delimiter
+            // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
+            // so this token always has the same output as `XXX`
+            case "XXXXX":
+            case "XXX":
+            default:
+                return formatTimezone(timezoneOffset, ":");
+        }
+    },
+    // Timezone (ISO-8601. If offset is 0, output is `'+00:00'` or equivalent)
+    x: function x(date, token, _localize, options) {
+        var originalDate = options._originalDate || date;
+        var timezoneOffset = originalDate.getTimezoneOffset();
+        switch(token){
+            // Hours and optional minutes
+            case "x":
+                return formatTimezoneWithOptionalMinutes(timezoneOffset);
+            // Hours, minutes and optional seconds without `:` delimiter
+            // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
+            // so this token always has the same output as `xx`
+            case "xxxx":
+            case "xx":
+                // Hours and minutes without `:` delimiter
+                return formatTimezone(timezoneOffset);
+            // Hours, minutes and optional seconds with `:` delimiter
+            // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
+            // so this token always has the same output as `xxx`
+            case "xxxxx":
+            case "xxx":
+            default:
+                return formatTimezone(timezoneOffset, ":");
+        }
+    },
+    // Timezone (GMT)
+    O: function O(date, token, _localize, options) {
+        var originalDate = options._originalDate || date;
+        var timezoneOffset = originalDate.getTimezoneOffset();
+        switch(token){
+            // Short
+            case "O":
+            case "OO":
+            case "OOO":
+                return "GMT" + formatTimezoneShort(timezoneOffset, ":");
+            // Long
+            case "OOOO":
+            default:
+                return "GMT" + formatTimezone(timezoneOffset, ":");
+        }
+    },
+    // Timezone (specific non-location)
+    z: function z(date, token, _localize, options) {
+        var originalDate = options._originalDate || date;
+        var timezoneOffset = originalDate.getTimezoneOffset();
+        switch(token){
+            // Short
+            case "z":
+            case "zz":
+            case "zzz":
+                return "GMT" + formatTimezoneShort(timezoneOffset, ":");
+            // Long
+            case "zzzz":
+            default:
+                return "GMT" + formatTimezone(timezoneOffset, ":");
+        }
+    },
+    // Seconds timestamp
+    t: function t(date, token, _localize, options) {
+        var originalDate = options._originalDate || date;
+        var timestamp = Math.floor(originalDate.getTime() / 1000);
+        return (0, _indexJsDefault5.default)(timestamp, token.length);
+    },
+    // Milliseconds timestamp
+    T: function T(date, token, _localize, options) {
+        var originalDate = options._originalDate || date;
+        var timestamp = originalDate.getTime();
+        return (0, _indexJsDefault5.default)(timestamp, token.length);
+    }
+};
+function formatTimezoneShort(offset, dirtyDelimiter) {
+    var sign = offset > 0 ? "-" : "+";
+    var absOffset = Math.abs(offset);
+    var hours = Math.floor(absOffset / 60);
+    var minutes = absOffset % 60;
+    if (minutes === 0) return sign + String(hours);
+    var delimiter = dirtyDelimiter || "";
+    return sign + String(hours) + delimiter + (0, _indexJsDefault5.default)(minutes, 2);
+}
+function formatTimezoneWithOptionalMinutes(offset, dirtyDelimiter) {
+    if (offset % 60 === 0) {
+        var sign = offset > 0 ? "-" : "+";
+        return sign + (0, _indexJsDefault5.default)(Math.abs(offset) / 60, 2);
+    }
+    return formatTimezone(offset, dirtyDelimiter);
+}
+function formatTimezone(offset, dirtyDelimiter) {
+    var delimiter = dirtyDelimiter || "";
+    var sign = offset > 0 ? "-" : "+";
+    var absOffset = Math.abs(offset);
+    var hours = (0, _indexJsDefault5.default)(Math.floor(absOffset / 60), 2);
+    var minutes = (0, _indexJsDefault5.default)(absOffset % 60, 2);
+    return sign + hours + delimiter + minutes;
+}
+exports.default = formatters;
+
+},{"../../../_lib/getUTCDayOfYear/index.js":"7wqIf","../../../_lib/getUTCISOWeek/index.js":"4nEkI","../../../_lib/getUTCISOWeekYear/index.js":"03QaQ","../../../_lib/getUTCWeek/index.js":"b7GgV","../../../_lib/getUTCWeekYear/index.js":"8i6st","../../addLeadingZeros/index.js":"6pP6x","../lightFormatters/index.js":"9oZiA","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"7wqIf":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../../toDate/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("../requiredArgs/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+var MILLISECONDS_IN_DAY = 86400000;
+function getUTCDayOfYear(dirtyDate) {
+    (0, _indexJsDefault1.default)(1, arguments);
+    var date = (0, _indexJsDefault.default)(dirtyDate);
+    var timestamp = date.getTime();
+    date.setUTCMonth(0, 1);
+    date.setUTCHours(0, 0, 0, 0);
+    var startOfYearTimestamp = date.getTime();
+    var difference = timestamp - startOfYearTimestamp;
+    return Math.floor(difference / MILLISECONDS_IN_DAY) + 1;
+}
+exports.default = getUTCDayOfYear;
+
+},{"../../toDate/index.js":"fsust","../requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"4nEkI":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../../toDate/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("../startOfUTCISOWeek/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+var _indexJs2 = require("../startOfUTCISOWeekYear/index.js");
+var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
+var _indexJs3 = require("../requiredArgs/index.js");
+var _indexJsDefault3 = parcelHelpers.interopDefault(_indexJs3);
+var MILLISECONDS_IN_WEEK = 604800000;
+function getUTCISOWeek(dirtyDate) {
+    (0, _indexJsDefault3.default)(1, arguments);
+    var date = (0, _indexJsDefault.default)(dirtyDate);
+    var diff = (0, _indexJsDefault1.default)(date).getTime() - (0, _indexJsDefault2.default)(date).getTime(); // Round the number of days to the nearest integer
+    // because the number of milliseconds in a week is not constant
+    // (e.g. it's different in the week of the daylight saving time clock shift)
+    return Math.round(diff / MILLISECONDS_IN_WEEK) + 1;
+}
+exports.default = getUTCISOWeek;
+
+},{"../../toDate/index.js":"fsust","../startOfUTCISOWeek/index.js":"3ta4C","../startOfUTCISOWeekYear/index.js":"4u8O6","../requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"3ta4C":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../../toDate/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("../requiredArgs/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+function startOfUTCISOWeek(dirtyDate) {
+    (0, _indexJsDefault1.default)(1, arguments);
+    var weekStartsOn = 1;
+    var date = (0, _indexJsDefault.default)(dirtyDate);
+    var day = date.getUTCDay();
+    var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
+    date.setUTCDate(date.getUTCDate() - diff);
+    date.setUTCHours(0, 0, 0, 0);
+    return date;
+}
+exports.default = startOfUTCISOWeek;
+
+},{"../../toDate/index.js":"fsust","../requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"4u8O6":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../getUTCISOWeekYear/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("../startOfUTCISOWeek/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+var _indexJs2 = require("../requiredArgs/index.js");
+var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
+function startOfUTCISOWeekYear(dirtyDate) {
+    (0, _indexJsDefault2.default)(1, arguments);
+    var year = (0, _indexJsDefault.default)(dirtyDate);
+    var fourthOfJanuary = new Date(0);
+    fourthOfJanuary.setUTCFullYear(year, 0, 4);
+    fourthOfJanuary.setUTCHours(0, 0, 0, 0);
+    var date = (0, _indexJsDefault1.default)(fourthOfJanuary);
+    return date;
+}
+exports.default = startOfUTCISOWeekYear;
+
+},{"../getUTCISOWeekYear/index.js":"03QaQ","../startOfUTCISOWeek/index.js":"3ta4C","../requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"03QaQ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../../toDate/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("../requiredArgs/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+var _indexJs2 = require("../startOfUTCISOWeek/index.js");
+var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
+function getUTCISOWeekYear(dirtyDate) {
+    (0, _indexJsDefault1.default)(1, arguments);
+    var date = (0, _indexJsDefault.default)(dirtyDate);
+    var year = date.getUTCFullYear();
+    var fourthOfJanuaryOfNextYear = new Date(0);
+    fourthOfJanuaryOfNextYear.setUTCFullYear(year + 1, 0, 4);
+    fourthOfJanuaryOfNextYear.setUTCHours(0, 0, 0, 0);
+    var startOfNextYear = (0, _indexJsDefault2.default)(fourthOfJanuaryOfNextYear);
+    var fourthOfJanuaryOfThisYear = new Date(0);
+    fourthOfJanuaryOfThisYear.setUTCFullYear(year, 0, 4);
+    fourthOfJanuaryOfThisYear.setUTCHours(0, 0, 0, 0);
+    var startOfThisYear = (0, _indexJsDefault2.default)(fourthOfJanuaryOfThisYear);
+    if (date.getTime() >= startOfNextYear.getTime()) return year + 1;
+    else if (date.getTime() >= startOfThisYear.getTime()) return year;
+    else return year - 1;
+}
+exports.default = getUTCISOWeekYear;
+
+},{"../../toDate/index.js":"fsust","../requiredArgs/index.js":"9wUgQ","../startOfUTCISOWeek/index.js":"3ta4C","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"b7GgV":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../../toDate/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("../startOfUTCWeek/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+var _indexJs2 = require("../startOfUTCWeekYear/index.js");
+var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
+var _indexJs3 = require("../requiredArgs/index.js");
+var _indexJsDefault3 = parcelHelpers.interopDefault(_indexJs3);
+var MILLISECONDS_IN_WEEK = 604800000;
+function getUTCWeek(dirtyDate, options) {
+    (0, _indexJsDefault3.default)(1, arguments);
+    var date = (0, _indexJsDefault.default)(dirtyDate);
+    var diff = (0, _indexJsDefault1.default)(date, options).getTime() - (0, _indexJsDefault2.default)(date, options).getTime(); // Round the number of days to the nearest integer
+    // because the number of milliseconds in a week is not constant
+    // (e.g. it's different in the week of the daylight saving time clock shift)
+    return Math.round(diff / MILLISECONDS_IN_WEEK) + 1;
+}
+exports.default = getUTCWeek;
+
+},{"../../toDate/index.js":"fsust","../startOfUTCWeek/index.js":"dDZbE","../startOfUTCWeekYear/index.js":"bJAVl","../requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"dDZbE":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../../toDate/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("../requiredArgs/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+var _indexJs2 = require("../toInteger/index.js");
+var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
+var _indexJs3 = require("../defaultOptions/index.js");
+function startOfUTCWeek(dirtyDate, options) {
+    var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
+    (0, _indexJsDefault1.default)(1, arguments);
+    var defaultOptions = (0, _indexJs3.getDefaultOptions)();
+    var weekStartsOn = (0, _indexJsDefault2.default)((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
+    if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) throw new RangeError("weekStartsOn must be between 0 and 6 inclusively");
+    var date = (0, _indexJsDefault.default)(dirtyDate);
+    var day = date.getUTCDay();
+    var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
+    date.setUTCDate(date.getUTCDate() - diff);
+    date.setUTCHours(0, 0, 0, 0);
+    return date;
+}
+exports.default = startOfUTCWeek;
+
+},{"../../toDate/index.js":"fsust","../requiredArgs/index.js":"9wUgQ","../toInteger/index.js":"f7kKX","../defaultOptions/index.js":"dWs8l","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"dWs8l":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getDefaultOptions", ()=>getDefaultOptions);
+parcelHelpers.export(exports, "setDefaultOptions", ()=>setDefaultOptions);
+var defaultOptions = {};
+function getDefaultOptions() {
+    return defaultOptions;
+}
+function setDefaultOptions(newOptions) {
+    defaultOptions = newOptions;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"bJAVl":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../getUTCWeekYear/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("../requiredArgs/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+var _indexJs2 = require("../startOfUTCWeek/index.js");
+var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
+var _indexJs3 = require("../toInteger/index.js");
+var _indexJsDefault3 = parcelHelpers.interopDefault(_indexJs3);
+var _indexJs4 = require("../defaultOptions/index.js");
+function startOfUTCWeekYear(dirtyDate, options) {
+    var _ref, _ref2, _ref3, _options$firstWeekCon, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
+    (0, _indexJsDefault1.default)(1, arguments);
+    var defaultOptions = (0, _indexJs4.getDefaultOptions)();
+    var firstWeekContainsDate = (0, _indexJsDefault3.default)((_ref = (_ref2 = (_ref3 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref !== void 0 ? _ref : 1);
+    var year = (0, _indexJsDefault.default)(dirtyDate, options);
+    var firstWeek = new Date(0);
+    firstWeek.setUTCFullYear(year, 0, firstWeekContainsDate);
+    firstWeek.setUTCHours(0, 0, 0, 0);
+    var date = (0, _indexJsDefault2.default)(firstWeek, options);
+    return date;
+}
+exports.default = startOfUTCWeekYear;
+
+},{"../getUTCWeekYear/index.js":"8i6st","../requiredArgs/index.js":"9wUgQ","../startOfUTCWeek/index.js":"dDZbE","../toInteger/index.js":"f7kKX","../defaultOptions/index.js":"dWs8l","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"8i6st":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../../toDate/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("../requiredArgs/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+var _indexJs2 = require("../startOfUTCWeek/index.js");
+var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
+var _indexJs3 = require("../toInteger/index.js");
+var _indexJsDefault3 = parcelHelpers.interopDefault(_indexJs3);
+var _indexJs4 = require("../defaultOptions/index.js");
+function getUTCWeekYear(dirtyDate, options) {
+    var _ref, _ref2, _ref3, _options$firstWeekCon, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
+    (0, _indexJsDefault1.default)(1, arguments);
+    var date = (0, _indexJsDefault.default)(dirtyDate);
+    var year = date.getUTCFullYear();
+    var defaultOptions = (0, _indexJs4.getDefaultOptions)();
+    var firstWeekContainsDate = (0, _indexJsDefault3.default)((_ref = (_ref2 = (_ref3 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref !== void 0 ? _ref : 1); // Test if weekStartsOn is between 1 and 7 _and_ is not NaN
+    if (!(firstWeekContainsDate >= 1 && firstWeekContainsDate <= 7)) throw new RangeError("firstWeekContainsDate must be between 1 and 7 inclusively");
+    var firstWeekOfNextYear = new Date(0);
+    firstWeekOfNextYear.setUTCFullYear(year + 1, 0, firstWeekContainsDate);
+    firstWeekOfNextYear.setUTCHours(0, 0, 0, 0);
+    var startOfNextYear = (0, _indexJsDefault2.default)(firstWeekOfNextYear, options);
+    var firstWeekOfThisYear = new Date(0);
+    firstWeekOfThisYear.setUTCFullYear(year, 0, firstWeekContainsDate);
+    firstWeekOfThisYear.setUTCHours(0, 0, 0, 0);
+    var startOfThisYear = (0, _indexJsDefault2.default)(firstWeekOfThisYear, options);
+    if (date.getTime() >= startOfNextYear.getTime()) return year + 1;
+    else if (date.getTime() >= startOfThisYear.getTime()) return year;
+    else return year - 1;
+}
+exports.default = getUTCWeekYear;
+
+},{"../../toDate/index.js":"fsust","../requiredArgs/index.js":"9wUgQ","../startOfUTCWeek/index.js":"dDZbE","../toInteger/index.js":"f7kKX","../defaultOptions/index.js":"dWs8l","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"6pP6x":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+function addLeadingZeros(number, targetLength) {
+    var sign = number < 0 ? "-" : "";
+    var output = Math.abs(number).toString();
+    while(output.length < targetLength)output = "0" + output;
+    return sign + output;
+}
+exports.default = addLeadingZeros;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"9oZiA":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../../addLeadingZeros/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+/*
+ * |     | Unit                           |     | Unit                           |
+ * |-----|--------------------------------|-----|--------------------------------|
+ * |  a  | AM, PM                         |  A* |                                |
+ * |  d  | Day of month                   |  D  |                                |
+ * |  h  | Hour [1-12]                    |  H  | Hour [0-23]                    |
+ * |  m  | Minute                         |  M  | Month                          |
+ * |  s  | Second                         |  S  | Fraction of second             |
+ * |  y  | Year (abs)                     |  Y  |                                |
+ *
+ * Letters marked by * are not implemented but reserved by Unicode standard.
+ */ var formatters = {
+    // Year
+    y: function y(date, token) {
+        // From http://www.unicode.org/reports/tr35/tr35-31/tr35-dates.html#Date_Format_tokens
+        // | Year     |     y | yy |   yyy |  yyyy | yyyyy |
+        // |----------|-------|----|-------|-------|-------|
+        // | AD 1     |     1 | 01 |   001 |  0001 | 00001 |
+        // | AD 12    |    12 | 12 |   012 |  0012 | 00012 |
+        // | AD 123   |   123 | 23 |   123 |  0123 | 00123 |
+        // | AD 1234  |  1234 | 34 |  1234 |  1234 | 01234 |
+        // | AD 12345 | 12345 | 45 | 12345 | 12345 | 12345 |
+        var signedYear = date.getUTCFullYear(); // Returns 1 for 1 BC (which is year 0 in JavaScript)
+        var year = signedYear > 0 ? signedYear : 1 - signedYear;
+        return (0, _indexJsDefault.default)(token === "yy" ? year % 100 : year, token.length);
+    },
+    // Month
+    M: function M(date, token) {
+        var month = date.getUTCMonth();
+        return token === "M" ? String(month + 1) : (0, _indexJsDefault.default)(month + 1, 2);
+    },
+    // Day of the month
+    d: function d(date, token) {
+        return (0, _indexJsDefault.default)(date.getUTCDate(), token.length);
+    },
+    // AM or PM
+    a: function a(date, token) {
+        var dayPeriodEnumValue = date.getUTCHours() / 12 >= 1 ? "pm" : "am";
+        switch(token){
+            case "a":
+            case "aa":
+                return dayPeriodEnumValue.toUpperCase();
+            case "aaa":
+                return dayPeriodEnumValue;
+            case "aaaaa":
+                return dayPeriodEnumValue[0];
+            case "aaaa":
+            default:
+                return dayPeriodEnumValue === "am" ? "a.m." : "p.m.";
+        }
+    },
+    // Hour [1-12]
+    h: function h(date, token) {
+        return (0, _indexJsDefault.default)(date.getUTCHours() % 12 || 12, token.length);
+    },
+    // Hour [0-23]
+    H: function H(date, token) {
+        return (0, _indexJsDefault.default)(date.getUTCHours(), token.length);
+    },
+    // Minute
+    m: function m(date, token) {
+        return (0, _indexJsDefault.default)(date.getUTCMinutes(), token.length);
+    },
+    // Second
+    s: function s(date, token) {
+        return (0, _indexJsDefault.default)(date.getUTCSeconds(), token.length);
+    },
+    // Fraction of second
+    S: function S(date, token) {
+        var numberOfDigits = token.length;
+        var milliseconds = date.getUTCMilliseconds();
+        var fractionalSeconds = Math.floor(milliseconds * Math.pow(10, numberOfDigits - 3));
+        return (0, _indexJsDefault.default)(fractionalSeconds, token.length);
+    }
+};
+exports.default = formatters;
+
+},{"../../addLeadingZeros/index.js":"6pP6x","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"1ztit":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var dateLongFormatter = function dateLongFormatter(pattern, formatLong) {
+    switch(pattern){
+        case "P":
+            return formatLong.date({
+                width: "short"
+            });
+        case "PP":
+            return formatLong.date({
+                width: "medium"
+            });
+        case "PPP":
+            return formatLong.date({
+                width: "long"
+            });
+        case "PPPP":
+        default:
+            return formatLong.date({
+                width: "full"
+            });
+    }
+};
+var timeLongFormatter = function timeLongFormatter(pattern, formatLong) {
+    switch(pattern){
+        case "p":
+            return formatLong.time({
+                width: "short"
+            });
+        case "pp":
+            return formatLong.time({
+                width: "medium"
+            });
+        case "ppp":
+            return formatLong.time({
+                width: "long"
+            });
+        case "pppp":
+        default:
+            return formatLong.time({
+                width: "full"
+            });
+    }
+};
+var dateTimeLongFormatter = function dateTimeLongFormatter(pattern, formatLong) {
+    var matchResult = pattern.match(/(P+)(p+)?/) || [];
+    var datePattern = matchResult[1];
+    var timePattern = matchResult[2];
+    if (!timePattern) return dateLongFormatter(pattern, formatLong);
+    var dateTimeFormat;
+    switch(datePattern){
+        case "P":
+            dateTimeFormat = formatLong.dateTime({
+                width: "short"
+            });
+            break;
+        case "PP":
+            dateTimeFormat = formatLong.dateTime({
+                width: "medium"
+            });
+            break;
+        case "PPP":
+            dateTimeFormat = formatLong.dateTime({
+                width: "long"
+            });
+            break;
+        case "PPPP":
+        default:
+            dateTimeFormat = formatLong.dateTime({
+                width: "full"
+            });
+            break;
+    }
+    return dateTimeFormat.replace("{{date}}", dateLongFormatter(datePattern, formatLong)).replace("{{time}}", timeLongFormatter(timePattern, formatLong));
+};
+var longFormatters = {
+    p: timeLongFormatter,
+    P: dateTimeLongFormatter
+};
+exports.default = longFormatters;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"bc74C":[function(require,module,exports) {
+/**
+ * Google Chrome as of 67.0.3396.87 introduced timezones with offset that includes seconds.
+ * They usually appear for dates that denote time before the timezones were introduced
+ * (e.g. for 'Europe/Prague' timezone the offset is GMT+00:57:44 before 1 October 1891
+ * and GMT+01:00:00 after that date)
+ *
+ * Date#getTimezoneOffset returns the offset in minutes and would return 57 for the example above,
+ * which would lead to incorrect calculations.
+ *
+ * This function returns the timezone offset in milliseconds that takes seconds in account.
+ */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+function getTimezoneOffsetInMilliseconds(date) {
+    var utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()));
+    utcDate.setUTCFullYear(date.getFullYear());
+    return date.getTime() - utcDate.getTime();
+}
+exports.default = getTimezoneOffsetInMilliseconds;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"4R0Xq":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "isProtectedDayOfYearToken", ()=>isProtectedDayOfYearToken);
+parcelHelpers.export(exports, "isProtectedWeekYearToken", ()=>isProtectedWeekYearToken);
+parcelHelpers.export(exports, "throwProtectedError", ()=>throwProtectedError);
+var protectedDayOfYearTokens = [
+    "D",
+    "DD"
+];
+var protectedWeekYearTokens = [
+    "YY",
+    "YYYY"
+];
+function isProtectedDayOfYearToken(token) {
+    return protectedDayOfYearTokens.indexOf(token) !== -1;
+}
+function isProtectedWeekYearToken(token) {
+    return protectedWeekYearTokens.indexOf(token) !== -1;
+}
+function throwProtectedError(token, format, input) {
+    if (token === "YYYY") throw new RangeError("Use `yyyy` instead of `YYYY` (in `".concat(format, "`) for formatting years to the input `").concat(input, "`; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md"));
+    else if (token === "YY") throw new RangeError("Use `yy` instead of `YY` (in `".concat(format, "`) for formatting years to the input `").concat(input, "`; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md"));
+    else if (token === "D") throw new RangeError("Use `d` instead of `D` (in `".concat(format, "`) for formatting days of the month to the input `").concat(input, "`; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md"));
+    else if (token === "DD") throw new RangeError("Use `dd` instead of `DD` (in `".concat(format, "`) for formatting days of the month to the input `").concat(input, "`; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md"));
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"1rVeP":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../../locale/en-US/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+exports.default = (0, _indexJsDefault.default);
+
+},{"../../locale/en-US/index.js":"8XKCq","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"8XKCq":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("./_lib/formatDistance/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("./_lib/formatLong/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+var _indexJs2 = require("./_lib/formatRelative/index.js");
+var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
+var _indexJs3 = require("./_lib/localize/index.js");
+var _indexJsDefault3 = parcelHelpers.interopDefault(_indexJs3);
+var _indexJs4 = require("./_lib/match/index.js");
+var _indexJsDefault4 = parcelHelpers.interopDefault(_indexJs4);
+/**
+ * @type {Locale}
+ * @category Locales
+ * @summary English locale (United States).
+ * @language English
+ * @iso-639-2 eng
+ * @author Sasha Koss [@kossnocorp]{@link https://github.com/kossnocorp}
+ * @author Lesha Koss [@leshakoss]{@link https://github.com/leshakoss}
+ */ var locale = {
+    code: "en-US",
+    formatDistance: (0, _indexJsDefault.default),
+    formatLong: (0, _indexJsDefault1.default),
+    formatRelative: (0, _indexJsDefault2.default),
+    localize: (0, _indexJsDefault3.default),
+    match: (0, _indexJsDefault4.default),
+    options: {
+        weekStartsOn: 0,
+        firstWeekContainsDate: 1
+    }
+};
+exports.default = locale;
+
+},{"./_lib/formatDistance/index.js":"lLrcE","./_lib/formatLong/index.js":"cA6Xb","./_lib/formatRelative/index.js":"9QlMp","./_lib/localize/index.js":"jv1Fa","./_lib/match/index.js":"1wA2o","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"lLrcE":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var formatDistanceLocale = {
+    lessThanXSeconds: {
+        one: "less than a second",
+        other: "less than {{count}} seconds"
+    },
+    xSeconds: {
+        one: "1 second",
+        other: "{{count}} seconds"
+    },
+    halfAMinute: "half a minute",
+    lessThanXMinutes: {
+        one: "less than a minute",
+        other: "less than {{count}} minutes"
+    },
+    xMinutes: {
+        one: "1 minute",
+        other: "{{count}} minutes"
+    },
+    aboutXHours: {
+        one: "about 1 hour",
+        other: "about {{count}} hours"
+    },
+    xHours: {
+        one: "1 hour",
+        other: "{{count}} hours"
+    },
+    xDays: {
+        one: "1 day",
+        other: "{{count}} days"
+    },
+    aboutXWeeks: {
+        one: "about 1 week",
+        other: "about {{count}} weeks"
+    },
+    xWeeks: {
+        one: "1 week",
+        other: "{{count}} weeks"
+    },
+    aboutXMonths: {
+        one: "about 1 month",
+        other: "about {{count}} months"
+    },
+    xMonths: {
+        one: "1 month",
+        other: "{{count}} months"
+    },
+    aboutXYears: {
+        one: "about 1 year",
+        other: "about {{count}} years"
+    },
+    xYears: {
+        one: "1 year",
+        other: "{{count}} years"
+    },
+    overXYears: {
+        one: "over 1 year",
+        other: "over {{count}} years"
+    },
+    almostXYears: {
+        one: "almost 1 year",
+        other: "almost {{count}} years"
+    }
+};
+var formatDistance = function formatDistance(token, count, options) {
+    var result;
+    var tokenValue = formatDistanceLocale[token];
+    if (typeof tokenValue === "string") result = tokenValue;
+    else if (count === 1) result = tokenValue.one;
+    else result = tokenValue.other.replace("{{count}}", count.toString());
+    if (options !== null && options !== void 0 && options.addSuffix) {
+        if (options.comparison && options.comparison > 0) return "in " + result;
+        else return result + " ago";
+    }
+    return result;
+};
+exports.default = formatDistance;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"cA6Xb":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../../../_lib/buildFormatLongFn/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var dateFormats = {
+    full: "EEEE, MMMM do, y",
+    long: "MMMM do, y",
+    medium: "MMM d, y",
+    short: "MM/dd/yyyy"
+};
+var timeFormats = {
+    full: "h:mm:ss a zzzz",
+    long: "h:mm:ss a z",
+    medium: "h:mm:ss a",
+    short: "h:mm a"
+};
+var dateTimeFormats = {
+    full: "{{date}} 'at' {{time}}",
+    long: "{{date}} 'at' {{time}}",
+    medium: "{{date}}, {{time}}",
+    short: "{{date}}, {{time}}"
+};
+var formatLong = {
+    date: (0, _indexJsDefault.default)({
+        formats: dateFormats,
+        defaultWidth: "full"
+    }),
+    time: (0, _indexJsDefault.default)({
+        formats: timeFormats,
+        defaultWidth: "full"
+    }),
+    dateTime: (0, _indexJsDefault.default)({
+        formats: dateTimeFormats,
+        defaultWidth: "full"
+    })
+};
+exports.default = formatLong;
+
+},{"../../../_lib/buildFormatLongFn/index.js":"h1FGd","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"h1FGd":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+function buildFormatLongFn(args) {
+    return function() {
+        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        // TODO: Remove String()
+        var width = options.width ? String(options.width) : args.defaultWidth;
+        var format = args.formats[width] || args.formats[args.defaultWidth];
+        return format;
+    };
+}
+exports.default = buildFormatLongFn;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"9QlMp":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var formatRelativeLocale = {
+    lastWeek: "'last' eeee 'at' p",
+    yesterday: "'yesterday at' p",
+    today: "'today at' p",
+    tomorrow: "'tomorrow at' p",
+    nextWeek: "eeee 'at' p",
+    other: "P"
+};
+var formatRelative = function formatRelative(token, _date, _baseDate, _options) {
+    return formatRelativeLocale[token];
+};
+exports.default = formatRelative;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"jv1Fa":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../../../_lib/buildLocalizeFn/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var eraValues = {
+    narrow: [
+        "B",
+        "A"
+    ],
+    abbreviated: [
+        "BC",
+        "AD"
+    ],
+    wide: [
+        "Before Christ",
+        "Anno Domini"
+    ]
+};
+var quarterValues = {
+    narrow: [
+        "1",
+        "2",
+        "3",
+        "4"
+    ],
+    abbreviated: [
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4"
+    ],
+    wide: [
+        "1st quarter",
+        "2nd quarter",
+        "3rd quarter",
+        "4th quarter"
+    ]
+}; // Note: in English, the names of days of the week and months are capitalized.
+// If you are making a new locale based on this one, check if the same is true for the language you're working on.
+// Generally, formatted dates should look like they are in the middle of a sentence,
+// e.g. in Spanish language the weekdays and months should be in the lowercase.
+var monthValues = {
+    narrow: [
+        "J",
+        "F",
+        "M",
+        "A",
+        "M",
+        "J",
+        "J",
+        "A",
+        "S",
+        "O",
+        "N",
+        "D"
+    ],
+    abbreviated: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+    ],
+    wide: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ]
+};
+var dayValues = {
+    narrow: [
+        "S",
+        "M",
+        "T",
+        "W",
+        "T",
+        "F",
+        "S"
+    ],
+    short: [
+        "Su",
+        "Mo",
+        "Tu",
+        "We",
+        "Th",
+        "Fr",
+        "Sa"
+    ],
+    abbreviated: [
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+    ],
+    wide: [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    ]
+};
+var dayPeriodValues = {
+    narrow: {
+        am: "a",
+        pm: "p",
+        midnight: "mi",
+        noon: "n",
+        morning: "morning",
+        afternoon: "afternoon",
+        evening: "evening",
+        night: "night"
+    },
+    abbreviated: {
+        am: "AM",
+        pm: "PM",
+        midnight: "midnight",
+        noon: "noon",
+        morning: "morning",
+        afternoon: "afternoon",
+        evening: "evening",
+        night: "night"
+    },
+    wide: {
+        am: "a.m.",
+        pm: "p.m.",
+        midnight: "midnight",
+        noon: "noon",
+        morning: "morning",
+        afternoon: "afternoon",
+        evening: "evening",
+        night: "night"
+    }
+};
+var formattingDayPeriodValues = {
+    narrow: {
+        am: "a",
+        pm: "p",
+        midnight: "mi",
+        noon: "n",
+        morning: "in the morning",
+        afternoon: "in the afternoon",
+        evening: "in the evening",
+        night: "at night"
+    },
+    abbreviated: {
+        am: "AM",
+        pm: "PM",
+        midnight: "midnight",
+        noon: "noon",
+        morning: "in the morning",
+        afternoon: "in the afternoon",
+        evening: "in the evening",
+        night: "at night"
+    },
+    wide: {
+        am: "a.m.",
+        pm: "p.m.",
+        midnight: "midnight",
+        noon: "noon",
+        morning: "in the morning",
+        afternoon: "in the afternoon",
+        evening: "in the evening",
+        night: "at night"
+    }
+};
+var ordinalNumber = function ordinalNumber(dirtyNumber, _options) {
+    var number = Number(dirtyNumber); // If ordinal numbers depend on context, for example,
+    // if they are different for different grammatical genders,
+    // use `options.unit`.
+    //
+    // `unit` can be 'year', 'quarter', 'month', 'week', 'date', 'dayOfYear',
+    // 'day', 'hour', 'minute', 'second'.
+    var rem100 = number % 100;
+    if (rem100 > 20 || rem100 < 10) switch(rem100 % 10){
+        case 1:
+            return number + "st";
+        case 2:
+            return number + "nd";
+        case 3:
+            return number + "rd";
+    }
+    return number + "th";
+};
+var localize = {
+    ordinalNumber: ordinalNumber,
+    era: (0, _indexJsDefault.default)({
+        values: eraValues,
+        defaultWidth: "wide"
+    }),
+    quarter: (0, _indexJsDefault.default)({
+        values: quarterValues,
+        defaultWidth: "wide",
+        argumentCallback: function argumentCallback(quarter) {
+            return quarter - 1;
+        }
+    }),
+    month: (0, _indexJsDefault.default)({
+        values: monthValues,
+        defaultWidth: "wide"
+    }),
+    day: (0, _indexJsDefault.default)({
+        values: dayValues,
+        defaultWidth: "wide"
+    }),
+    dayPeriod: (0, _indexJsDefault.default)({
+        values: dayPeriodValues,
+        defaultWidth: "wide",
+        formattingValues: formattingDayPeriodValues,
+        defaultFormattingWidth: "wide"
+    })
+};
+exports.default = localize;
+
+},{"../../../_lib/buildLocalizeFn/index.js":"5l2rZ","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"5l2rZ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+function buildLocalizeFn(args) {
+    return function(dirtyIndex, options) {
+        var context = options !== null && options !== void 0 && options.context ? String(options.context) : "standalone";
+        var valuesArray;
+        if (context === "formatting" && args.formattingValues) {
+            var defaultWidth = args.defaultFormattingWidth || args.defaultWidth;
+            var width = options !== null && options !== void 0 && options.width ? String(options.width) : defaultWidth;
+            valuesArray = args.formattingValues[width] || args.formattingValues[defaultWidth];
+        } else {
+            var _defaultWidth = args.defaultWidth;
+            var _width = options !== null && options !== void 0 && options.width ? String(options.width) : args.defaultWidth;
+            valuesArray = args.values[_width] || args.values[_defaultWidth];
+        }
+        var index = args.argumentCallback ? args.argumentCallback(dirtyIndex) : dirtyIndex; // @ts-ignore: For some reason TypeScript just don't want to match it, no matter how hard we try. I challenge you to try to remove it!
+        return valuesArray[index];
+    };
+}
+exports.default = buildLocalizeFn;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"1wA2o":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _indexJs = require("../../../_lib/buildMatchFn/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("../../../_lib/buildMatchPatternFn/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+var matchOrdinalNumberPattern = /^(\d+)(th|st|nd|rd)?/i;
+var parseOrdinalNumberPattern = /\d+/i;
+var matchEraPatterns = {
+    narrow: /^(b|a)/i,
+    abbreviated: /^(b\.?\s?c\.?|b\.?\s?c\.?\s?e\.?|a\.?\s?d\.?|c\.?\s?e\.?)/i,
+    wide: /^(before christ|before common era|anno domini|common era)/i
+};
+var parseEraPatterns = {
+    any: [
+        /^b/i,
+        /^(a|c)/i
+    ]
+};
+var matchQuarterPatterns = {
+    narrow: /^[1234]/i,
+    abbreviated: /^q[1234]/i,
+    wide: /^[1234](th|st|nd|rd)? quarter/i
+};
+var parseQuarterPatterns = {
+    any: [
+        /1/i,
+        /2/i,
+        /3/i,
+        /4/i
+    ]
+};
+var matchMonthPatterns = {
+    narrow: /^[jfmasond]/i,
+    abbreviated: /^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i,
+    wide: /^(january|february|march|april|may|june|july|august|september|october|november|december)/i
+};
+var parseMonthPatterns = {
+    narrow: [
+        /^j/i,
+        /^f/i,
+        /^m/i,
+        /^a/i,
+        /^m/i,
+        /^j/i,
+        /^j/i,
+        /^a/i,
+        /^s/i,
+        /^o/i,
+        /^n/i,
+        /^d/i
+    ],
+    any: [
+        /^ja/i,
+        /^f/i,
+        /^mar/i,
+        /^ap/i,
+        /^may/i,
+        /^jun/i,
+        /^jul/i,
+        /^au/i,
+        /^s/i,
+        /^o/i,
+        /^n/i,
+        /^d/i
+    ]
+};
+var matchDayPatterns = {
+    narrow: /^[smtwf]/i,
+    short: /^(su|mo|tu|we|th|fr|sa)/i,
+    abbreviated: /^(sun|mon|tue|wed|thu|fri|sat)/i,
+    wide: /^(sunday|monday|tuesday|wednesday|thursday|friday|saturday)/i
+};
+var parseDayPatterns = {
+    narrow: [
+        /^s/i,
+        /^m/i,
+        /^t/i,
+        /^w/i,
+        /^t/i,
+        /^f/i,
+        /^s/i
+    ],
+    any: [
+        /^su/i,
+        /^m/i,
+        /^tu/i,
+        /^w/i,
+        /^th/i,
+        /^f/i,
+        /^sa/i
+    ]
+};
+var matchDayPeriodPatterns = {
+    narrow: /^(a|p|mi|n|(in the|at) (morning|afternoon|evening|night))/i,
+    any: /^([ap]\.?\s?m\.?|midnight|noon|(in the|at) (morning|afternoon|evening|night))/i
+};
+var parseDayPeriodPatterns = {
+    any: {
+        am: /^a/i,
+        pm: /^p/i,
+        midnight: /^mi/i,
+        noon: /^no/i,
+        morning: /morning/i,
+        afternoon: /afternoon/i,
+        evening: /evening/i,
+        night: /night/i
+    }
+};
+var match = {
+    ordinalNumber: (0, _indexJsDefault1.default)({
+        matchPattern: matchOrdinalNumberPattern,
+        parsePattern: parseOrdinalNumberPattern,
+        valueCallback: function valueCallback(value) {
+            return parseInt(value, 10);
+        }
+    }),
+    era: (0, _indexJsDefault.default)({
+        matchPatterns: matchEraPatterns,
+        defaultMatchWidth: "wide",
+        parsePatterns: parseEraPatterns,
+        defaultParseWidth: "any"
+    }),
+    quarter: (0, _indexJsDefault.default)({
+        matchPatterns: matchQuarterPatterns,
+        defaultMatchWidth: "wide",
+        parsePatterns: parseQuarterPatterns,
+        defaultParseWidth: "any",
+        valueCallback: function valueCallback(index) {
+            return index + 1;
+        }
+    }),
+    month: (0, _indexJsDefault.default)({
+        matchPatterns: matchMonthPatterns,
+        defaultMatchWidth: "wide",
+        parsePatterns: parseMonthPatterns,
+        defaultParseWidth: "any"
+    }),
+    day: (0, _indexJsDefault.default)({
+        matchPatterns: matchDayPatterns,
+        defaultMatchWidth: "wide",
+        parsePatterns: parseDayPatterns,
+        defaultParseWidth: "any"
+    }),
+    dayPeriod: (0, _indexJsDefault.default)({
+        matchPatterns: matchDayPeriodPatterns,
+        defaultMatchWidth: "any",
+        parsePatterns: parseDayPeriodPatterns,
+        defaultParseWidth: "any"
+    })
+};
+exports.default = match;
+
+},{"../../../_lib/buildMatchFn/index.js":"2nEf9","../../../_lib/buildMatchPatternFn/index.js":"4GjCS","@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"2nEf9":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+function buildMatchFn(args) {
+    return function(string) {
+        var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        var width = options.width;
+        var matchPattern = width && args.matchPatterns[width] || args.matchPatterns[args.defaultMatchWidth];
+        var matchResult = string.match(matchPattern);
+        if (!matchResult) return null;
+        var matchedString = matchResult[0];
+        var parsePatterns = width && args.parsePatterns[width] || args.parsePatterns[args.defaultParseWidth];
+        var key = Array.isArray(parsePatterns) ? findIndex(parsePatterns, function(pattern) {
+            return pattern.test(matchedString);
+        }) : findKey(parsePatterns, function(pattern) {
+            return pattern.test(matchedString);
+        });
+        var value;
+        value = args.valueCallback ? args.valueCallback(key) : key;
+        value = options.valueCallback ? options.valueCallback(value) : value;
+        var rest = string.slice(matchedString.length);
+        return {
+            value: value,
+            rest: rest
+        };
+    };
+}
+exports.default = buildMatchFn;
+function findKey(object, predicate) {
+    for(var key in object){
+        if (object.hasOwnProperty(key) && predicate(object[key])) return key;
+    }
+    return undefined;
+}
+function findIndex(array, predicate) {
+    for(var key = 0; key < array.length; key++){
+        if (predicate(array[key])) return key;
+    }
+    return undefined;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"4GjCS":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+function buildMatchPatternFn(args) {
+    return function(string) {
+        var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        var matchResult = string.match(args.matchPattern);
+        if (!matchResult) return null;
+        var matchedString = matchResult[0];
+        var parseResult = string.match(args.parsePattern);
+        if (!parseResult) return null;
+        var value = args.valueCallback ? args.valueCallback(parseResult[0]) : parseResult[0];
+        value = options.valueCallback ? options.valueCallback(value) : value;
+        var rest = string.slice(matchedString.length);
+        return {
+            value: value,
+            rest: rest
+        };
+    };
+}
+exports.default = buildMatchPatternFn;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dInVF"}],"lJZlQ":[function() {},{}]},["e9G38","2Nuor","d8Dch"], "d8Dch", "parcelRequire5bca")
 
 //# sourceMappingURL=index.b4b6dfad.js.map
