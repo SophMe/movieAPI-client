@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Card, Form, Button, Col, Row } from "react-bootstrap";
 import { MovieCard } from "../movie-card/movie-card";
 import format from "date-fns/format";
+import { UpdateUser } from "./update-user";
 
 export const ProfileView = ({ movies, user, onAddFavorite, onRemoveFavorite }) => { //pass props {movies, users} from MainView
 
@@ -55,6 +56,8 @@ export const ProfileView = ({ movies, user, onAddFavorite, onRemoveFavorite }) =
        </>
      )}
     </Row>
+    
+    <UpdateUser user={user} />
 
     </>
   );
