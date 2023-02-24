@@ -1,6 +1,5 @@
 import React from "react";
-import { useState } from "react";
-import { Card, Form, Button, Col, Row } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import { MovieCard } from "../movie-card/movie-card";
 import format from "date-fns/format";
 import { UpdateUser } from "./update-user";
@@ -30,7 +29,6 @@ export const ProfileView = ({ movies, user, onAddFavorite, onRemoveFavorite }) =
       </Card.Body>
     </Card>
 
-{/* Create a seperate route for this? */}
     <Row>
      {favMoviesList.length === 0 ? (
        <Col>There are no favorites in your list</Col>
