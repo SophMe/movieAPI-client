@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import { Card, Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 export const UpdateUser = ({user}) => {
-  // set useState to current data, not empty as in Signup
-  const [username, setUsername] = useState(user.Username);
-  // const [password, setPassword] = useState(""); updated one would have to be hashed, change needed in backend
-  const [email, setEmail] = useState(user.Email);
+  const [username, setUsername] = useState(user.Username);    // set useState to current data, not empty as in Signup
+  const [email, setEmail] = useState(user.Email);             // const [password, setPassword] = useState(""); updated one would have to be hashed, change needed in backend
   const [birthday, setBirthday] = useState(user.Birthday);
   const token = localStorage.getItem("token");
 
-  console.log(user.Username);
-
   const handleSubmit = (event) => {event.preventDefault();
+  const navigate = useNavigate();
   const data = { Username: username, Password: user.Password, Email: email, Birthday : birthday };
 
   fetch(`https://90s-movie-api-sophme.vercel.app/users/${user.Username}`, {
@@ -21,23 +19,33 @@ export const UpdateUser = ({user}) => {
   }).then((response) => {
     if (response.ok) {
       alert("Update successful");
+      localStorage.removeItem("token");
+      localStorage.clear()
       window.location.reload();
+      navigate("/login");
     } else {
       alert("Update failed");
     }
   });
 };
 
-// const deleteUser = ({user}) => {
-//   fetch(`https://90s-movie-api-sophme.vercel.app/users${user.Username}`, {
-//   method: "DELETE",
-// })
-// .then((result)=>{
-//   result.json().then((resp)=>{
-//     console.warn(resp)
-//   })
-// })
-// };
+const deleteUser = () => {
+  fetch(`https://90s-movie-api-sophme.vercel.app/users/${user.Username}`, {
+  method: "DELETE",
+  headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}`},
+  body: JSON.stringify(data)
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error("Something went wrong");
+    }
+    localStorage.clear()
+    navigate("/signup");
+    alert("User deleted");
+    }).catch((e) => {
+      console.log(e);
+    });
+  };
 
   return (
     <>
@@ -74,7 +82,6 @@ export const UpdateUser = ({user}) => {
           </Form.Group>
           
           <Form.Group>
-      {/* Leave this here? */}
           <Form.Label>Birthday:</Form.Label>
             <Form.Control
               type="date"
@@ -90,7 +97,7 @@ export const UpdateUser = ({user}) => {
     </Card>
     <Card>
       <Card.Title>Delete Profile</Card.Title>
-      <Button onClick={()=>deleteUser(username)} variant="danger">Delete</Button>
+      <Button onClick={deleteUser} variant="danger">Delete</Button>
     </Card>
     </>
   );
