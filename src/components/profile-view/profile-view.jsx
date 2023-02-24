@@ -12,7 +12,6 @@ export const ProfileView = ({ movies, user, onAddFavorite, onRemoveFavorite }) =
   const handleSubmit = (event) => {event.preventDefault();
   const data = { Username: username, Password: password, Email: email, Birthday : birthday };
 
-  //fetch("http://localhost:1234/users", {
   fetch("https://90s-movie-api-sophme.vercel.app/users", {
     method: "POST",
     headers: { "Content-Type": "application/json"},
@@ -28,13 +27,7 @@ export const ProfileView = ({ movies, user, onAddFavorite, onRemoveFavorite }) =
         <Card.Text>Username: {user.Username}</Card.Text>
         <Card.Text>Email: {user.Email}</Card.Text>
         <Card.Text>Birthday: {format(new Date(user.Birthday),'MMM dd, yyyy')}</Card.Text>
-        <Card.Text>
-          Favorite Movies: <br />
-          {user.FavoriteMovies}
-          {console.log(user.FavoriteMovies)};
-          {console.log(favMoviesList)};
-          </Card.Text>
-        </Card.Body>
+      </Card.Body>
     </Card>
 
 {/* Create a seperate route for this? */}

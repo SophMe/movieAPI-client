@@ -139,14 +139,14 @@ export const MainView = () => {
                   ) : (
                     <>
                     {movies.map((movie) => {
-                      const m = user.FavoriteMovies.includes(movie._id) // does is exist in the user's list?
+                      const m = user.FavoriteMovies.includes(movie._id) // is this movie in the user's list?
                       return (
                       <Col className="mb-4" md={4} key={movie._id}>
                         <MovieCard
                         // props
                           key={movie._id}
                           movie={movie}
-                          isFavorite={m}                                // does is exist in the user's list?
+                          isFavorite={m}                                // is this movie in the user's list?
                           onAddFavorite={addFavorite}
                           onRemoveFavorite={removeFavorite}
                         />
