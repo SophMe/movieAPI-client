@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-export const UpdateUser = ({user}) => {
+export const UpdateUser = ({ user, data }) => {
   const [username, setUsername] = useState(user.Username);    // set useState to current data, not empty as in Signup
   const [email, setEmail] = useState(user.Email);             // const [password, setPassword] = useState(""); updated one would have to be hashed, change needed in backend
   const [birthday, setBirthday] = useState(user.Birthday);
   const token = localStorage.getItem("token");
 
-  const handleSubmit = (event) => {event.preventDefault();
   const navigate = useNavigate();
+
+  const handleSubmit = (event) => {event.preventDefault();
   const data = { Username: username, Password: user.Password, Email: email, Birthday : birthday };
 
   fetch(`https://90s-movie-api-sophme.vercel.app/users/${user.Username}`, {
@@ -18,11 +19,9 @@ export const UpdateUser = ({user}) => {
     body: JSON.stringify(data)
   }).then((response) => {
     if (response.ok) {
-      alert("Update successful");
-      localStorage.removeItem("token");
-      localStorage.clear()
+      localStorage.clear(); 
       window.location.reload();
-      navigate("/login");
+      navigate("/");
     } else {
       alert("Update failed");
     }
@@ -63,7 +62,8 @@ const deleteUser = () => {
             />
           </Form.Group>
 
-          {/* <Form.Group>
+          {//new password would have to be hashed
+          /* <Form.Group>
           <Form.Label>New password:</Form.Label>
             <Form.Control
               type="password"
