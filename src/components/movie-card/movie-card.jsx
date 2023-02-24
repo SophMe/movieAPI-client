@@ -1,5 +1,5 @@
 import React from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -27,10 +27,10 @@ export const MovieCard = ({movie, isFavorite, onRemoveFavorite, onAddFavorite}) 
 
 //define prop constraints
 MovieCard.propTypes = {
-  // Title: PropTypes.string.isRequired,
-  // Director: PropTypes.shape({
-  //   Name: PropTypes.string,
-  //   Bio: PropTypes.string
-  // }),  
-  // Image: PropTypes.string
+  Title: PropTypes.string.isRequired,
+  Director: PropTypes.shape({
+    Name: PropTypes.string,
+    Bio: PropTypes.string
+  }),  
+  Image: PropTypes.string
 };
