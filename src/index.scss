@@ -1,4 +1,3 @@
-
 $color: #96bfe0;
 $body-bg: #a3e0cc;
 $text: #0a0a0a;
@@ -54,4 +53,36 @@ form {
 
 .form-control, .form-control:focus {
   background-color: #f8f9fa;
+}
+
+// MOVIE CARD
+.title {
+  margin-top: 10px;
+}
+.card-image{
+  padding: 5px;
+  height: 300px;
+  object-fit: "cover";
+}
+
+.movie-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.description {
+  display: flex;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.carousel-indicators {
+  margin-bottom: 0px;
+}
+
+.carousel-inner {
+  margin: 0px;
 }

@@ -12053,4 +12053,35 @@ form {
   background-color: #f8f9fa;
 }
 
+.title {
+  margin-top: 10px;
+}
+
+.card-image {
+  height: 300px;
+  object-fit: "cover";
+  padding: 5px;
+}
+
+.movie-title {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.description {
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
+}
+
+.carousel-indicators {
+  margin-bottom: 0;
+}
+
+.carousel-inner {
+  margin: 0;
+}
+
 /*# sourceMappingURL=index.ce1d6491.css.map */

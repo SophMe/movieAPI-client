@@ -10,7 +10,7 @@ import "./index.scss";
 // show main component
 const MovieAPIApp = () => {
   return (
-    <Container>
+    <Container fluid>
         <MainView />
     </Container>
   );

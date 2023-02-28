@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import { Card, Col, Row, Carousel, CarouselItem} from "react-bootstrap";
 import { MovieCard } from "../movie-card/movie-card";
 import format from "date-fns/format";
 import { UpdateUser } from "./update-user";
@@ -21,32 +21,34 @@ export const ProfileView = ({ movies, user, onAddFavorite, onRemoveFavorite }) =
   return(
     <>
     <Card>
-      <Card.Title>Your Profile</Card.Title>
+      <Card.Title className="text-center">Your Profile</Card.Title>
       <Card.Body>
         <Card.Text>Username: {user.Username}</Card.Text>
         <Card.Text>Email: {user.Email}</Card.Text>
         <Card.Text>Birthday: {format(new Date(user.Birthday),'MMM dd, yyyy')}</Card.Text>
       </Card.Body>
     </Card>
+    <br />
 
-    <Row>
-     {favMoviesList.length === 0 ? (
-       <Col>There are no favorites in your list</Col>
-     ) : (
-       <>
-         {favMoviesList.map((movie) => (
-           <Col key={movie._id} >
-             <MovieCard 
+    <Card.Title className="text-center">Your Favorite Movies</Card.Title>
+    <Carousel>
+      {favMoviesList.length === 0 ? (
+        <Carousel.Item>
+          <Col>There are no favorites in your list</Col>
+        </Carousel.Item>
+      ) : (
+        favMoviesList.map((movie) => (
+          <Carousel.Item key={movie._id}>
+            <MovieCard
               movie={movie}
               onRemoveFavorite={onRemoveFavorite}
               onAddFavorite={onAddFavorite}
               isFavorite
-              />
-           </Col>
-         ))}
-       </>
-     )}
-    </Row>
+            />
+          </Carousel.Item>
+        ))
+      )}
+    </Carousel>
     
     <UpdateUser user={user} />
 

@@ -49,7 +49,7 @@ const deleteUser = () => {
   return (
     <>
     <Card>
-      <Card.Title>Update Profile</Card.Title>
+      <Card.Title className="text-center title">Update Profile</Card.Title>
       <Card.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group>
@@ -80,13 +80,15 @@ const deleteUser = () => {
             />
           </Form.Group>
           
-          <Button onClick={handleSubmit} variant="light" type="submit">Update</Button>
+          <Button onClick={handleSubmit} variant="light" type="submit" size="sm">Update</Button>
         </Form>
       </Card.Body>
     </Card>
     <Card>
-      <Card.Title>Delete Profile</Card.Title>
-      <Button onClick={deleteUser} variant="danger">Delete</Button>
+      <Card.Title className="text-center title">Delete Profile</Card.Title>
+      <Card.Body className="d-flex justify-content-center">
+      <Button onClick={deleteUser} variant="danger" size="sm">Delete</Button>
+      </Card.Body>
     </Card>
     </>
   );
