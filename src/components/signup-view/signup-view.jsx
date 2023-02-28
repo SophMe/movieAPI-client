@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 export const SignupView = () => {
   const [username, setUsername] = useState("");
@@ -7,9 +8,11 @@ export const SignupView = () => {
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
 
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {event.preventDefault();
   const data = { Username: username, Password: password, Email: email, Birthday : birthday };
-
+ 
   //fetch("http://localhost:1234/users", {
   fetch("https://90s-movie-api-sophme.vercel.app/users", {
     method: "POST",
@@ -18,7 +21,7 @@ export const SignupView = () => {
   }).then((response) => {
     if (response.ok) {
       alert("Signup successfull");
-      window.location.reload();
+      navigate("/movies");
     } else {
       alert("Signup failed");
     }

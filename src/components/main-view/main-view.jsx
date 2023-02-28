@@ -1,9 +1,13 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Row, Col } from "react-bootstrap";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
-import { Row, Col, Button} from "react-bootstrap";
+import { NavigationBar } from "../navigation-bar/navigation-bar";
+import { ProfileView } from "../profile-view/profile-view";
 
 export const MainView = () => {
   const [movies, setMovies] = useState([]);                   // empty array to be fed by API
@@ -18,8 +22,7 @@ export const MainView = () => {
     if (!token) {
       return;
     }
-    fetch("https://90s-movie-api-liart.vercel.app/movies", {
-    //fetch("http://localhost:8080/movies", {
+    fetch(`https://90s-movie-api-liart.vercel.app/movies`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -28,60 +31,153 @@ export const MainView = () => {
     console.log("movies from api", data);
       const moviesFromApi = data.map((movie) => {
         return {
-          _id: movie.key,
-          Image: movie.ImagePath,
-          Title: movie.Title,
-          Year: movie.Year,
-          Director: movie.Director,
-          //Bio: movie.Director.Bio,
-          Description: movie.Description
+          ...movie,
+          Image: movie.ImagePath
         };
       });
       setMovies(moviesFromApi);
     });
   }
   , [token]); // dependency array
+
+  const addFavorite = (id) => {
+    fetch(`https://90s-movie-api-liart.vercel.app/users/${user.Username}/movies/${id}`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}`}
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data) {
+        alert("Added to Favorites");
+        localStorage.setItem("user", JSON.stringify(data));
+        setUser(data);
+      } else {
+        alert("Failed to add");
+        console.log(errors);
+      }
+    })
+    .catch(err => {
+      alert("Something went wrong");
+    });
+  };
   
+  const removeFavorite = (id) => {
+    fetch(`https://90s-movie-api-liart.vercel.app/users/${user.Username}/movies/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}`}
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data) {
+        alert("Removed from Favorites");
+        localStorage.setItem("user", JSON.stringify(data));
+        setUser(data);
+      } else {
+        alert("Failed to remove");
+        console.log(errors);
+      }
+    })
+    .catch(err => {
+      alert("Something went wrong");
+    });
+  };
     return (
-      <Row className="justify-content-md-center">
-        {!user ? (
-      <>
-        <Col md={4}>
-          <LoginView onLoggedIn={(user, token) => 
-              {setUser(user); setToken(token)}
-          }
-          />
-          or
-          <SignupView />
-        </Col>
-      </>
-    ) : selectedMovie ? (
-      // set state to null when closing MovieView
-      <Col>
-        <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />
-      </Col>
-        ) : movies.length === 0 ? (
-      <div>The list is empty!</div>
-    ) : (
-      <>
-        <h3>Movies</h3>
-          {movies.map((movie) => (
-            <Col md={4} key={movie._id}>
-              <MovieCard
-              // props
-                key={movie._id}
-                movie={movie}
-                onMovieClick={(newSelectedMovie) => {
-                  setSelectedMovie(newSelectedMovie)
-                }}
-              />
-             </Col> 
-          ))}
-        <div className="mb-2">
-        <Button onClick={() => { setUser(null); setToken(null) }} variant="light">Logout</Button>
-        </div>
-      </>
-    )}
-    </Row>
+      <BrowserRouter>
+        <NavigationBar user={user} onLoggedOut={() => { setUser(null); setToken(null); localStorage.clear(); }} />
+        <Row className="justify-content-md-center">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  {user ? (
+                    <Navigate to="/movies" />
+                  ) : (
+                    <Col md={4}>
+                      <LoginView onLoggedIn={(user, token) => {setUser(user); setToken(token); }} />
+                    </Col>
+                  )}
+                </>
+              }
+            />
+            <Route path="/movies/:movieId" element={
+              <>
+                {!user ? (
+                  <Navigate to="/" replace />
+                ) : movies.length === 0 ? (
+                  <Col>The list is empty!</Col>
+                ) : (
+                  <Col md={5}>
+                      <MovieView movies={movies} />
+                  </Col>
+                )}
+              </>
+             }
+            />
+            <Route 
+              path="/signup"
+              element={
+                <>
+                {user ? (
+                  <Navigate to="/movies" />
+                ) : (
+                  <Col md={5}>
+                   <SignupView />
+                 </Col>
+                  )}
+                </>
+              }
+            />
+            <Route
+              path="/movies"
+              element={
+                <>
+                  {!user ? (
+                    <Navigate to="/" replace />
+                  ) : movies.length === 0 ? (
+                    <Col>The list is empty!</Col>
+                  ) : (
+                    <>
+                    {movies.map((movie) => {
+                      const m = user.FavoriteMovies.includes(movie._id) // check if movie in the user's list
+                      return (
+                      <Col className="mb-4" md={4} key={movie._id}>
+                        <MovieCard
+                        // props
+                          key={movie._id}
+                          movie={movie}
+                          isFavorite={m}
+                          onAddFavorite={addFavorite}
+                          onRemoveFavorite={removeFavorite}
+                        />
+                      </Col> 
+                      )
+                    })}
+                    </>
+                  )}  
+                </>
+              }
+            />
+            <Route //to ProfileView
+              path="/profile"
+              element={
+                <>
+                  {!user ? (
+                    <Navigate to="/" />
+                  ) : (
+                    <Col md={4}>
+                      <ProfileView
+                      user={user}
+                      movies={movies}
+                      setUser={setUser}
+                      onRemoveFavorite={removeFavorite} />
+                    </Col>
+                  )}
+                </>
+              }
+            />
+          </Routes>
+        </Row>
+      </BrowserRouter>
     );
 };

@@ -1,7 +1,12 @@
+import {useParams } from "react-router";
+import { Link } from "react-router-dom";
 import React from "react";
 import { Card, Col, Button } from "react-bootstrap";
 
-export const MovieView = ({ movie, onBackClick }) => {
+export const MovieView = ({ movies }) => {
+  const { movieId } = useParams();
+  const movie = movies.find((movie) => movie._id === movieId);
+
   return (
     <Col md={8}>
       <Card border="light">
@@ -13,7 +18,9 @@ export const MovieView = ({ movie, onBackClick }) => {
           <Card.Text>Director: {movie.Director.Name}</Card.Text>
           <Card.Text>Bio: <br />{movie.Director.Bio}</Card.Text>
 
-          <Button variant="light" onClick={onBackClick}>Back to list</Button>
+          <Link to={`/movies`}>
+            <Button variant="light">Back to list</Button>
+          </Link>
         </Card.Body>
       </Card>
     </Col>
