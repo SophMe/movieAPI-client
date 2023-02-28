@@ -10,7 +10,6 @@ export const LoginView = ({ onLoggedIn}) => {
   const handleSubmit = (event) => {event.preventDefault(); // prevent reloading the entire page
   const data = { Username: username, Password: password };
 
-    //fetch("http://localhost:1234", {
     fetch("https://90s-movie-api-sophme.vercel.app/login", {    // my API
       method: "POST",
       headers: { "Content-Type": "application/json" },

@@ -20,7 +20,7 @@ export const UpdateUser = ({ user, data }) => {
   }).then((response) => {
     if (response.ok) {
       localStorage.clear(); 
-      window.location.reload();
+      //window.location.reload();
       navigate("/");
     } else {
       alert("Update failed");
@@ -39,8 +39,8 @@ const deleteUser = () => {
       throw new Error("Something went wrong");
     }
     localStorage.clear()
-    navigate("/signup");
     alert("User deleted");
+    navigate("/");
     }).catch((e) => {
       console.log(e);
     });
@@ -61,16 +61,6 @@ const deleteUser = () => {
             minLength="5"
             />
           </Form.Group>
-
-          {//new password would have to be hashed
-          /* <Form.Group>
-          <Form.Label>New password:</Form.Label>
-            <Form.Control
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            </Form.Group> */}
             
           <Form.Group>
           <Form.Label>Email:</Form.Label>
@@ -91,7 +81,6 @@ const deleteUser = () => {
           </Form.Group>
           
           <Button onClick={handleSubmit} variant="light" type="submit">Update</Button>
-          <Button variant="light" type="submit">Cancel</Button>
         </Form>
       </Card.Body>
     </Card>
