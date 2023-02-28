@@ -38,7 +38,7 @@ const deleteUser = () => {
     if (!response.ok) {
       throw new Error("Something went wrong");
     }
-    localStorage.clear()
+    localStorage.clear();
     alert("User deleted");
     navigate("/");
     }).catch((e) => {
