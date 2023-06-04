@@ -11,7 +11,7 @@ export const ProfileView = ({ movies, user, onAddFavorite, onRemoveFavorite }) =
   const handleSubmit = (event) => {event.preventDefault();
   const data = { Username: username, Password: password, Email: email, Birthday : birthday };
 
-  fetch("https://90s-movie-api-sophme.vercel.app/users", {
+  fetch(`https://90smovies.vercel.app/users`, {
     method: "POST",
     headers: { "Content-Type": "application/json"},
     body: JSON.stringify(data)
@@ -38,8 +38,8 @@ export const ProfileView = ({ movies, user, onAddFavorite, onRemoveFavorite }) =
         </Carousel.Item>
       ) : (
         favMoviesList.map((movie) => (
-          <Carousel.Item key={movie._id}>
-            <MovieCard
+          <Carousel.Item key={movie._id} className="my-carousel">
+            <MovieCard 
               movie={movie}
               onRemoveFavorite={onRemoveFavorite}
               onAddFavorite={onAddFavorite}

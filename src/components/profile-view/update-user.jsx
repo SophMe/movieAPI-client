@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, Form, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 export const UpdateUser = ({ user, data }) => {
   const [username, setUsername] = useState(user.Username);    // set useState to current data, not empty as in Signup
@@ -8,20 +8,20 @@ export const UpdateUser = ({ user, data }) => {
   const [birthday, setBirthday] = useState(user.Birthday);
   const token = localStorage.getItem("token");
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const handleSubmit = (event) => {event.preventDefault();
   const data = { Username: username, Password: user.Password, Email: email, Birthday : birthday };
 
-  fetch(`https://90s-movie-api-sophme.vercel.app/users/${user.Username}`, {
+  fetch(`https://90smovies.vercel.app/users/${user.Username}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}`},
     body: JSON.stringify(data)
   }).then((response) => {
     if (response.ok) {
       localStorage.clear(); 
-      //window.location.reload();
-      navigate("/");
+      window.location.reload();
+      // navigate("/");
     } else {
       alert("Update failed");
     }
@@ -29,7 +29,7 @@ export const UpdateUser = ({ user, data }) => {
 };
 
 const deleteUser = () => {
-  fetch(`https://90s-movie-api-sophme.vercel.app/users/${user.Username}`, {
+  fetch(`https://90smovies.vercel.app/users/${user.Username}`, {
   method: "DELETE",
   headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}`},
   body: JSON.stringify(data)
@@ -40,7 +40,8 @@ const deleteUser = () => {
     }
     localStorage.clear();
     alert("User deleted");
-    navigate("/");
+    window.location.reload();
+    // navigate("/");
     }).catch((e) => {
       console.log(e);
     });

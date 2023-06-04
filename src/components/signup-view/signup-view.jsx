@@ -14,7 +14,7 @@ export const SignupView = () => {
   const data = { Username: username, Password: password, Email: email, Birthday : birthday };
  
   //fetch("http://localhost:1234/users", {
-  fetch("https://90s-movie-api-sophme.vercel.app/users", {
+  fetch(`https://90smovies.vercel.app/users`, {
     method: "POST",
     headers: { "Content-Type": "application/json"},
     body: JSON.stringify(data)
