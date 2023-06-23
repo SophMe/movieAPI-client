@@ -13,7 +13,8 @@ export const UpdateUser = ({ user, data }) => {
   const handleSubmit = (event) => {event.preventDefault();
   const data = { Username: username, Password: user.Password, Email: email, Birthday : birthday };
 
-  fetch(`https://90smovies.vercel.app/users/${user.Username}`, {
+  //fetch(`https://90smovies.vercel.app/users/${user.Username}`, {
+  fetch(`https://nine0smovieapi-oyws.onrender.com/users/${user.Username}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}`},
     body: JSON.stringify(data)
@@ -29,7 +30,8 @@ export const UpdateUser = ({ user, data }) => {
 };
 
 const deleteUser = () => {
-  fetch(`https://90smovies.vercel.app/users/${user.Username}`, {
+  //fetch(`https://90smovies.vercel.app/users/${user.Username}`, {
+  fetch(`https://nine0smovieapi-oyws.onrender.com/users/${user.Username}`, {
   method: "DELETE",
   headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}`},
   body: JSON.stringify(data)

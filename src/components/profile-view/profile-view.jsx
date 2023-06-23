@@ -11,7 +11,8 @@ export const ProfileView = ({ movies, user, onAddFavorite, onRemoveFavorite }) =
   const handleSubmit = (event) => {event.preventDefault();
   const data = { Username: username, Password: password, Email: email, Birthday : birthday };
 
-  fetch(`https://90smovies.vercel.app/users`, {
+  //fetch(`https://90smovies.vercel.app/users`, {
+  fetch(`https://nine0smovieapi-oyws.onrender.com/users`, {
     method: "POST",
     headers: { "Content-Type": "application/json"},
     body: JSON.stringify(data)

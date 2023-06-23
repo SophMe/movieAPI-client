@@ -10,7 +10,8 @@ export const LoginView = ({ onLoggedIn}) => {
   const handleSubmit = (event) => {event.preventDefault(); // prevent reloading the entire page
   const data = { Username: username, Password: password };
 
-    fetch(`https://90smovies.vercel.app/login`, {    // my API
+    // fetch(`https://90smovies.vercel.app/login`, {    // my API
+    fetch(`https://nine0smovieapi-oyws.onrender.com/login`, {    // my API
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)              // response with JSON object so code can extract JWT 

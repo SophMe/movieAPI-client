@@ -59,10 +59,11 @@ form {
 .title {
   margin-top: 10px;
 }
+
 .card-image{
   padding: 5px;
-  height: 300px;
-  object-fit: "cover";
+  height: 350px !important;
+  object-fit: cover;
 }
 
 .movie-title {
@@ -85,4 +86,8 @@ form {
 
 .carousel-inner {
   margin: 0px;
+}
+
+.my-carousel {
+  height: 800px;
 }

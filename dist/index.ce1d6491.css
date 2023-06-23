@@ -161,6 +161,7 @@ p {
 abbr[title] {
   cursor: help;
   text-decoration-skip-ink: none;
+  -webkit-text-decoration: underline dotted;
   text-decoration: underline dotted;
 }
 
@@ -2624,7 +2625,7 @@ textarea.form-control-lg {
   padding-bottom: .625rem;
 }
 
-.form-floating > .form-control:focus ~ label, .form-floating > .form-control:not(:placeholder-shown) ~ label, .form-floating > .form-control-plaintext ~ label, .form-floating > .form-select ~ label, .form-floating > .form-control:-webkit-autofill ~ label {
+.form-floating > .form-control:focus ~ label, .form-floating > .form-control:not(:placeholder-shown) ~ label, .form-floating > .form-control-plaintext ~ label, .form-floating > .form-select ~ label, .form-floating > .form-control:autofill ~ label {
   opacity: .65;
   transform: scale(.85)translateY(-.5rem)translateX(.15rem);
 }
@@ -12058,9 +12059,9 @@ form {
 }
 
 .card-image {
-  height: 300px;
-  object-fit: "cover";
+  object-fit: cover;
   padding: 5px;
+  height: 350px !important;
 }
 
 .movie-title {
@@ -12082,6 +12083,10 @@ form {
 
 .carousel-inner {
   margin: 0;
+}
+
+.my-carousel {
+  height: 800px;
 }
 
 /*# sourceMappingURL=index.ce1d6491.css.map */

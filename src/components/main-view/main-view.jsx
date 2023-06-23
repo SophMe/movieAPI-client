@@ -22,7 +22,8 @@ export const MainView = () => {
     if (!token) {
       return;
     }
-    fetch(`https://90smovies.vercel.app/movies`, {
+    //fetch(`https://90smovies.vercel.app/movies`, {
+    fetch(`https://nine0smovieapi-oyws.onrender.com/movies`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -41,7 +42,8 @@ export const MainView = () => {
   , [token]); // dependency array
 
   const addFavorite = (id) => {
-    fetch(`https://90smovies.vercel.app/users/${user.Username}/movies/${id}`, {
+    //fetch(`https://90smovies.vercel.app/users/${user.Username}/movies/${id}`, {
+    fetch(`https://nine0smovieapi-oyws.onrender.com/users/${user.Username}/movies/${id}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}`}
     })
@@ -62,7 +64,8 @@ export const MainView = () => {
   };
   
   const removeFavorite = (id) => {
-    fetch(`https://90smovies.vercel.app/users/${user.Username}/movies/${id}`, {
+    //fetch(`https://90smovies.vercel.app/users/${user.Username}/movies/${id}`, {
+    fetch(`https://nine0smovieapi-oyws.onrender.com/users/${user.Username}/movies/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}`}
     })
