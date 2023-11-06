@@ -5,7 +5,7 @@ export const ImagesView = () => {
   const [uploadedImages, setUploadedImages] = useState([]); // To store the list of uploaded images
   const [error, setError] = useState(null);
 
-  // Function to handle image upload
+  // UPLOAD IMAGE
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     const formData = new FormData();
@@ -43,10 +43,10 @@ export const ImagesView = () => {
       });
   };
 
-  // // show images
+  // SHOW IMAGES
   // const fetchImages = () => {
-  //   fetch('http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/images')
-  //   // fetch('http://localhost:8080/images')
+  //   // fetch('http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/images')
+  //   fetch('http://localhost:8080/images')
   //     .then((response) => {
   //       if (response.ok) {
   //         return response.json();
@@ -62,9 +62,8 @@ export const ImagesView = () => {
   //     });
   // };
 
-  // download image
+  // DOWNLOAD IMAGE
   const handleImageDownload = (imageName) => {
-    // Fetch to download image
     // fetch(`http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/images/${imageName}`)
     fetch(`http://localhost:8080/images/${imageName}`)
       .then((response) => {
