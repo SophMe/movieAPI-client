@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 export const ImagesView = () => {
@@ -44,28 +44,37 @@ export const ImagesView = () => {
   };
 
   // SHOW IMAGES
-  // const fetchImages = () => {
-  //   // fetch('http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/images')
-  //   fetch('http://localhost:8080/images')
-  //     .then((response) => {
-  //       if (response.ok) {
-  //         return response.json();
-  //       } else {
-  //         throw new Error('Failed to fetch images.');
-  //       }
-  //     })
-  //     .then((data) => {
-  //       setUploadedImages(data);
-  //     })
-  //     .catch((error) => {
-  //       setError(error.message);
-  //     });
-  // };
+  const fetchImages = () => {
+    // fetch('http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/images')
+    fetch('http://localhost:8080/images')
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Failed to fetch images.');
+        }
+      })
+      .then((data) => {
+        const imageUrls = data.Contents.map((image) => {
+          const imageURL = `http://localhost:4566/task4-images-bucket/${image.Key}`;
+          return imageURL
+        })
+        setUploadedImages(imageUrls);
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchImages();
+  }, []);
 
   // DOWNLOAD IMAGE
-  const handleImageDownload = (imageName) => {
+  const handleImageDownload = (imageURL) => {
     // fetch(`http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/images/${imageName}`)
-    fetch(`http://localhost:8080/images/${imageName}`)
+    // fetch(`http://localhost:8080/images/${imageName}`)
+    fetch(imageURL)
       .then((response) => {
         if (response.ok) {
           return response.blob();
@@ -74,7 +83,8 @@ export const ImagesView = () => {
         }
       })
       .then((blob) => {
-
+        const imageURL = URL.createObjectURL(blob);
+        setImageUrl(imageURL);
       })
       .catch((error) => {
         setError(error.message);
@@ -96,14 +106,14 @@ export const ImagesView = () => {
         <Card.Body>
           <Card.Title>Uploaded Images</Card.Title>
           <ListGroup>
-            {uploadedImages.map((imageName) => (
-              <ListGroupItem key={imageName}>
+            {uploadedImages.map((imageURL, index) => (
+              <ListGroupItem key={index}>
                 
-                <img src={imageName} alt="image-name"/>
+                <img src={imageURL} alt="image-name"/>
                 <Button
                   variant="primary"
                   size="sm"
-                  onClick={() => handleImageDownload(imageName)}
+                  onClick={() => handleImageDownload(imageURL)}
                 >
                   Download
                 </Button>
