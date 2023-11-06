@@ -8,6 +8,7 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { ProfileView } from "../profile-view/profile-view";
+import { ImagesView } from "../images-view/images-view";
 
 export const MainView = () => {
   const [movies, setMovies] = useState([]);                   // empty array to be fed by API
@@ -17,15 +18,22 @@ export const MainView = () => {
   const [user, setUser] = useState(storedUser? storedUser : null);
   const [token, setToken] = useState(storedToken? storedToken : null);
                           // these are all state variables, when there value changes they re-render the UI
+                          
+  // const apiBaseUrl = 'http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com';
+  const apiBaseUrl = 'http://localhost:8080';
   
   useEffect(() => {
     if (!token) {
       return;
     }
-    //fetch(`https://90smovies.vercel.app/movies`, {
-    fetch(`https://nine0smovieapi-oyws.onrender.com/movies`, {
+    fetch(`${apiBaseUrl}/movies`, {
       method: "GET",
-      headers: { Authorization: `Bearer ${token}` }
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Access-Control-Allow-Origin": "http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com"
+        // "Access-Control-Allow-Origin": "http://localhost:8080",
+      },
+      credentials: "include"
     })
     .then((response) => response.json())
     .then((data) => {
@@ -42,10 +50,10 @@ export const MainView = () => {
   , [token]); // dependency array
 
   const addFavorite = (id) => {
-    //fetch(`https://90smovies.vercel.app/users/${user.Username}/movies/${id}`, {
-    fetch(`https://nine0smovieapi-oyws.onrender.com/users/${user.Username}/movies/${id}`, {
+    fetch(`${apiBaseUrl}/users/${user.Username}/movies/${id}`, {
       method: "POST",
-      headers: { Authorization: `Bearer ${token}`}
+      headers: { Authorization: `Bearer ${token}`},
+      credentials: "include"
     })
     .then((response) => response.json())
     .then((data) => {
@@ -64,10 +72,10 @@ export const MainView = () => {
   };
   
   const removeFavorite = (id) => {
-    //fetch(`https://90smovies.vercel.app/users/${user.Username}/movies/${id}`, {
-    fetch(`https://nine0smovieapi-oyws.onrender.com/users/${user.Username}/movies/${id}`, {
+    fetch(`${apiBaseUrl}/users/${user.Username}/movies/${id}`, {
       method: "DELETE",
-      headers: { Authorization: `Bearer ${token}`}
+      headers: { Authorization: `Bearer ${token}`},
+      credentials: "include"
     })
     .then((response) => response.json())
     .then((data) => {
@@ -175,6 +183,20 @@ export const MainView = () => {
                       setUser={setUser}
                       onRemoveFavorite={removeFavorite} />
                     </Col>
+                  )}
+                </>
+              }
+            />
+            <Route 
+              path="/images"
+              element={
+                <>
+                {user ? (
+                  <Navigate to="/" />
+                ) : (
+                  <Col md={5}>
+                   <ImagesView />
+                 </Col>
                   )}
                 </>
               }

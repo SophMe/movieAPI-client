@@ -13,12 +13,13 @@ export const SignupView = () => {
   const handleSubmit = (event) => {event.preventDefault();
   const data = { Username: username, Password: password, Email: email, Birthday : birthday };
  
-  //fetch("http://localhost:1234/users", {
-  //fetch(`https://90smovies.vercel.app/users`, {
-  fetch(`https://nine0smovieapi-oyws.onrender.com/users`, {
+  // fetch(`http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/users`, {
+  fetch('http://localhost:8080/users', {
     method: "POST",
-    headers: { "Content-Type": "application/json"},
-    body: JSON.stringify(data)
+    // headers: { "Access-Control-Allow-Origin": "http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com", "Content-Type": "application/json" },    // add "Access-Control-Allow-Origin": "http://10.0.0.1234",
+    headers: { "Access-Control-Allow-Origin": "http://localhost:8080", "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+    credentials: "include"
   }).then((response) => {
     if (response.ok) {
       alert("Signup successfull");

@@ -1,36 +1,41 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-export const LoginView = ({ onLoggedIn}) => {
+export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (event) => {event.preventDefault(); // prevent reloading the entire page
-  const data = { Username: username, Password: password };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = { Username: username, Password: password };
 
-    // fetch(`https://90smovies.vercel.app/login`, {    // my API
-    fetch(`https://nine0smovieapi-oyws.onrender.com/login`, {    // my API
+    // fetch('http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/login', {
+    fetch('http://localhost:8080/login', {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)              // response with JSON object so code can extract JWT 
+      headers: {
+        // "Access-Control-Allow-Origin": "http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/",
+        "Access-Control-Allow-Origin": "http://localhost:8080/",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+      credentials: "include",
     })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Login response: ", data);
-      if (data.user) {
-        localStorage.setItem("user", JSON.stringify(data.user)); // put user and token in local storage to avoid new login request 
-        localStorage.setItem("token", data.token);
-        onLoggedIn(data.user, data.token);    // send unser and token to MainView
-      } else {
-        alert("User does not exist");
-      }
-    })
-    .catch((e) => {
-      alert("Something went wrong");
-    });
-}
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Login response: ", data);
+        if (data.user) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+          localStorage.setItem("token", data.token);
+          onLoggedIn(data.user, data.token);
+        } else {
+          alert("User does not exist");
+        }
+      })
+      .catch((e) => {
+        alert("Something went wrong");
+      });
+  };
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -45,7 +50,7 @@ export const LoginView = ({ onLoggedIn}) => {
         />
       </Form.Group>
       <Form.Group>
-      <Form.Label>Password:</Form.Label>
+        <Form.Label>Password:</Form.Label>
         <Form.Control
           type="password"
           value={password}
@@ -53,7 +58,9 @@ export const LoginView = ({ onLoggedIn}) => {
           required
         />
       </Form.Group>
-      <Button variant="light" type="submit">Submit</Button>
+      <Button variant="light" type="submit">
+        Submit
+      </Button>
     </Form>
   );
 };

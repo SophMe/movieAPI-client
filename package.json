@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "cross-env NODE_ENV=local parcel ./src/index.html -p 1234",
+    "start": "cross-env NODE_ENV=local HTTPS=false parcel ./src/index.html",
+    "build": "parcel build src/index.html --no-cache",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +20,8 @@
   "dependencies": {
     "bootstrap": "^5.2.3",
     "date-fns": "^2.29.3",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.1",
     "node-sass": "^8.0.0",
     "parcel": "^2.8.3",
     "prop-types": "^15.8.1",
@@ -31,6 +34,7 @@
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.8.3",
+    "cross-env": "^7.0.3",
     "process": "^0.11.10"
   },
   "browserslist": [

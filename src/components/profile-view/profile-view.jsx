@@ -11,11 +11,12 @@ export const ProfileView = ({ movies, user, onAddFavorite, onRemoveFavorite }) =
   const handleSubmit = (event) => {event.preventDefault();
   const data = { Username: username, Password: password, Email: email, Birthday : birthday };
 
-  //fetch(`https://90smovies.vercel.app/users`, {
-  fetch(`https://nine0smovieapi-oyws.onrender.com/users`, {
+  // fetch(`http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/users`, {
+  fetch(`http://localhost:8080/users`, {  
     method: "POST",
     headers: { "Content-Type": "application/json"},
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
+    credentials: "include"
   });
 };
 
