@@ -11,14 +11,15 @@ export const ImagesView = () => {
     const formData = new FormData();
     formData.append('files', file);
 
-    event.target.value = '';              // for busboy
+    event.target.value = '';                                // clear file input calue (for busboy)
     const key = `images/${Date.now()}_${file.name}`;        // create unique key
 
-    // fetch('http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/upload', {
-    fetch('http://localhost:8080/upload', {
+    fetch('http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/upload', {
+    // fetch('http://localhost:8080/upload', {
       method: 'POST',
-      // headers: {
-      // // //   // "Access-Control-Allow-Origin": "http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/",
+      headers: {
+        "Access-Control-Allow-Origin": "http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/",
+      },
       //   "Content-Type": "multipart/form-data",
       // },
       body: formData,
@@ -26,7 +27,6 @@ export const ImagesView = () => {
     })
       .then((response) => {
         if (response.ok) {
-        // setUploadedImages((prevImages) => [...prevImages, imageName]);
           return response.json();
         } else {
           throw new Error('Image upload failed.');
@@ -35,7 +35,7 @@ export const ImagesView = () => {
       .then((data) => {
         console.log('data', data);
         const imageName = file.name;
-        setUploadedImages((prevImages) => [...prevImages, imageName]);  // imageName get this from backend
+        setUploadedImages((prevImages) => [...prevImages, imageName]); 
         console.log('file name: ', imageName);
       })
       .catch((error) => {
@@ -45,8 +45,8 @@ export const ImagesView = () => {
 
   // SHOW IMAGES
   const fetchImages = () => {
-    // fetch('http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/images')
-    fetch('http://localhost:8080/images')
+    fetch('http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/images')
+    // fetch('http://localhost:8080/images')
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -56,7 +56,7 @@ export const ImagesView = () => {
       })
       .then((data) => {
         const imageUrls = data.Contents.map((image) => {
-          const imageURL = `http://localhost:4566/task4-images-bucket/${image.Key}`;
+          const imageURL = `http://task4-images-bucket.s3-website.eu-central-1.amazonaws.com/${image.Key}`;
           return imageURL
         })
         setUploadedImages(imageUrls);
@@ -71,25 +71,35 @@ export const ImagesView = () => {
   }, []);
 
   // DOWNLOAD IMAGE
-  const handleImageDownload = (imageURL) => {
-    // fetch(`http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/images/${imageName}`)
-    // fetch(`http://localhost:8080/images/${imageName}`)
-    fetch(imageURL)
-      .then((response) => {
-        if (response.ok) {
-          return response.blob();
-        } else {
-          throw new Error('Image download failed.');
-        }
-      })
-      .then((blob) => {
-        const imageURL = URL.createObjectURL(blob);
-        setImageUrl(imageURL);
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
-  };
+  // const handleImageDownload = (imageURL, imageKey) => {
+  //   // Create an "a" element to trigger the download
+  //   const link = document.createElement('a');
+  //   link.href = imageURL;
+
+  //   // Set the file name for the downloaded image to be the same as image.Key
+  //   link.download = imageKey;
+  //   link.click();
+  // };
+
+  // const handleImageDownload = (imageKey) => {
+  //   // fetch(`http://task4-images-bucket.s3-website.eu-central-1.amazonaws.com/${imageKey}`)
+  //   // fetch(`http://localhost:8080/images/${imageName}`)
+  //   fetch(imageURL)
+  //     .then((response) => {
+  //       if (response.ok) {
+  //         return response.blob();
+  //       } else {
+  //         throw new Error('Image download failed.');
+  //       }
+  //     })
+  //     .then((blob) => {
+  //       const imageURL = URL.createObjectURL(blob);
+  //       setImageUrl(imageURL);
+  //     })
+  //     .catch((error) => {
+  //       setError(error.message);
+  //     });
+  // };
 
   return (
     <div>
@@ -109,14 +119,14 @@ export const ImagesView = () => {
             {uploadedImages.map((imageURL, index) => (
               <ListGroupItem key={index}>
                 
-                <img src={imageURL} alt="image-name"/>
-                <Button
+                <img src={imageURL} alt="image-url"/>
+                {/* <Button
                   variant="primary"
                   size="sm"
                   onClick={() => handleImageDownload(imageURL)}
                 >
                   Download
-                </Button>
+                </Button> */}
               </ListGroupItem>
             ))}
           </ListGroup>
