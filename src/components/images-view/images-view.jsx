@@ -17,11 +17,7 @@ export const ImagesView = () => {
     fetch('http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/upload', {
     // fetch('http://localhost:8080/upload', {
       method: 'POST',
-      headers: {
-        "Access-Control-Allow-Origin": "http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/",
-      },
-      //   "Content-Type": "multipart/form-data",
-      // },
+      headers: { "Access-Control-Allow-Origin": "http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/" },
       body: formData,
       credentials: "include"
     })
@@ -71,35 +67,12 @@ export const ImagesView = () => {
   }, []);
 
   // DOWNLOAD IMAGE
-  // const handleImageDownload = (imageURL, imageKey) => {
-  //   // Create an "a" element to trigger the download
-  //   const link = document.createElement('a');
-  //   link.href = imageURL;
-
-  //   // Set the file name for the downloaded image to be the same as image.Key
-  //   link.download = imageKey;
-  //   link.click();
-  // };
-
-  // const handleImageDownload = (imageKey) => {
-  //   // fetch(`http://task4-images-bucket.s3-website.eu-central-1.amazonaws.com/${imageKey}`)
-  //   // fetch(`http://localhost:8080/images/${imageName}`)
-  //   fetch(imageURL)
-  //     .then((response) => {
-  //       if (response.ok) {
-  //         return response.blob();
-  //       } else {
-  //         throw new Error('Image download failed.');
-  //       }
-  //     })
-  //     .then((blob) => {
-  //       const imageURL = URL.createObjectURL(blob);
-  //       setImageUrl(imageURL);
-  //     })
-  //     .catch((error) => {
-  //       setError(error.message);
-  //     });
-  // };
+  const handleImageDownload = (imageURL, imageKey) => {
+    const link = document.createElement('a');             // "a" element triggers download
+    link.href = imageURL;
+    link.download = imageKey;                             // don't change file name for downloaded image
+    link.click();
+  };
 
   return (
     <div>
@@ -120,13 +93,13 @@ export const ImagesView = () => {
               <ListGroupItem key={index}>
                 
                 <img src={imageURL} alt="image-url"/>
-                {/* <Button
+                <Button
                   variant="primary"
                   size="sm"
                   onClick={() => handleImageDownload(imageURL)}
                 >
                   Download
-                </Button> */}
+                </Button>
               </ListGroupItem>
             ))}
           </ListGroup>
