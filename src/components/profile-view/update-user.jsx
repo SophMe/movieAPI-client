@@ -14,8 +14,8 @@ export const UpdateUser = ({ user, data }) => {
   const data = { Username: username, Password: user.Password, Email: email, Birthday : birthday };
 
   
-  // fetch(`http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/users/${user.Username}`, {
-  fetch(`http://localhost:8080/users/${user.Username}`, {
+  fetch(`LB-26-14148712.eu-central-1.elb.amazonaws.com/users/${user.Username}`, {
+  // fetch(`http://localhost:8080/users/${user.Username}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}`},
     body: JSON.stringify(data),
@@ -32,8 +32,8 @@ export const UpdateUser = ({ user, data }) => {
 };
 
 const deleteUser = () => {
-  // fetch(`http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/users/${user.Username}`, {
-  fetch(`http://localhost:8080/users/${user.Username}`, {
+  fetch(`LB-26-14148712.eu-central-1.elb.amazonaws.com/users/${user.Username}`, {
+  // fetch(`http://localhost:8080/users/${user.Username}`, {
   method: "DELETE",
   headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}`},
   body: JSON.stringify(data)

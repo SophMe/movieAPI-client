@@ -11,8 +11,8 @@ export const ProfileView = ({ movies, user, onAddFavorite, onRemoveFavorite }) =
   const handleSubmit = (event) => {event.preventDefault();
   const data = { Username: username, Password: password, Email: email, Birthday : birthday };
 
-  // fetch(`http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/users`, {
-  fetch(`http://localhost:8080/users`, {  
+  fetch(`http://LB-26-14148712.eu-central-1.elb.amazonaws.com/users`, {
+  // fetch(`http://localhost:8080/users`, {  
     method: "POST",
     headers: { "Content-Type": "application/json"},
     body: JSON.stringify(data),

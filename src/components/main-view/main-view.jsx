@@ -19,8 +19,8 @@ export const MainView = () => {
   const [token, setToken] = useState(storedToken? storedToken : null);
                           // these are all state variables, when there value changes they re-render the UI
                           
-  // const apiBaseUrl = 'http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com';
-  const apiBaseUrl = 'http://localhost:8080';
+  const apiBaseUrl = 'http://LB-26-14148712.eu-central-1.elb.amazonaws.com';
+  // const apiBaseUrl = 'http://localhost:8080';
   
   useEffect(() => {
     if (!token) {
@@ -30,7 +30,7 @@ export const MainView = () => {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
-        "Access-Control-Allow-Origin": "http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com"
+        "Access-Control-Allow-Origin": "http://LB-26-14148712.eu-central-1.elb.amazonaws.com"
         // "Access-Control-Allow-Origin": "http://localhost:8080",
       },
       credentials: "include"

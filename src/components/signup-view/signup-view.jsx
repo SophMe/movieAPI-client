@@ -13,11 +13,11 @@ export const SignupView = () => {
   const handleSubmit = (event) => {event.preventDefault();
   const data = { Username: username, Password: password, Email: email, Birthday : birthday };
  
-  // fetch(`http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/users`, {
-  fetch('http://localhost:8080/users', {
+  fetch(`http://LB-26-14148712.eu-central-1.elb.amazonaws.com/users`, {
+  // fetch('http://localhost:8080/users', {
     method: "POST",
-    // headers: { "Access-Control-Allow-Origin": "http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com", "Content-Type": "application/json" },    // add "Access-Control-Allow-Origin": "http://10.0.0.1234",
-    headers: { "Access-Control-Allow-Origin": "http://localhost:8080", "Content-Type": "application/json" },
+    headers: { "Access-Control-Allow-Origin": "http://LB-26-14148712.eu-central-1.elb.amazonaws.com", "Content-Type": "application/json" },    // add "Access-Control-Allow-Origin": "http://10.0.0.1234",
+    // headers: { "Access-Control-Allow-Origin": "http://localhost:8080", "Content-Type": "application/json" },
     body: JSON.stringify(data),
     credentials: "include"
   }).then((response) => {

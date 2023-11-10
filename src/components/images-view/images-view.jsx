@@ -14,10 +14,10 @@ export const ImagesView = () => {
     event.target.value = '';                                // clear file input calue (for busboy)
     const key = `images/${Date.now()}_${file.name}`;        // create unique key
 
-    fetch('http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/upload', {
+    fetch('LB-26-14148712.eu-central-1.elb.amazonaws.com/upload', {
     // fetch('http://localhost:8080/upload', {
       method: 'POST',
-      headers: { "Access-Control-Allow-Origin": "http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/" },
+      headers: { "Access-Control-Allow-Origin": "LB-26-14148712.eu-central-1.elb.amazonaws.com/" },
       body: formData,
       credentials: "include"
     })
@@ -41,7 +41,7 @@ export const ImagesView = () => {
 
   // SHOW IMAGES
   const fetchImages = () => {
-    fetch('http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/images')
+    fetch('LB-26-14148712.eu-central-1.elb.amazonaws.com/images')
     // fetch('http://localhost:8080/images')
       .then((response) => {
         if (response.ok) {

@@ -10,12 +10,12 @@ export const LoginView = ({ onLoggedIn }) => {
     event.preventDefault();
     const data = { Username: username, Password: password };
 
-    // fetch('http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/login', {
-    fetch('http://localhost:8080/login', {
+    fetch('LB-26-14148712.eu-central-1.elb.amazonaws.com/login', {
+    // fetch('http://localhost:8080/login', {
       method: "POST",
       headers: {
-        // "Access-Control-Allow-Origin": "http://loadbalancer-1689168057.eu-central-1.elb.amazonaws.com/",
-        "Access-Control-Allow-Origin": "http://localhost:8080/",
+        "Access-Control-Allow-Origin": "http://LB-26-14148712.eu-central-1.elb.amazonaws.com/",
+        // "Access-Control-Allow-Origin": "http://localhost:8080/",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
