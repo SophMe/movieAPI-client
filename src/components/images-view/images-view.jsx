@@ -29,7 +29,6 @@ export const ImagesView = () => {
         }
       })
       .then((data) => {
-        console.log('data', data);
         const imageName = file.name;
         setUploadedImages((prevImages) => [...prevImages, imageName]); 
         console.log('file name: ', imageName);
@@ -51,9 +50,10 @@ export const ImagesView = () => {
         }
       })
       .then((data) => {
+        console.log("data: ", data.Contents);
         const imageUrls = data.Contents.map((image) => {
-          const imageURL = `http://task4-images-bucket.s3-website.eu-central-1.amazonaws.com/original-images/${image.Key}`;
-          const resizedImageURL = `http://task4-images-bucket.s3-website.eu-central-1.amazonaws.com/resized/${image.Key}`;
+          const imageURL = `http://task26-images-bucket.s3-website.eu-central-1.amazonaws.com/${image.Key}`;
+          const resizedImageURL = `http://task26-images-bucket.s3-website.eu-central-1.amazonaws.com/resized/${image.Key}`;
           return { original: imageURL, resized: resizedImageURL, key: image.Key };
         })
         setUploadedImages(imageUrls);
