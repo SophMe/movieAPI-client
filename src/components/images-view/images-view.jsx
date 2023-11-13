@@ -12,12 +12,12 @@ export const ImagesView = () => {
     formData.append('files', file);
 
     event.target.value = '';                                // clear file input calue (for busboy)
-    const key = `images/${Date.now()}_${file.name}`;        // create unique key
+    const key = `origianl-images/images/${Date.now()}_${file.name}`;        // create unique key
 
-    fetch('LB-26-14148712.eu-central-1.elb.amazonaws.com/upload', {
+    fetch('http://LB-26-14148712.eu-central-1.elb.amazonaws.com/upload', {
     // fetch('http://localhost:8080/upload', {
       method: 'POST',
-      headers: { "Access-Control-Allow-Origin": "LB-26-14148712.eu-central-1.elb.amazonaws.com/" },
+      headers: { "Access-Control-Allow-Origin": "http://LB-26-14148712.eu-central-1.elb.amazonaws.com/" },
       body: formData,
       credentials: "include"
     })
@@ -41,7 +41,7 @@ export const ImagesView = () => {
 
   // SHOW IMAGES
   const fetchImages = () => {
-    fetch('LB-26-14148712.eu-central-1.elb.amazonaws.com/images')
+    fetch('http://LB-26-14148712.eu-central-1.elb.amazonaws.com/images')
     // fetch('http://localhost:8080/images')
       .then((response) => {
         if (response.ok) {
@@ -52,8 +52,9 @@ export const ImagesView = () => {
       })
       .then((data) => {
         const imageUrls = data.Contents.map((image) => {
-          const imageURL = `http://task4-images-bucket.s3-website.eu-central-1.amazonaws.com/${image.Key}`;
-          return imageURL
+          const imageURL = `http://task4-images-bucket.s3-website.eu-central-1.amazonaws.com/original-images/${image.Key}`;
+          const resizedImageURL = `http://task4-images-bucket.s3-website.eu-central-1.amazonaws.com/resized/${image.Key}`;
+          return { original: imageURL, resized: resizedImageURL, key: image.Key };
         })
         setUploadedImages(imageUrls);
       })

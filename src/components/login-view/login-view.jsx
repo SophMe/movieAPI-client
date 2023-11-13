@@ -10,7 +10,7 @@ export const LoginView = ({ onLoggedIn }) => {
     event.preventDefault();
     const data = { Username: username, Password: password };
 
-    fetch('LB-26-14148712.eu-central-1.elb.amazonaws.com/login', {
+    fetch('http://LB-26-14148712.eu-central-1.elb.amazonaws.com/login', {
     // fetch('http://localhost:8080/login', {
       method: "POST",
       headers: {
