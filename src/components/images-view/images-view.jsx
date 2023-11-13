@@ -12,7 +12,7 @@ export const ImagesView = () => {
     formData.append('files', file);
 
     event.target.value = '';                                // clear file input calue (for busboy)
-    const key = `origianl-images/images/${Date.now()}_${file.name}`;        // create unique key
+    // const key = `original-images/images/${Date.now()}_${file.name}`;        // create unique key
 
     fetch('http://LB-26-14148712.eu-central-1.elb.amazonaws.com/upload', {
     // fetch('http://localhost:8080/upload', {
@@ -29,6 +29,7 @@ export const ImagesView = () => {
         }
       })
       .then((data) => {
+        console.log('data', data);
         const imageName = file.name;
         setUploadedImages((prevImages) => [...prevImages, imageName]); 
         console.log('file name: ', imageName);
@@ -41,7 +42,6 @@ export const ImagesView = () => {
   // SHOW IMAGES
   const fetchImages = () => {
     fetch('http://LB-26-14148712.eu-central-1.elb.amazonaws.com/images')
-    // fetch('http://localhost:8080/images')
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -50,18 +50,19 @@ export const ImagesView = () => {
         }
       })
       .then((data) => {
-        console.log("data: ", data.Contents);
+        console.log("data: ", data);
         const imageUrls = data.Contents.map((image) => {
-          const imageURL = `http://task26-images-bucket.s3-website.eu-central-1.amazonaws.com/${image.Key}`;
+          const imageURL = `http://task26-images-bucket.s3-website.eu-central-1.amazonaws.com/original-images/${image.Key}`;
           const resizedImageURL = `http://task26-images-bucket.s3-website.eu-central-1.amazonaws.com/resized/${image.Key}`;
           return { original: imageURL, resized: resizedImageURL, key: image.Key };
-        })
+        });
         setUploadedImages(imageUrls);
       })
       .catch((error) => {
         setError(error.message);
       });
   };
+
 
   useEffect(() => {
     fetchImages();
@@ -73,6 +74,7 @@ export const ImagesView = () => {
     link.href = imageURL;
     link.download = imageKey;                             // don't change file name for downloaded image
     link.click();
+    console.log("imageKey: ", imageKey);
   };
 
   return (
@@ -90,14 +92,14 @@ export const ImagesView = () => {
         <Card.Body>
           <Card.Title>Uploaded Images</Card.Title>
           <ListGroup>
-            {uploadedImages.map((imageURL, index) => (
+            {uploadedImages.map((image, index) => (
               <ListGroupItem key={index}>
                 
-                <img src={imageURL} alt="image-url"/>
+                <img src={image.original} alt="original-image"/>
                 <Button
                   variant="primary"
                   size="sm"
-                  onClick={() => handleImageDownload(imageURL)}
+                  onClick={() => handleImageDownload(image.original, image.key)}
                 >
                   Download
                 </Button>
