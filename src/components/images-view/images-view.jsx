@@ -50,11 +50,12 @@ export const ImagesView = () => {
         }
       })
       .then((data) => {
-        console.log("data: ", data);
+        // console.log("data: ", data);
         const imageUrls = data.Contents.map((image) => {
-          const imageURL = `http://task26-images-bucket.s3-website.eu-central-1.amazonaws.com/original-images/${image.Key}`;
-          const resizedImageURL = `http://task26-images-bucket.s3-website.eu-central-1.amazonaws.com/resized/${image.Key}`;
-          return { original: imageURL, resized: resizedImageURL, key: image.Key };
+          // console.log("image: ", image);
+          const imageURL = `http://task26-images-bucket.s3-website.eu-central-1.amazonaws.com/${image.Key}`;
+          // const resizedImageURL = `http://task26-images-bucket.s3-website.eu-central-1.amazonaws.com/resized/${image.Key}`;
+          return { original: imageURL, key: image.Key };
         });
         setUploadedImages(imageUrls);
       })
@@ -95,14 +96,14 @@ export const ImagesView = () => {
             {uploadedImages.map((image, index) => (
               <ListGroupItem key={index}>
                 
-                <img src={image.original} alt="original-image"/>
-                <Button
+                <img src={image.original} alt="image"/>
+                {/* <Button
                   variant="primary"
                   size="sm"
                   onClick={() => handleImageDownload(image.original, image.key)}
                 >
                   Download
-                </Button>
+                </Button> */}
               </ListGroupItem>
             ))}
           </ListGroup>
